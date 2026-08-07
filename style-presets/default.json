@@ -1,0 +1,94 @@
+{
+  "$schema": "https://raw.githubusercontent.com/samscoopes-sudo/tennessee-bound/main/style-presets/schema.json",
+  "id": "default",
+  "name": "Talking-Head B-roll (merged reference profile)",
+  "version": "1.0.0",
+  "description": "Editing-style preset for the video agent's director LLM. Derived from teardown of two reference videos (oaNDqWTaQ6w, F31ug-Q-jCg). Encodes the consistent style DNA plus tunable knobs. The director reads this to produce an edit decision list; FFmpeg executes it deterministically.",
+  "derived_from": [
+    { "videoId": "oaNDqWTaQ6w", "role": "high-energy reference", "broll_ratio": 0.80, "avg_shot_len_s": 2.0 },
+    { "videoId": "F31ug-Q-jCg", "role": "calm/steady reference", "broll_ratio": 0.65, "avg_shot_len_s": 3.0 }
+  ],
+
+  "broll": {
+    "target_ratio": 0.70,
+    "avg_clip_length_s": 2.5,
+    "clip_length_range_s": [1.5, 5.0],
+    "avatar_anchor_hold_s": [5, 10],
+    "avatar_anchor_interval_s": [30, 45],
+    "asset_priority": ["storyblocks", "web_image", "cheap_image_gen", "ai_video_gen"],
+    "asset_mix_target": {
+      "real_footage": 0.85,
+      "graphics_overlays": 0.15
+    },
+    "notes": "Real footage carries the video (Storyblocks first). Stills/graphics fill the rest and are always animated. AI video gen is a last resort, used sparingly."
+  },
+
+  "transitions": {
+    "default": "hard_cut",
+    "allowed": ["hard_cut"],
+    "dissolves": false,
+    "audio_continuity": "voiceover runs uninterrupted under all visual cuts"
+  },
+
+  "motion": {
+    "still_image": {
+      "effect": "ken_burns",
+      "zoom_percent_range": [105, 110],
+      "movement": ["push_in", "slow_pan"]
+    },
+    "avatar": {
+      "base": "static_frame",
+      "punch_in_on_emphasis": true,
+      "punch_in_crop_percent": 115
+    }
+  },
+
+  "captions": {
+    "continuous_subtitles": false,
+    "lower_thirds": {
+      "enabled": true,
+      "font": "Inter/Montserrat/Arial Bold (bold sans-serif)",
+      "color": "#FFFFFF",
+      "treatment": "drop_shadow_or_outline",
+      "background": "none_or_dark_semitransparent_bar",
+      "position": "bottom_center_or_lower_left"
+    },
+    "stat_callouts": {
+      "enabled": true,
+      "trigger": "on spoken number, price, or key keyword",
+      "animation": "instant_pop_in",
+      "style": "large bold text overlay"
+    }
+  },
+
+  "look": {
+    "aspect_ratio": "16:9",
+    "avatar_framing": "medium close-up, chest-up, centered or slightly left, soft key light",
+    "broll_framing": "mix of extreme close-ups and wide establishing shots"
+  },
+
+  "knobs": {
+    "energy": {
+      "type": "enum",
+      "options": ["calm", "balanced", "punchy"],
+      "default": "balanced",
+      "maps": {
+        "calm":     { "broll.target_ratio": 0.65, "broll.avg_clip_length_s": 3.5 },
+        "balanced": { "broll.target_ratio": 0.70, "broll.avg_clip_length_s": 2.5 },
+        "punchy":   { "broll.target_ratio": 0.80, "broll.avg_clip_length_s": 2.0 }
+      }
+    },
+    "split_screen": {
+      "type": "bool",
+      "default": true,
+      "description": "Allow speaker-on-one-third + reference-imagery layouts (heavy in F31ug-Q-jCg, occasional in oaNDqWTaQ6w)."
+    },
+    "color_grade": {
+      "type": "enum",
+      "options": ["neutral", "warm_earthy", "cool"],
+      "default": "neutral",
+      "description": "Per-project grade; not baked into the base style."
+    },
+    "layouts_available": ["single", "split_screen", "grid"]
+  }
+}
