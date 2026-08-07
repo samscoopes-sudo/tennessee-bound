@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Video Agent - b-roll &amp; motion graphics</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body { font-family: system-ui, sans-serif; max-width: 620px; margin: 6vh auto;
+           padding: 0 20px; line-height: 1.5; }
+    h1 { font-size: 1.5rem; margin-bottom: .25rem; }
+    p.sub { opacity: .7; margin-top: 0; }
+    form { border: 1px solid #8884; border-radius: 12px; padding: 20px; margin-top: 24px; }
+    label { display: block; font-weight: 600; margin: 14px 0 6px; }
+    input, select, button { font: inherit; }
+    button { margin-top: 18px; padding: 10px 18px; border: 0; border-radius: 8px;
+             background: #2563eb; color: #fff; font-weight: 600; cursor: pointer; }
+    button:disabled { opacity: .5; cursor: default; }
+    #status { margin-top: 20px; font-weight: 600; }
+    .step { opacity: .5; } .step.active { opacity: 1; } .step.done { opacity: 1; color: #16a34a; }
+    a.dl { display: inline-block; margin-top: 16px; }
+    video { width: 100%; margin-top: 16px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>Video Agent</h1>
+  <p class="sub">Upload a raw avatar video, get it back with b-roll, Ken&nbsp;Burns motion, lower-thirds and stat pop-ins in the house style.</p>
+
+  <form id="f">
+    <label for="file">Raw avatar video (mp4/mov)</label>
+    <input id="file" type="file" accept="video/*" required />
+    <label for="energy">Energy</label>
+    <select id="energy">
+      <option value="balanced" selected>Balanced (~70% b-roll, ~2.5s cuts)</option>
+      <option value="calm">Calm (~65%, ~3.5s)</option>
+      <option value="punchy">Punchy (~80%, ~2.0s)</option>
+    </select>
+    <button id="go" type="submit">Edit my video</button>
+  </form>
+
+  <div id="status"></div>
+  <div id="result"></div>
+
+  <script>
+    const STEPS = ["queued","transcribing","directing","sourcing_assets","composing","done"];
+    const f = document.getElementById("f");
+    const statusEl = document.getElementById("status");
+    const resultEl = document.getElementById("result");
+
+    f.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      document.getElementById("go").disabled = true;
+      resultEl.innerHTML = "";
+      const fd = new FormData();
+      fd.append("file", document.getElementById("file").files[0]);
+      fd.append("energy", document.getElementById("energy").value);
+
+      const res = await fetch("/api/jobs", { method: "POST", body: fd });
+      if (!res.ok) { statusEl.textContent = "Error: " + (await res.text()); reset(); return; }
+      const { id } = await res.json();
+      poll(id);
+    });
+
+    function render(status, message) {
+      statusEl.innerHTML = STEPS.map(s => {
+        const cls = s === status ? "active" : (STEPS.indexOf(s) < STEPS.indexOf(status) ? "done" : "");
+        return `<div class="step ${cls}">${STEPS.indexOf(s) < STEPS.indexOf(status) ? "done" : "*"} ${s.replace("_"," ")}</div>`;
+      }).join("");
+      if (message) statusEl.innerHTML += `<div style="opacity:.7;margin-top:8px">${message}</div>`;
+    }
+
+    async function poll(id) {
+      const r = await (await fetch("/api/jobs/" + id)).json();
+      render(r.status, r.status === "failed" ? r.message : "");
+      if (r.status === "done") {
+        resultEl.innerHTML =
+          `<video controls src="/api/jobs/${id}/download"></video>` +
+          `<a class="dl" href="/api/jobs/${id}/download" download>Download edited video</a>`;
+        reset();
+      } else if (r.status === "failed") {
+        reset();
+      } else {
+        setTimeout(() => poll(id), 2000);
+      }
+    }
+    function reset(){ document.getElementById("go").disabled = false; }
+  </script>
+</body>
+</html>
