@@ -1,0 +1,26 @@
+# One-click deploy to Render (https://render.com). Push this repo, then
+# "New +" -> "Blueprint" -> pick this repo. Set the secret env vars in the
+# dashboard after the first deploy.
+services:
+  - type: web
+    name: video-agent
+    runtime: docker
+    plan: starter          # 512MB is tight for whisper; bump to standard if needed
+    healthCheckPath: /health
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false        # set in dashboard (required)
+      - key: DIRECTOR_MODEL
+        value: claude-sonnet-5
+      - key: WHISPER_MODEL
+        value: base
+      - key: STORYBLOCKS_PUBLIC_KEY
+        sync: false
+      - key: STORYBLOCKS_PRIVATE_KEY
+        sync: false
+      - key: PEXELS_API_KEY
+        sync: false
+      - key: IMAGE_GEN_API_KEY
+        sync: false
+      - key: AI_VIDEO_GEN_API_KEY
+        sync: false
