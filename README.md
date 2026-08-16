@@ -23,6 +23,39 @@ The **director LLM only decides** (what/when); **FFmpeg renders**
 deterministically. That split keeps it cheap and reliable. The house style
 lives in [`style-presets/default.json`](style-presets/default.json).
 
+## No camera? Generate the avatar too (Duix.Avatar)
+
+You can skip the recording step entirely and have the talking-head *generated*
+from a script, then edited by the same pipeline. This uses
+[Duix.Avatar](https://github.com/duixcom/Duix-Avatar) - a free, fully offline
+digital-human toolkit (voice clone + lip-synced face synthesis) that runs as
+local Docker services on an NVIDIA GPU.
+
+```
+script + face reference
+  |- 0. avatar   Duix.Avatar: TTS (voice clone) -> face2face lip-sync
+       |
+  raw avatar.mp4  --> steps 1-4 above --> edited.mp4
+```
+
+Deploy Duix.Avatar's `docker-compose` (see its repo), then set
+`DUIX_GEN_VIDEO_URL`, `DUIX_TTS_URL` and `DUIX_DATA_DIR` (see
+[`.env.example`](.env.example)). `DUIX_DATA_DIR` must be the same shared volume
+its containers mount, since files are exchanged through it. Then:
+
+```bash
+curl -F script="Hi, here's this week's update..." \
+     -F face_video=@face.mp4 \
+     -F voice_reference=@my_voice.wav \
+     http://localhost:8000/api/avatar-jobs
+```
+
+Supply the speech as `voice_reference` (a short sample, cloned onto the script)
+or as a ready-made `audio` narration file. Poll `GET /api/jobs/{id}` and
+download as usual. `GET /health` reports `duix_avatar_enabled`. The client
+lives in [`app/pipeline/avatar.py`](app/pipeline/avatar.py); when Duix isn't
+configured the endpoint returns 503 and the rest of the app is unaffected.
+
 ## Cost model
 
 | Step | Tool | Cost |
@@ -79,6 +112,7 @@ app/
   static/index.html    upload UI with live progress
   pipeline/
     models.py          EDL + job types
+    avatar.py          Duix.Avatar client (optional script -> talking-head)
     transcribe.py      faster-whisper
     director.py        Claude -> EDL
     assets.py          fallback ladder

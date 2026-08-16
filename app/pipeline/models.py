@@ -89,6 +89,7 @@ class EditDecisionList(BaseModel):
 
 class JobStatus(str, Enum):
     QUEUED = "queued"
+    GENERATING_AVATAR = "generating_avatar"
     TRANSCRIBING = "transcribing"
     DIRECTING = "directing"
     SOURCING_ASSETS = "sourcing_assets"

@@ -19,6 +19,16 @@ WORK_DIR.mkdir(parents=True, exist_ok=True)
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 DIRECTOR_MODEL = os.getenv("DIRECTOR_MODEL", "claude-sonnet-5")
 
+# --- talking-head source: Duix.Avatar (optional) ------------------------
+# Generate the avatar clip itself from a script instead of recording one.
+# Points at a locally deployed Duix.Avatar backend (github.com/duixcom/
+# Duix-Avatar). All three default to "off"; set them to enable /api/avatar-jobs.
+DUIX_GEN_VIDEO_URL = os.getenv("DUIX_GEN_VIDEO_URL", "")       # face2face :8383
+DUIX_TTS_URL = os.getenv("DUIX_TTS_URL", "http://localhost:18180")  # fish-speech
+# Shared data volume the Duix Docker services mount; files handed to the API
+# must live under here. Matches the compose mount (default /heygem_data).
+DUIX_DATA_DIR = Path(os.getenv("DUIX_DATA_DIR", "/heygem_data"))
+
 # --- transcription ------------------------------------------------------
 # tiny/base/small/medium/large-v3 - base is a good free default on CPU.
 WHISPER_MODEL = os.getenv("WHISPER_MODEL", "base")
@@ -42,6 +52,11 @@ OUTPUT_FPS = int(os.getenv("OUTPUT_FPS", "30"))
 # How many b-roll seconds we allow the paid tiers to cover before falling
 # back to Ken-Burns stills, as a cost guardrail per render.
 MAX_AI_VIDEO_SECONDS = float(os.getenv("MAX_AI_VIDEO_SECONDS", "10"))
+
+
+def duix_avatar_enabled() -> bool:
+    """Whether the Duix.Avatar talking-head generator is configured."""
+    return bool(DUIX_GEN_VIDEO_URL and DUIX_DATA_DIR)
 
 
 def enabled_asset_sources() -> list[str]:
