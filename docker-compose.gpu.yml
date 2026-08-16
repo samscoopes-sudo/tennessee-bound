@@ -1,0 +1,90 @@
+# Run the WHOLE stack on one GPU machine with a single command:
+#
+#     docker compose -f docker-compose.gpu.yml up -d
+#
+# This starts the three Duix.Avatar services (voice clone, ASR, face2face
+# synthesis) AND this Video Agent editor, already wired together. Then open
+# http://<machine-ip>:8000 and use the "avatar" flow: paste a script + a face
+# reference, get back an edited talking-head video.
+#
+# Requirements: an NVIDIA GPU + the NVIDIA container toolkit (the setup guide
+# installs these). Set ANTHROPIC_API_KEY in a .env file next to this one.
+#
+# All shared media lives under ./duix_data on the host. The Duix services each
+# mount a sub-folder of it as their own /code/data (that layout is what
+# app/pipeline/avatar.py expects).
+
+services:
+  # 1. Voice clone / text-to-speech ---------------------------------------
+  duix-avatar-tts:
+    image: guiji2025/fish-speech-ziming
+    restart: always
+    ports:
+      - "18180:8080"
+    volumes:
+      - ./duix_data/voice/data:/code/data
+    command: /bin/bash -c "/opt/conda/envs/python310/bin/python3 tools/api_server.py --listen 0.0.0.0:8080"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["0"]
+              capabilities: [gpu]
+
+  # 2. Speech recognition (used internally by the toolkit) ----------------
+  duix-avatar-asr:
+    image: guiji2025/fun-asr
+    restart: always
+    privileged: true
+    ports:
+      - "10095:10095"
+    command: /bin/bash -c "/run.sh"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
+
+  # 3. Face2face synthesis - drives the face with the audio ---------------
+  duix-avatar-gen-video:
+    image: guiji2025/duix.avatar
+    restart: always
+    ports:
+      - "8383:8383"
+    volumes:
+      - ./duix_data/face2face:/code/data
+    shm_size: "8gb"
+    environment:
+      - PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:512
+    command: python3 /code/app_local.py
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
+
+  # 4. This editor - generates the avatar (via the services above) then
+  #    lays b-roll / motion graphics over it. -----------------------------
+  video-agent:
+    build: .
+    restart: always
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      # Point the editor at the Duix services over the internal network.
+      - DUIX_GEN_VIDEO_URL=http://duix-avatar-gen-video:8383
+      - DUIX_TTS_URL=http://duix-avatar-tts:8080
+      - DUIX_DATA_DIR=/heygem_data
+      - WORK_DIR=/tmp/video-agent
+    volumes:
+      # Same shared media folder, so the editor can drop inputs where the
+      # Duix services read them and pick up the finished avatar clip.
+      - ./duix_data:/heygem_data
+    depends_on:
+      - duix-avatar-tts
+      - duix-avatar-gen-video

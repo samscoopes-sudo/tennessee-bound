@@ -19,13 +19,19 @@ for the result - it does no synthesis itself. Missing config just disables the
 feature (mirrors how the asset ladder degrades), so importing the app never
 requires a Duix backend to be running.
 
-File paths are the one sharp edge: the Docker services read/write inside a
-mounted data directory, so audio and face-video files must live under
-`DUIX_DATA_DIR` and are passed to the API as names *relative to that mount*.
+File paths are the sharp edge. The Duix compose mounts two host folders under
+``DUIX_DATA_DIR`` straight onto each service's ``/code/data``:
+
+    <DUIX_DATA_DIR>/voice/data  -> TTS service       (:18180)
+    <DUIX_DATA_DIR>/face2face   -> face2face service (:8383)
+
+Because each service sees its own folder *as* ``/code/data``, the API wants
+**bare filenames**, not sub-paths. So we stage the driving audio and the face
+video into ``face2face/`` and hand the synthesizer just their filenames; the
+voice-clone reference goes into ``voice/data/`` for the TTS service.
 """
 from __future__ import annotations
 
-import shutil
 import time
 import uuid
 from pathlib import Path
@@ -53,11 +59,14 @@ class DuixAvatarClient:
         tts_url: Optional[str] = None,
         data_dir: Optional[Path] = None,
         poll_interval: float = 3.0,
-        timeout: float = 600.0,
+        timeout: float = 1800.0,
     ) -> None:
         self.gen_video_url = (gen_video_url or config.DUIX_GEN_VIDEO_URL).rstrip("/")
         self.tts_url = (tts_url or config.DUIX_TTS_URL).rstrip("/")
         self.data_dir = Path(data_dir or config.DUIX_DATA_DIR)
+        # The two host folders the Duix services mount as their /code/data.
+        self.face_dir = self.data_dir / "face2face"
+        self.voice_dir = self.data_dir / "voice" / "data"
         self.poll_interval = poll_interval
         self.timeout = timeout
 
@@ -66,21 +75,33 @@ class DuixAvatarClient:
         return bool(self.gen_video_url and self.data_dir)
 
     # -- staging -----------------------------------------------------------
-    def _stage(self, src: Path, subdir: str) -> str:
-        """Copy a local file into the mounted data dir, return its relative name.
+    def _stage(self, src: Path, dest_dir: Path) -> str:
+        """Copy a local file into ``dest_dir``; return its **bare filename**.
 
-        The Duix Docker services only see files under the mounted data volume,
-        so anything we hand to the API has to be copied in first. We return the
-        path *relative* to ``data_dir`` because that is what the API expects.
+        The Duix services only see files inside their mounted folder, which
+        they treat as ``/code/data``. The API therefore expects a filename with
+        no directory part - so that is what we return.
         """
         src = Path(src)
         if not src.exists():
             raise DuixAvatarError(f"input file does not exist: {src}")
-        dest_dir = self.data_dir / subdir
         dest_dir.mkdir(parents=True, exist_ok=True)
-        dest = dest_dir / f"{uuid.uuid4().hex[:12]}{src.suffix}"
-        shutil.copyfile(src, dest)
-        return str(dest.relative_to(self.data_dir))
+        name = f"{uuid.uuid4().hex[:12]}{src.suffix}"
+        (dest_dir / name).write_bytes(src.read_bytes())
+        return name
+
+    def _ensure_in_face(self, path: Path) -> str:
+        """Return a bare filename that exists in ``face_dir``, staging if needed.
+
+        Accepts a bare name already present in face2face, or any local file
+        (which is copied in).
+        """
+        p = Path(path)
+        if p.parent == Path(".") and (self.face_dir / p).exists():
+            return p.name
+        if p.parent == self.face_dir and p.exists():
+            return p.name
+        return self._stage(p, self.face_dir)
 
     # -- TTS (voice clone) -------------------------------------------------
     def tts(
@@ -88,24 +109,21 @@ class DuixAvatarClient:
         text: str,
         reference_audio: Path,
         reference_text: str = "",
-        out_name: Optional[str] = None,
     ) -> str:
         """Synthesize ``text`` in the voice of ``reference_audio``.
 
-        Returns the produced wav's path relative to ``data_dir`` (ready to
-        pass straight to :meth:`synthesize`). ``reference_audio`` is a short
-        clean sample of the target voice; ``reference_text`` is its transcript
+        Returns the produced wav's **bare filename inside face2face/**, ready to
+        pass straight to :meth:`synthesize`. ``reference_audio`` is a short clean
+        sample of the target voice; ``reference_text`` is its transcript
         (improves cloning; may be left blank).
         """
-        ref_rel = self._stage(reference_audio, "voice/data")
-        out_name = out_name or f"tts/{uuid.uuid4().hex[:12]}.wav"
-        (self.data_dir / out_name).parent.mkdir(parents=True, exist_ok=True)
+        ref_name = self._stage(reference_audio, self.voice_dir)
 
         payload = {
             "speaker": uuid.uuid4().hex[:12],
             "text": text,
             "format": "wav",
-            "reference_audio": ref_rel,
+            "reference_audio": ref_name,
             "reference_text": reference_text,
         }
         try:
@@ -118,11 +136,10 @@ class DuixAvatarClient:
         except httpx.HTTPError as e:
             raise DuixAvatarError(f"TTS request failed: {e}") from e
 
-        # The service writes the wav into the shared volume; persist the bytes
-        # locally too so the path is populated even on a bind mount we can see.
-        out_path = self.data_dir / out_name
-        if r.headers.get("content-type", "").startswith("audio"):
-            out_path.write_bytes(r.content)
+        # Write the narration into face2face/ so the synthesizer can read it.
+        self.face_dir.mkdir(parents=True, exist_ok=True)
+        out_name = f"{uuid.uuid4().hex[:12]}.wav"
+        (self.face_dir / out_name).write_bytes(r.content)
         return out_name
 
     # -- face2face synthesis ----------------------------------------------
@@ -135,17 +152,17 @@ class DuixAvatarClient:
     ) -> Path:
         """Drive ``face_video_path`` with ``audio_path`` -> a talking-head mp4.
 
-        ``audio_path`` may be a local file or a name already relative to
-        ``data_dir``; ditto ``face_video_path``. Blocks until the job finishes
-        (or ``timeout`` elapses) and returns the local path of the result.
+        Both inputs may be local files or bare names already in ``face2face/``.
+        Blocks until the job finishes (or ``timeout`` elapses) and returns the
+        local path of the result.
         """
-        audio_rel = self._as_relative(audio_path, "voice/data")
-        video_rel = self._as_relative(face_video_path, "face2face")
+        audio_name = self._ensure_in_face(audio_path)
+        video_name = self._ensure_in_face(face_video_path)
         code = uuid.uuid4().hex
 
         submit = {
-            "audio_url": audio_rel,
-            "video_url": video_rel,
+            "audio_url": audio_name,
+            "video_url": video_name,
             "code": code,
             "chaofen": 1 if super_resolution else 0,
             "watermark_switch": 1 if watermark else 0,
@@ -162,13 +179,6 @@ class DuixAvatarClient:
             raise DuixAvatarError(f"submit failed: {e}") from e
 
         return self._poll(code)
-
-    def _as_relative(self, path: Path, subdir: str) -> str:
-        """Accept either an already-relative name or a local file to stage."""
-        p = Path(path)
-        if not p.is_absolute() and (self.data_dir / p).exists():
-            return str(p)
-        return self._stage(p, subdir)
 
     def _poll(self, code: str) -> Path:
         deadline = time.monotonic() + self.timeout
@@ -199,16 +209,22 @@ class DuixAvatarClient:
         raise DuixAvatarError(f"synthesis timed out after {self.timeout:.0f}s")
 
     def _resolve_result(self, result: str) -> Path:
-        """Turn the API's result reference into a local path under data_dir."""
-        candidate = self.data_dir / result
-        if candidate.exists():
-            return candidate
-        # Some builds return a path already relative to face2face output.
-        candidate = self.data_dir / "face2face" / result
-        if candidate.exists():
-            return candidate
+        """Turn the API's result reference into a local path we can read.
+
+        The synthesizer writes into its /code/data, i.e. our ``face2face/``, so
+        the result is normally a bare filename there. Fall back to a couple of
+        other likely spots before giving up.
+        """
+        name = Path(result).name
+        for candidate in (
+            self.face_dir / name,
+            self.face_dir / result,
+            self.data_dir / result,
+        ):
+            if candidate.exists():
+                return candidate
         raise DuixAvatarError(
-            f"result not found on shared volume: {result} (looked under {self.data_dir})"
+            f"result not found on shared volume: {result} (looked under {self.face_dir})"
         )
 
     # -- high level --------------------------------------------------------
@@ -235,8 +251,7 @@ class DuixAvatarClient:
         if audio is None:
             if voice_reference is None:
                 raise DuixAvatarError("provide either `audio` or `voice_reference`")
-            audio_rel = self.tts(script, voice_reference, voice_reference_text)
-            audio = self.data_dir / audio_rel
+            audio = self.tts(script, voice_reference, voice_reference_text)
         return self.synthesize(
             audio_path=audio,
             face_video_path=face_video,
