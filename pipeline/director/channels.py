@@ -105,7 +105,8 @@ def load(name: str) -> Channel:
         raw=d,
     )
     if not ch.avatar.exists():
-        raise FileNotFoundError(f"Channel '{name}' avatar missing: {ch.avatar}")
+        import warnings
+        warnings.warn(f"Channel '{name}' avatar missing: {ch.avatar} — avatar shots will be skipped")
     return ch
 
 

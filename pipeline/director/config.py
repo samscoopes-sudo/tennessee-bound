@@ -29,16 +29,16 @@ TALKING_HEAD_MAX_SEC = 8.0    # never hold the avatar longer (InfiniteTalk sync 
 ALL_BROLL_MOTION = False
 
 # --- Render dimensions (16:9) ---
-STILL_W, STILL_H = 1664, 928         # Qwen's native 16:9 size (snaps to this anyway)
-VIDEO_W, VIDEO_H = 832, 480          # Wan / InfiniteTalk render size; upscaled 2x in edit
+STILL_W, STILL_H = 1920, 1080        # higher res stills for sharper output
+VIDEO_W, VIDEO_H = 1280, 720         # 720p Wan / InfiniteTalk for clearer video
 FPS = 25
 WAN_FPS = 16                         # Wan 2.1 I2V native rate (VHS combine encodes at 16)
 
 # --- FLUX.1-dev + Boreal amateur-photo LoRA (self-hosted stills on the pod, FREE) ---
 # Boreal shifts FLUX to mundane cell-phone snapshots; trigger word is "photo", it's
 # overtrained so strength stays < 1.0, and low guidance keeps it flat (not cinematic).
-FLUX_LORA = 0.8
-FLUX_GUIDANCE = 2.8
+FLUX_LORA = 0.7
+FLUX_GUIDANCE = 3.5
 # Per-channel visual look (default = Appalachia). A channel overrides this via
 # channel.json "style_suffix"; FLUX_ANTIHANDS is appended to EVERY channel.
 FLUX_STYLE = ("candid documentary snapshot, soft natural window light, muted earthy colors, "
@@ -58,7 +58,7 @@ def flux_prompt(subject: str, style: str | None = None) -> str:
     return f"photo of {subject}, {style or FLUX_STYLE}, {FLUX_ANTIHANDS}"
 
 # --- Wan 2.2 5B (self-hosted on the pod, FREE) — the b-roll motion engine ---
-WAN22_W, WAN22_H = 1024, 576         # exact 16:9, divisible by 32 (Wan requirement)
+WAN22_W, WAN22_H = 1280, 720         # higher res 16:9 for sharper stills/motion
 WAN22_FPS = 14                       # low fps = slow, calm motion (like the competitor)
 # NOTE: never put the word "camera" (or "hand", "person") here — Wan 2.2 renders it as a
 # literal object in the frame. Describe the MOVE, not the equipment.
@@ -72,6 +72,8 @@ WAN22_FPS = 14                       # low fps = slow, calm motion (like the com
 WAN22_MOTION_CUES = [
     "an extremely slow, gentle push-in toward the center, only a couple of centimeters. The scene stays completely frozen and unchanged, like a still photograph that barely zooms in. Calm, minimal, static.",
     "a barely perceptible slow zoom-in toward the middle of the frame. Everything is held perfectly still, a static photograph with the faintest push-in. Calm and unchanging.",
+    "a very slow, smooth drift to the right revealing more of the scene. Everything stays still and grounded, like a slow-moving documentary shot. Calm and steady.",
+    "a subtle slow pull-back revealing the full scene from close up. Gradual and unhurried, everything remains perfectly still. Quiet and atmospheric.",
 ]
 
 

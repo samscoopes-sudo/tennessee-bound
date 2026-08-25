@@ -44,7 +44,7 @@ run([PY, "inject_avatars.py", SHOTS])
 run([PY, "run.py", "align", "--channel", CH, "--run", SLUG])
 run([PY, "-c", f"from director import items, channels; c=channels.load('{CH}'); "
                 f"items.itemize('{SHOTS}', scene_style=c.scene_style)"])
-run([PY, "_reflag_motion.py", SHOTS, "4"])
+run([PY, "_reflag_motion.py", SHOTS, "2"])
 run([PY, "run.py", "generate", "--channel", CH, "--run", SLUG, "--comfy", POD, "--only", "broll"] + LIMIT)
 run([PY, "run.py", "generate", "--channel", CH, "--run", SLUG, "--comfy", POD, "--only", "avatar"] + LIMIT)
 run([PY, "run.py", "assemble", "--channel", CH, "--run", SLUG])

@@ -25,12 +25,18 @@ if force_n:                                        # legacy: N evenly-spaced
     mids = force_n - 2
     idxs = [0] + [round(n * (k + 1) / (mids + 1)) for k in range(mids)] + [n - 1]
     idxs = sorted(set(min(i, n - 1) for i in idxs))
-else:                                              # item-aware: intro + each "Number X" + outro
-    idxs = {0, n - 1}
+else:
+    countdown_idxs = set()
     for label, seg in items.segment(shots):
         if label.startswith("number"):
-            idxs.add(seg[0]["index"])              # the shot that announces this item
-    idxs = sorted(idxs)
+            countdown_idxs.add(seg[0]["index"])
+    if countdown_idxs:                             # countdown: intro + each "Number X" + outro
+        idxs = sorted({0, n - 1} | countdown_idxs)
+    else:                                          # documentary: evenly-spaced (~every 12 shots)
+        count = max(5, n // 8)
+        mids = count - 2
+        idxs = [0] + [round(n * (k + 1) / (mids + 1)) for k in range(mids)] + [n - 1]
+        idxs = sorted(set(min(i, n - 1) for i in idxs))
 
 for i in idxs:
     s = shots[i]

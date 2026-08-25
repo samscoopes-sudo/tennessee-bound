@@ -10,7 +10,7 @@ import sys
 from pathlib import Path
 
 sl = Path(sys.argv[1] if len(sys.argv) > 1 else "shot-list.json")
-stride = int(sys.argv[2]) if len(sys.argv) > 2 else 4          # every Nth b-roll shot = motion
+stride = int(sys.argv[2]) if len(sys.argv) > 2 else 2          # every 2nd b-roll shot = motion (50%)
 d = json.loads(sl.read_text())
 
 i = mo = still = 0
