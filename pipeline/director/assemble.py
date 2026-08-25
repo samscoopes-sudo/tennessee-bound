@@ -1,0 +1,115 @@
+"""ffmpeg assembly: shot assets + VO -> rough_cut.mp4.
+
+Stills get a slow Ken Burns push-in; generated videos are scaled/padded to 16:9;
+all clips are concatenated and the full voiceover is muxed on top as the spine.
+"""
+from __future__ import annotations
+
+import json
+import subprocess
+import tempfile
+from pathlib import Path
+
+from . import config
+
+OUT_W, OUT_H = 1920, 1080
+W, H, FPS = OUT_W, OUT_H, config.FPS
+
+
+def _run(cmd: list[str]) -> None:
+    subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+
+
+KB_EFFECTS = ("in", "out", "panr", "panl")   # cycled per shot for variety
+
+
+def _kenburns(image: Path, dur: float, dest: Path, effect: str = "in") -> None:
+    """Slow move over a still. Varied: zoom-in, zoom-out (start tight -> pull back), or a pan.
+    Pre-upscaled 2x so the zoompan crop doesn't jitter."""
+    frames = max(1, int(dur * FPS))
+    zi, zo = 1.0, 1.12
+    rate = (zo - zi) / max(frames - 1, 1)
+    cx, cy = "iw/2-(iw/zoom/2)", "ih/2-(ih/zoom/2)"       # keep the crop centred
+    if effect == "out":                                  # start zoomed in, pull back out
+        z, x, y = f"max({zo}-{rate:.6f}*on,{zi})", cx, cy
+    elif effect == "panr":                               # hold ~1.10 zoom, glide left->right
+        z, x, y = "1.10", f"(iw-iw/zoom)*on/{frames}", cy
+    elif effect == "panl":                               # glide right->left
+        z, x, y = "1.10", f"(iw-iw/zoom)*(1-on/{frames})", cy
+    else:                                                # "in": gentle push-in
+        z, x, y = f"min({zi}+{rate:.6f}*on,{zo})", cx, cy
+    vf = (f"scale={W*2}:-1,"
+          f"zoompan=z='{z}':x='{x}':y='{y}':d={frames}:s={W}x{H}:fps={FPS},"
+          f"format=yuv420p")
+    _run(["ffmpeg", "-y", "-loop", "1", "-i", str(image), "-t", f"{dur:.3f}",
+          "-vf", vf, "-an", str(dest)])
+
+
+def _normalize_video(src: Path, dur: float, dest: Path) -> None:
+    vf = (f"scale={W}:{H}:force_original_aspect_ratio=decrease,"
+          f"pad={W}:{H}:(ow-iw)/2:(oh-ih)/2,fps={FPS},format=yuv420p")
+    _run(["ffmpeg", "-y", "-i", str(src), "-t", f"{dur:.3f}", "-vf", vf, "-an", str(dest)])
+
+
+def _vo_slice(vo: Path, start: float, dur: float, dest: Path) -> None:
+    """The master-VO audio for a b-roll shot's slot."""
+    _run(["ffmpeg", "-y", "-ss", f"{start:.3f}", "-t", f"{dur:.3f}", "-i", str(vo),
+          "-ac", "1", "-ar", "24000", "-c:a", "pcm_s16le", str(dest)])
+
+
+def _clip_audio(src: Path, dur: float, dest: Path) -> None:
+    """An avatar clip's OWN embedded audio — the track InfiniteTalk lip-synced to, so it
+    stays perfectly in step with the mouth even after the model's internal frame shift."""
+    _run(["ffmpeg", "-y", "-i", str(src), "-t", f"{dur:.3f}", "-vn",
+          "-ac", "1", "-ar", "24000", "-c:a", "pcm_s16le", str(dest)])
+
+
+def assemble(shots_path: Path, vo_path: Path, out_path: Path) -> None:
+    plan = json.loads(shots_path.read_text())
+    shots = [s for s in plan["shots"] if s.get("asset")]
+    if not shots:
+        raise RuntimeError("No shots have an 'asset' — run `generate` first (or add paths by hand).")
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory() as td:
+        tmp = Path(td)
+        clips: list[Path] = []
+        apieces: list[Path] = []                      # per-shot audio, tiled to match the video
+        for s in shots:
+            asset = Path(s["asset"])
+            i = s["index"]
+            dur = float(s["duration"])
+            clip = tmp / f"clip_{i:04d}.mp4"
+            apiece = tmp / f"a_{i:04d}.wav"
+            if s["kind"] == "talking_head":
+                _normalize_video(asset, dur, clip)     # avatar video (silent)
+                _clip_audio(asset, dur, apiece)        # ...paired with its OWN synced audio
+            else:
+                if s["kind"] == "broll" and not s["motion"]:
+                    _kenburns(asset, dur, clip, KB_EFFECTS[i % len(KB_EFFECTS)])
+                else:
+                    _normalize_video(asset, dur, clip)
+                _vo_slice(vo_path, s["start"], dur, apiece)   # b-roll uses the master VO
+            clips.append(clip)
+            apieces.append(apiece)
+            print(f"  clip {i:>3}  {dur:5.1f}s  {s['kind']}", flush=True)
+
+        vlist = tmp / "v.txt"
+        vlist.write_text("".join(f"file '{c}'\n" for c in clips))
+        silent = tmp / "silent.mp4"
+        _run(["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(vlist),
+              "-c", "copy", str(silent)])
+
+        alist = tmp / "a.txt"
+        alist.write_text("".join(f"file '{a}'\n" for a in apieces))
+        full_audio = tmp / "audio.wav"
+        _run(["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(alist),
+              "-c", "copy", str(full_audio)])
+
+        _run(["ffmpeg", "-y", "-i", str(silent), "-i", str(full_audio),
+              "-map", "0:v", "-map", "1:a",
+              "-vf", f"scale={OUT_W}:{OUT_H}:force_original_aspect_ratio=decrease,pad={OUT_W}:{OUT_H}:(ow-iw)/2:(oh-ih)/2,format=yuv420p",
+              "-c:v", "libx264", "-preset", "slow", "-crf", "18",
+              "-c:a", "aac", "-b:a", "192k",
+              "-shortest", str(out_path)])
+    print(f"\nWrote {out_path}")

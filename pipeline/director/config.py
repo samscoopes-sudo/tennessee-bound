@@ -1,0 +1,149 @@
+"""Shared config: the locked Appalachian look, pacing rules, and defaults."""
+import os as _os
+
+# --- Look (from broll-style.md). Appended in code so every b-roll shot matches. ---
+# Qwen-Lightning runs at cfg~1, so the negative barely fires — the "make it rough,
+# authentic, amateur" cues must live in the POSITIVE suffix, not the negative.
+STYLE_SUFFIX = (
+    "flat dull natural daylight, deep focus with everything sharp and fully in focus, "
+    "no background blur, no bokeh, no depth-of-field blur, "
+    "muted desaturated earthy colors, plain ordinary documentary video frame, "
+    "looks like a real cheap camcorder still, photorealistic, "
+    "not staged, not glossy, not cinematic, no warm grade, no text"
+)
+NEGATIVE = (
+    "cinematic, film still, dramatic lighting, golden hour, sunset, rim light, "
+    "shallow depth of field, bokeh, blurred background, warm color grade, moody, artistic, "
+    "beautiful, polished, professional photography, AI art, 3d render, oversaturated, HDR, "
+    "staged, posed, deformed hands, extra fingers, text, watermark"
+)
+
+# --- Pacing (measured from the reference video: ~1 cut every 3s, median scene ~2.9s) ---
+AVG_WORDS_PER_SEC = 2.5        # ~150 wpm narration; used to estimate shot timings
+SHOT_SECONDS = 3.5            # ~3.5s/shot to match the reference creator's brisk cut cadence
+TALKING_HEAD_MAX_SEC = 8.0    # never hold the avatar longer (InfiniteTalk sync + pacing)
+
+# --- Content strategy: match Ezra Cade — ~75% Ken Burns STILLS + ~25% Wan MOTION, and
+# motion only on shots whose subject naturally moves (steam, fire, boiling, pouring).
+# False = the planner (and _reflag_motion) decides per shot; True = force every shot to Wan. ---
+ALL_BROLL_MOTION = False
+
+# --- Render dimensions (16:9) ---
+STILL_W, STILL_H = 1664, 928         # Qwen's native 16:9 size (snaps to this anyway)
+VIDEO_W, VIDEO_H = 832, 480          # Wan / InfiniteTalk render size; upscaled 2x in edit
+FPS = 25
+WAN_FPS = 16                         # Wan 2.1 I2V native rate (VHS combine encodes at 16)
+
+# --- FLUX.1-dev + Boreal amateur-photo LoRA (self-hosted stills on the pod, FREE) ---
+# Boreal shifts FLUX to mundane cell-phone snapshots; trigger word is "photo", it's
+# overtrained so strength stays < 1.0, and low guidance keeps it flat (not cinematic).
+FLUX_LORA = 0.8
+FLUX_GUIDANCE = 2.8
+# Per-channel visual look (default = Appalachia). A channel overrides this via
+# channel.json "style_suffix"; FLUX_ANTIHANDS is appended to EVERY channel.
+FLUX_STYLE = ("candid documentary snapshot, soft natural window light, muted earthy colors, "
+              "mostly in focus, mundane and plain, real rustic Appalachian farmhouse kitchen, "
+              "not cinematic, not glossy")
+
+# anti-hands: FLUX runs at cfg 1.0 so the negative is inert — exclude people in the POSITIVE.
+# Frame as an unattended object still-life. Appended for every channel.
+FLUX_ANTIHANDS = ("an unattended still life of objects alone, empty room, nobody present, "
+                  "no people and no hands anywhere in the frame")
+
+
+def flux_prompt(subject: str, style: str | None = None) -> str:
+    """Boreal wants the trigger 'photo'; keep the subject literal, append the channel's flat
+    style, then the shared no-people/no-hands framing."""
+    subject = subject.strip().rstrip(",. ")
+    return f"photo of {subject}, {style or FLUX_STYLE}, {FLUX_ANTIHANDS}"
+
+# --- Wan 2.2 5B (self-hosted on the pod, FREE) — the b-roll motion engine ---
+WAN22_W, WAN22_H = 1024, 576         # exact 16:9, divisible by 32 (Wan requirement)
+WAN22_FPS = 14                       # low fps = slow, calm motion (like the competitor)
+# NOTE: never put the word "camera" (or "hand", "person") here — Wan 2.2 renders it as a
+# literal object in the frame. Describe the MOVE, not the equipment.
+# Tiny, simple moves only (~a few centimeters). Rotated per motion shot for variety.
+# Never put the word "camera"/"hand"/"person" here — Wan renders it as an object.
+# PUSH-IN ONLY. Pans revealed new edge area that Wan filled with hallucinated
+# hands/objects (see br_0017 grille, br_0026 hand-with-pan). A push-in crops inward,
+# revealing nothing new. Also: NEVER name "hand"/"person"/"object"/"camera" here, even
+# negated — at cfg~1 Wan draws the noun regardless. Describe ONLY the slow zoom + a frozen
+# scene; the input still already fixes the content.
+WAN22_MOTION_CUES = [
+    "an extremely slow, gentle push-in toward the center, only a couple of centimeters. The scene stays completely frozen and unchanged, like a still photograph that barely zooms in. Calm, minimal, static.",
+    "a barely perceptible slow zoom-in toward the middle of the frame. Everything is held perfectly still, a static photograph with the faintest push-in. Calm and unchanging.",
+]
+
+
+def wan22_frames(duration: float) -> int:
+    """Wan needs (4n+1) frames; length/fps = clip seconds. Round UP so it covers the shot."""
+    import math
+    n = max(1, math.ceil((duration * WAN22_FPS - 1) / 4))
+    return 4 * n + 1
+
+# Slow cinematic CAMERA movement — used only by the LOCAL Wan fallback (weak motion).
+WAN_MOTION_CUE = ("slow cinematic camera push-in, smooth steady dolly movement, "
+                  "gentle parallax, subtle atmospheric motion, no sudden movement")
+
+# --- Cloud motion (fal.ai) — real subject motion. Primary path when FAL_KEY is set;
+# falls back to local Wan otherwise. Seedance is ~5x cheaper than Hailuo. ---
+# Switch models for A/B testing with:  export FAL_MOTION_MODEL=fal-ai/minimax/hailuo-02/standard/image-to-video
+FAL_MOTION_MODEL = _os.environ.get("FAL_MOTION_MODEL",
+                                   "fal-ai/bytedance/seedance/v1/lite/image-to-video")
+if "hailuo" in FAL_MOTION_MODEL:                       # MiniMax Hailuo — better motion, ~$0.27
+    FAL_MOTION_ARGS = {"duration": "6", "prompt_optimizer": True}
+elif "seedance" in FAL_MOTION_MODEL:                   # ByteDance Seedance — cheap, ~$0.10
+    FAL_MOTION_ARGS = {"resolution": "720p", "duration": "5"}
+else:
+    FAL_MOTION_ARGS = {"duration": "5"}
+
+# Cloud STILL model (fal FLUX) — far more realistic than Qwen, and needs no pod.
+# Used for b-roll stills + the source frame for Seedance when FAL_KEY is set.
+# Switch with:  export FAL_STILL_MODEL=fal-ai/nano-banana   (Gemini "Nano Banana" — flat real look)
+FAL_STILL_MODEL = _os.environ.get("FAL_STILL_MODEL", "fal-ai/nano-banana")
+if "nano-banana" in FAL_STILL_MODEL or "gemini" in FAL_STILL_MODEL:
+    FAL_STILL_ARGS = {"num_images": 1, "aspect_ratio": "16:9"}
+else:                                                  # FLUX
+    FAL_STILL_ARGS = {"image_size": "landscape_16_9", "num_inference_steps": 28,
+                      "enable_safety_checker": False}
+FAL_MOTION_CUE = ("very slow gentle camera push-in, subtle slow camera drift, "
+                  "the subject stays almost still, minimal subject motion, "
+                  "calm steady realistic, no fast movement, no distortion, no warping, "
+                  "handheld documentary footage")
+
+
+def wan_frames(duration: float) -> int:
+    """Wan needs (4n+1) frames; round UP so the clip is never shorter than the shot."""
+    import math
+    n = max(1, math.ceil((duration * WAN_FPS - 1) / 4))
+    return 4 * n + 1
+
+# --- Talking head (InfiniteTalk) ---
+# The avatar image + audio drive the clip; this prompt only guides subtle motion/mood.
+TALKING_HEAD_PROMPT = (
+    "a knowledgeable warm male narrator speaking calmly to the camera, natural head movement, "
+    "documentary interview, soft studio lighting"
+)
+TALKING_HEAD_NEGATIVE = (
+    "bright tones, overexposed, static, blurred details, subtitles, style, works, "
+    "paintings, images, static, overall gray, worst quality, low quality, "
+    "JPEG compression residue, ugly, incomplete, extra fingers, poorly drawn hands, "
+    "poorly drawn faces, deformed, disfigured, misshapen limbs, fused fingers, "
+    "still picture, messy background, three legs, many people in the background, walking backwards"
+)
+
+# --- Planner model ---
+# Breaking paragraphs into shots is a simple structured task — Haiku does it fine at
+# ~1/25th the cost of Opus. Bump to sonnet/opus only if shot choices feel weak.
+#   export PLANNER_MODEL=claude-sonnet-4-6   (or claude-opus-4-8)
+PLANNER_MODEL = _os.environ.get("PLANNER_MODEL", "claude-haiku-4-5")
+
+# Scriptwriter: the full narration is worth the strongest model (planner stays cheap).
+#   export SCRIPT_MODEL=claude-sonnet-5   to trade a little quality for cost
+SCRIPT_MODEL = _os.environ.get("SCRIPT_MODEL", "claude-opus-4-8")
+
+
+def styled(prompt: str) -> str:
+    """Attach the locked style suffix to a bare subject prompt."""
+    prompt = prompt.strip().rstrip(",. ")
+    return f"{prompt}, {STYLE_SUFFIX}"

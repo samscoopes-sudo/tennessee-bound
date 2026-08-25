@@ -1,0 +1,7 @@
+anthropic>=0.121
+pydantic>=2
+requests>=2.31
+faster-whisper>=1.2
+pillow>=10
+numpy>=1.26
+flask>=3

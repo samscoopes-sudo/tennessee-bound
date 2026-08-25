@@ -1,0 +1,34 @@
+{
+  "0": {
+    "class_type": "F5TTSLoadModel",
+    "inputs": { "model": "F5v1", "vocoder": "auto", "model_type": "F5TTS_v1_Base" }
+  },
+  "1": {
+    "class_type": "LoadAudio",
+    "inputs": { "audio": "f5_ref.wav" }
+  },
+  "2": {
+    "class_type": "F5TTSAudioFromModel",
+    "inputs": {
+      "model": ["0", 0],
+      "f5ttsmodelinfo": ["0", 1],
+      "sample_audio": ["1", 0],
+      "sample_text": "reference transcript goes here",
+      "speech": "text to speak goes here",
+      "seed": 1,
+      "speed": 1.0,
+      "target_rms": 0.1,
+      "cross_fade_duration": 0.15,
+      "nfe_step": 64,
+      "cfg_strength": 2.0,
+      "sway_sampling_coef": -1.0
+    }
+  },
+  "3": {
+    "class_type": "SaveAudio",
+    "inputs": {
+      "audio": ["2", 0],
+      "filename_prefix": "f5tts"
+    }
+  }
+}
