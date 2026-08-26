@@ -32,7 +32,7 @@
   "7": {
     "class_type": "KSampler",
     "inputs": {
-      "seed": 0, "steps": 20, "cfg": 1.0, "sampler_name": "euler",
+      "seed": 0, "steps": 12, "cfg": 1.0, "sampler_name": "euler",
       "scheduler": "simple", "denoise": 1.0,
       "model": ["2", 0], "positive": ["5", 0], "negative": ["4", 0], "latent_image": ["6", 0]
     },

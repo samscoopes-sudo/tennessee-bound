@@ -45,7 +45,7 @@
   },
   "128": {
     "inputs": {
-      "steps": 6,
+      "steps": 3,
       "cfg": 1.0000000000000002,
       "shift": 11.000000000000002,
       "seed": 2,
@@ -183,7 +183,7 @@
         "291",
         2
       ],
-      "frame_window_size": 81,
+      "frame_window_size": 49,
       "motion_frame": 9,
       "force_offload": false,
       "colormatch": "disabled",
@@ -226,7 +226,7 @@
         0
       ],
       "audio_1": [
-        "302",
+        "125",
         0
       ]
     },
@@ -302,7 +302,7 @@
   },
   "270": {
     "inputs": {
-      "value": 81
+      "value": 49
     },
     "class_type": "INTConstant",
     "_meta": {
@@ -377,31 +377,6 @@
     "class_type": "Wav2VecModelLoader",
     "_meta": {
       "title": "Wav2vec2 Model Loader"
-    }
-  },
-  "301": {
-    "inputs": {
-      "model_name": "MelBandRoformer_fp16.safetensors"
-    },
-    "class_type": "MelBandRoFormerModelLoader",
-    "_meta": {
-      "title": "Mel-Band RoFormer Model Loader"
-    }
-  },
-  "302": {
-    "inputs": {
-      "model": [
-        "301",
-        0
-      ],
-      "audio": [
-        "125",
-        0
-      ]
-    },
-    "class_type": "MelBandRoFormerSampler",
-    "_meta": {
-      "title": "Mel-Band RoFormer Sampler"
     }
   },
   "309": {

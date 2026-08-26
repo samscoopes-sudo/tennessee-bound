@@ -5,11 +5,11 @@ import os as _os
 # Qwen-Lightning runs at cfg~1, so the negative barely fires — the "make it rough,
 # authentic, amateur" cues must live in the POSITIVE suffix, not the negative.
 STYLE_SUFFIX = (
-    "flat dull natural daylight, deep focus with everything sharp and fully in focus, "
+    "natural daylight, deep focus with everything sharp and fully in focus, "
     "no background blur, no bokeh, no depth-of-field blur, "
-    "muted desaturated earthy colors, plain ordinary documentary video frame, "
-    "looks like a real cheap camcorder still, photorealistic, "
-    "not staged, not glossy, not cinematic, no warm grade, no text"
+    "muted desaturated earthy colors, documentary photograph, "
+    "photorealistic, sharp details, high clarity, "
+    "not staged, not glossy, not cinematic, no warm grade, no text, no watermark"
 )
 NEGATIVE = (
     "cinematic, film still, dramatic lighting, golden hour, sunset, rim light, "
@@ -30,7 +30,7 @@ ALL_BROLL_MOTION = False
 
 # --- Render dimensions (16:9) ---
 STILL_W, STILL_H = 1920, 1080        # higher res stills for sharper output
-VIDEO_W, VIDEO_H = 1280, 720         # 720p Wan / InfiniteTalk for clearer video
+VIDEO_W, VIDEO_H = 640, 368          # balanced speed/quality avatar on L4
 FPS = 25
 WAN_FPS = 16                         # Wan 2.1 I2V native rate (VHS combine encodes at 16)
 

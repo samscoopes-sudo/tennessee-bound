@@ -56,20 +56,23 @@ every 5 seconds). For each shot decide:
 - kind: ALWAYS "broll". Do NOT use "talking_head" — every shot is b-roll; the on-camera narrator
   is inserted separately at a few fixed points, so you never choose it.
 - prompt: a SHORT bare visual subject that LITERALLY SHOWS WHAT THIS SENTENCE IS ABOUT. This is the
-  single most important rule. Find the specific food / ingredient / tool / object / place the sentence
+  single most important rule. Find the specific person / place / landmark / object / event the sentence
   names and put THAT on screen. Examples of the principle (literal subject, never filler):
-    * "salt cuts coffee's bitterness"  -> a tin coffee pot beside a small dish of salt
-    * "the old egg peels clean"        -> a peeled hard-boiled egg on a plate beside its shell
-    * "she sweetened it with honey"    -> a jar of honey with a wooden dipper
-    * "season the cast iron"           -> a black cast iron skillet
-  Do NOT fall back on generic filler when the sentence names a specific thing.
-  Frame that subject as {scene}. The setting is the STYLE; the thing the sentence names is the
-  CONTENT. Static and grounded, like a plain photo of that exact thing. Use a general scene ONLY when
-  the narration is genuinely general (an intro or transition), never when it names something specific.
+    * "James Robertson led settlers across the frozen Cumberland"  -> a group of frontier settlers crossing a frozen river at dawn, seen from a distance
+    * "Fort Nashborough was built on the bluff"  -> a wooden frontier fort with palisade walls on a river bluff, wide establishing shot
+    * "the Grand Ole Opry became legendary"  -> the Grand Ole Opry stage with a lone microphone in spotlight
+    * "Nashville's skyline grew rapidly"  -> Nashville city skyline with modern buildings and the Batman Building
+  Do NOT fall back on generic interior rooms, empty houses, or vague landscapes when the sentence names
+  a specific place, person, or event. NEVER use "interior of a house" or "room interior" as filler.
+  When the narration mentions a historical figure, show them in period-appropriate clothing in a wide or
+  medium shot (not extreme close-up). When it mentions a place, show THAT specific place or a faithful
+  recreation. Frame that subject as {scene}. The setting is the STYLE; the thing the sentence names is the
+  CONTENT. Use a general landscape ONLY when the narration is genuinely general (an intro or transition).
 - motion: (a slow move is added later, to ~1 shot in 4) set true only for subjects that naturally
-  move — steam, boiling or simmering water, a glowing fire, liquid being poured — else false.
-  STRICTLY AVOID (never depict): people walking or in mid-motion, close-up hands doing detailed
-  manipulation, complex human activity, and clear human faces — AI warps these badly.
+  move — flowing water, fire, crowds, horses, vehicles — else false.
+  People ARE allowed — show historical figures, settlers, crowds, soldiers in wide or medium shots.
+  AVOID ONLY: extreme close-ups of faces (medium shots are fine), close-up hands doing detailed
+  manipulation, and overly complex multi-person action scenes.
 
 Rules:
 - Cover the whole paragraph; the narration fields concatenated should ~equal the paragraph.

@@ -38,8 +38,7 @@ def _kenburns(image: Path, dur: float, dest: Path, effect: str = "in") -> None:
         z, x, y = "1.10", f"(iw-iw/zoom)*(1-on/{frames})", cy
     else:                                                # "in": gentle push-in
         z, x, y = f"min({zi}+{rate:.6f}*on,{zo})", cx, cy
-    vf = (f"scale={W*2}:-1,"
-          f"zoompan=z='{z}':x='{x}':y='{y}':d={frames}:s={W}x{H}:fps={FPS},"
+    vf = (f"zoompan=z='{z}':x='{x}':y='{y}':d={frames}:s={W}x{H}:fps={FPS},"
           f"format=yuv420p")
     _run(["ffmpeg", "-y", "-loop", "1", "-i", str(image), "-t", f"{dur:.3f}",
           "-vf", vf, "-an", str(dest)])
@@ -109,7 +108,7 @@ def assemble(shots_path: Path, vo_path: Path, out_path: Path) -> None:
         _run(["ffmpeg", "-y", "-i", str(silent), "-i", str(full_audio),
               "-map", "0:v", "-map", "1:a",
               "-vf", f"scale={OUT_W}:{OUT_H}:force_original_aspect_ratio=decrease,pad={OUT_W}:{OUT_H}:(ow-iw)/2:(oh-ih)/2,format=yuv420p",
-              "-c:v", "libx264", "-preset", "slow", "-crf", "18",
+              "-c:v", "libx264", "-preset", "medium", "-crf", "20",
               "-c:a", "aac", "-b:a", "192k",
-              "-shortest", str(out_path)])
+              str(out_path)])
     print(f"\nWrote {out_path}")
