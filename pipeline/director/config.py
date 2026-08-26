@@ -30,7 +30,7 @@ ALL_BROLL_MOTION = False
 
 # --- Render dimensions (16:9) ---
 STILL_W, STILL_H = 1920, 1080        # higher res stills for sharper output
-VIDEO_W, VIDEO_H = 640, 368          # balanced speed/quality avatar on L4
+VIDEO_W, VIDEO_H = 832, 480          # higher res avatar for sharper face detail
 FPS = 25
 WAN_FPS = 16                         # Wan 2.1 I2V native rate (VHS combine encodes at 16)
 
