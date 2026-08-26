@@ -123,8 +123,8 @@ def wan_frames(duration: float) -> int:
 # --- Talking head (InfiniteTalk) ---
 # The avatar image + audio drive the clip; this prompt only guides subtle motion/mood.
 TALKING_HEAD_PROMPT = (
-    "a knowledgeable warm male narrator speaking calmly to the camera, natural head movement, "
-    "documentary interview, soft studio lighting"
+    "a white middle-aged American man speaking calmly to the camera, natural head movement, "
+    "friendly and approachable, documentary interview, soft studio lighting"
 )
 TALKING_HEAD_NEGATIVE = (
     "bright tones, overexposed, static, blurred details, subtitles, style, works, "
