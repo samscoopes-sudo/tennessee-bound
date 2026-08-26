@@ -2,6 +2,13 @@
 
 Stills get a slow Ken Burns push-in; generated videos are scaled/padded to 16:9;
 all clips are concatenated and the full voiceover is muxed on top as the spine.
+
+Avatar shots cycle through 5 visual styles for variety:
+  0 = medium (default full-frame)
+  1 = close-up (crop + zoom into upper portion)
+  2 = Ken Burns push-in on the avatar video
+  3 = picture-in-picture (avatar small in corner, previous b-roll behind)
+  4 = split-screen (avatar left, previous b-roll right)
 """
 from __future__ import annotations
 
@@ -15,6 +22,8 @@ from . import config
 OUT_W, OUT_H = 1920, 1080
 W, H, FPS = OUT_W, OUT_H, config.FPS
 
+AVATAR_STYLES = ("medium", "closeup", "kenburns", "pip", "split")
+
 
 def _run(cmd: list[str]) -> None:
     subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
@@ -24,19 +33,18 @@ KB_EFFECTS = ("in", "out", "panr", "panl")   # cycled per shot for variety
 
 
 def _kenburns(image: Path, dur: float, dest: Path, effect: str = "in") -> None:
-    """Slow move over a still. Varied: zoom-in, zoom-out (start tight -> pull back), or a pan.
-    Pre-upscaled 2x so the zoompan crop doesn't jitter."""
+    """Slow move over a still. Varied: zoom-in, zoom-out (start tight -> pull back), or a pan."""
     frames = max(1, int(dur * FPS))
     zi, zo = 1.0, 1.12
     rate = (zo - zi) / max(frames - 1, 1)
-    cx, cy = "iw/2-(iw/zoom/2)", "ih/2-(ih/zoom/2)"       # keep the crop centred
-    if effect == "out":                                  # start zoomed in, pull back out
+    cx, cy = "iw/2-(iw/zoom/2)", "ih/2-(ih/zoom/2)"
+    if effect == "out":
         z, x, y = f"max({zo}-{rate:.6f}*on,{zi})", cx, cy
-    elif effect == "panr":                               # hold ~1.10 zoom, glide left->right
+    elif effect == "panr":
         z, x, y = "1.10", f"(iw-iw/zoom)*on/{frames}", cy
-    elif effect == "panl":                               # glide right->left
+    elif effect == "panl":
         z, x, y = "1.10", f"(iw-iw/zoom)*(1-on/{frames})", cy
-    else:                                                # "in": gentle push-in
+    else:
         z, x, y = f"min({zi}+{rate:.6f}*on,{zo})", cx, cy
     vf = (f"zoompan=z='{z}':x='{x}':y='{y}':d={frames}:s={W}x{H}:fps={FPS},"
           f"format=yuv420p")
@@ -50,17 +58,86 @@ def _normalize_video(src: Path, dur: float, dest: Path) -> None:
     _run(["ffmpeg", "-y", "-i", str(src), "-t", f"{dur:.3f}", "-vf", vf, "-an", str(dest)])
 
 
+def _avatar_medium(src: Path, dur: float, dest: Path) -> None:
+    """Full-frame avatar, scaled to output."""
+    _normalize_video(src, dur, dest)
+
+
+def _avatar_closeup(src: Path, dur: float, dest: Path) -> None:
+    """Crop to the upper 60% (head & shoulders) and scale up to fill the frame."""
+    vf = (f"crop=iw:ih*0.6:0:0,"
+          f"scale={W}:{H}:force_original_aspect_ratio=decrease,"
+          f"pad={W}:{H}:(ow-iw)/2:(oh-ih)/2,fps={FPS},format=yuv420p")
+    _run(["ffmpeg", "-y", "-i", str(src), "-t", f"{dur:.3f}", "-vf", vf, "-an", str(dest)])
+
+
+def _avatar_kenburns(src: Path, dur: float, dest: Path) -> None:
+    """Slow push-in on the avatar video for a cinematic feel."""
+    frames = max(1, int(dur * FPS))
+    zi, zo = 1.0, 1.08
+    rate = (zo - zi) / max(frames - 1, 1)
+    vf = (f"scale={W*2}:{H*2},"
+          f"zoompan=z='min({zi}+{rate:.6f}*on,{zo})':"
+          f"x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':"
+          f"d={frames}:s={W}x{H}:fps={FPS},"
+          f"format=yuv420p")
+    _run(["ffmpeg", "-y", "-i", str(src), "-t", f"{dur:.3f}", "-vf", vf, "-an", str(dest)])
+
+
+def _avatar_pip(src: Path, dur: float, dest: Path, bg: Path | None) -> None:
+    """Small avatar in bottom-right corner over the previous b-roll (or black if none)."""
+    if bg and bg.exists():
+        # b-roll background, avatar overlay at 30% width in bottom-right
+        aw = int(W * 0.30)
+        ah = int(H * 0.30)
+        margin = 40
+        vf = (f"[0:v]scale={W}:{H}:force_original_aspect_ratio=decrease,"
+              f"pad={W}:{H}:(ow-iw)/2:(oh-ih)/2,fps={FPS}[bg];"
+              f"[1:v]scale={aw}:{ah}:force_original_aspect_ratio=decrease,"
+              f"pad={aw}:{ah}:(ow-iw)/2:(oh-ih)/2[av];"
+              f"[bg][av]overlay={W - aw - margin}:{H - ah - margin},"
+              f"format=yuv420p")
+        _run(["ffmpeg", "-y", "-i", str(bg), "-i", str(src), "-t", f"{dur:.3f}",
+              "-filter_complex", vf, "-an", str(dest)])
+    else:
+        _avatar_medium(src, dur, dest)
+
+
+def _avatar_split(src: Path, dur: float, dest: Path, bg: Path | None) -> None:
+    """Avatar on the left half, b-roll on the right half (or black if none)."""
+    hw = W // 2
+    if bg and bg.exists():
+        vf = (f"[1:v]scale={hw}:{H}:force_original_aspect_ratio=decrease,"
+              f"pad={hw}:{H}:(ow-iw)/2:(oh-ih)/2[av];"
+              f"[0:v]scale={hw}:{H}:force_original_aspect_ratio=decrease,"
+              f"pad={hw}:{H}:(ow-iw)/2:(oh-ih)/2[br];"
+              f"[av][br]hstack,fps={FPS},format=yuv420p")
+        _run(["ffmpeg", "-y", "-i", str(bg), "-i", str(src), "-t", f"{dur:.3f}",
+              "-filter_complex", vf, "-an", str(dest)])
+    else:
+        _avatar_medium(src, dur, dest)
+
+
 def _vo_slice(vo: Path, start: float, dur: float, dest: Path) -> None:
-    """The master-VO audio for a b-roll shot's slot."""
     _run(["ffmpeg", "-y", "-ss", f"{start:.3f}", "-t", f"{dur:.3f}", "-i", str(vo),
           "-ac", "1", "-ar", "24000", "-c:a", "pcm_s16le", str(dest)])
 
 
 def _clip_audio(src: Path, dur: float, dest: Path) -> None:
-    """An avatar clip's OWN embedded audio — the track InfiniteTalk lip-synced to, so it
-    stays perfectly in step with the mouth even after the model's internal frame shift."""
     _run(["ffmpeg", "-y", "-i", str(src), "-t", f"{dur:.3f}", "-vn",
           "-ac", "1", "-ar", "24000", "-c:a", "pcm_s16le", str(dest)])
+
+
+def _find_nearby_broll(shots: list[dict], current_idx: int) -> Path | None:
+    """Find the nearest b-roll asset before this avatar shot, for PiP/split background."""
+    for s in reversed(shots):
+        if s["index"] >= current_idx:
+            continue
+        if s["kind"] == "broll" and s.get("asset"):
+            p = Path(s["asset"])
+            if p.exists():
+                return p
+    return None
 
 
 def assemble(shots_path: Path, vo_path: Path, out_path: Path) -> None:
@@ -70,10 +147,12 @@ def assemble(shots_path: Path, vo_path: Path, out_path: Path) -> None:
         raise RuntimeError("No shots have an 'asset' — run `generate` first (or add paths by hand).")
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
+    th_count = 0  # tracks which avatar shot we're on for style cycling
+
     with tempfile.TemporaryDirectory() as td:
         tmp = Path(td)
         clips: list[Path] = []
-        apieces: list[Path] = []                      # per-shot audio, tiled to match the video
+        apieces: list[Path] = []
         for s in shots:
             asset = Path(s["asset"])
             i = s["index"]
@@ -81,17 +160,30 @@ def assemble(shots_path: Path, vo_path: Path, out_path: Path) -> None:
             clip = tmp / f"clip_{i:04d}.mp4"
             apiece = tmp / f"a_{i:04d}.wav"
             if s["kind"] == "talking_head":
-                _normalize_video(asset, dur, clip)     # avatar video (silent)
-                _clip_audio(asset, dur, apiece)        # ...paired with its OWN synced audio
+                style = AVATAR_STYLES[th_count % len(AVATAR_STYLES)]
+                bg = _find_nearby_broll(plan["shots"], i)
+                if style == "closeup":
+                    _avatar_closeup(asset, dur, clip)
+                elif style == "kenburns":
+                    _avatar_kenburns(asset, dur, clip)
+                elif style == "pip":
+                    _avatar_pip(asset, dur, clip, bg)
+                elif style == "split":
+                    _avatar_split(asset, dur, clip, bg)
+                else:
+                    _avatar_medium(asset, dur, clip)
+                _clip_audio(asset, dur, apiece)
+                th_count += 1
+                print(f"  clip {i:>3}  {dur:5.1f}s  talking_head [{style}]", flush=True)
             else:
                 if s["kind"] == "broll" and not s["motion"]:
                     _kenburns(asset, dur, clip, KB_EFFECTS[i % len(KB_EFFECTS)])
                 else:
                     _normalize_video(asset, dur, clip)
-                _vo_slice(vo_path, s["start"], dur, apiece)   # b-roll uses the master VO
+                _vo_slice(vo_path, s["start"], dur, apiece)
+                print(f"  clip {i:>3}  {dur:5.1f}s  {s['kind']}", flush=True)
             clips.append(clip)
             apieces.append(apiece)
-            print(f"  clip {i:>3}  {dur:5.1f}s  {s['kind']}", flush=True)
 
         vlist = tmp / "v.txt"
         vlist.write_text("".join(f"file '{c}'\n" for c in clips))
