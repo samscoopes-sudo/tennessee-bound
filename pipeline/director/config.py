@@ -41,21 +41,29 @@ FLUX_LORA = 0.7
 FLUX_GUIDANCE = 3.5
 # Per-channel visual look (default = Appalachia). A channel overrides this via
 # channel.json "style_suffix"; FLUX_ANTIHANDS is appended to EVERY channel.
-FLUX_STYLE = ("candid documentary snapshot, soft natural window light, muted earthy colors, "
-              "mostly in focus, mundane and plain, real rustic Appalachian farmhouse kitchen, "
+FLUX_STYLE = ("candid documentary snapshot, soft natural light, muted earthy colors, "
+              "mostly in focus, mundane and plain, photorealistic, "
               "not cinematic, not glossy")
 
-# anti-hands: FLUX runs at cfg 1.0 so the negative is inert — exclude people in the POSITIVE.
-# Frame as an unattended object still-life. Appended for every channel.
+# When the shot has no people, steer FLUX away from generating hands/figures.
 FLUX_ANTIHANDS = ("an unattended still life of objects alone, empty room, nobody present, "
                   "no people and no hands anywhere in the frame")
+# When the shot DOES involve people, allow them but avoid close-up hand detail.
+FLUX_PEOPLE = ("wide or medium shot, full body or upper body visible, "
+               "no extreme close-ups of faces, no detailed hands in foreground")
+
+_PEOPLE_KEYWORDS = {"person", "people", "man", "woman", "men", "women", "crowd",
+                    "group", "figure", "settler", "soldier", "farmer", "plumber",
+                    "worker", "founder", "leader", "children", "family", "audience"}
 
 
 def flux_prompt(subject: str, style: str | None = None) -> str:
-    """Boreal wants the trigger 'photo'; keep the subject literal, append the channel's flat
-    style, then the shared no-people/no-hands framing."""
+    """Boreal wants the trigger 'photo'; if the subject mentions people, allow them
+    in a wide/medium shot instead of forcing an empty still-life."""
     subject = subject.strip().rstrip(",. ")
-    return f"photo of {subject}, {style or FLUX_STYLE}, {FLUX_ANTIHANDS}"
+    words = set(subject.lower().split())
+    framing = FLUX_PEOPLE if words & _PEOPLE_KEYWORDS else FLUX_ANTIHANDS
+    return f"photo of {subject}, {style or FLUX_STYLE}, {framing}"
 
 # --- Wan 2.2 5B (self-hosted on the pod, FREE) — the b-roll motion engine ---
 WAN22_W, WAN22_H = 1280, 720         # higher res 16:9 for sharper stills/motion
