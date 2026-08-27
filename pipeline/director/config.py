@@ -46,7 +46,7 @@ FLUX_STEPS_PEOPLE = 20                  # more steps for people — better face/
 # channel.json "style_suffix"; FLUX_ANTIHANDS is appended to EVERY channel.
 FLUX_STYLE = ("candid documentary snapshot, soft natural light, muted earthy colors, "
               "mostly in focus, mundane and plain, photorealistic, "
-              "not cinematic, not glossy")
+              "not cinematic, not glossy, no text, no words, no letters, no signage, no watermark")
 
 # When the shot has no people, steer FLUX away from generating hands/figures.
 FLUX_ANTIHANDS = ("an unattended still life of objects alone, empty room, nobody present, "
