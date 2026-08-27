@@ -10,14 +10,14 @@ import sys
 from pathlib import Path
 
 sl = Path(sys.argv[1] if len(sys.argv) > 1 else "shot-list.json")
-stride = int(sys.argv[2]) if len(sys.argv) > 2 else 2          # every 2nd b-roll shot = motion (50%)
+stride = int(sys.argv[2]) if len(sys.argv) > 2 else 4          # every 4th b-roll shot = still, rest motion (~75%)
 d = json.loads(sl.read_text())
 
 i = mo = still = 0
 for s in d["shots"]:
     if s["kind"] == "talking_head":
         continue
-    motion = (i % stride == stride - 1)                        # 0,1,2 still -> 3 motion
+    motion = (i % stride != 0)                                 # 0 still -> 1,2,3 motion (~75%)
     i += 1
     s["motion"] = motion
     asset = s.get("asset", "")
