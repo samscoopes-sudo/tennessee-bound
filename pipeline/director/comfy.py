@@ -51,6 +51,7 @@ PARAM_MAP: dict[str, dict] = {
         "width": ("6", "width"),            # EmptySD3LatentImage
         "height": ("6", "height"),
         "seed": ("7", "seed"),              # KSampler
+        "steps": ("7", "steps"),            # KSampler inference steps
         "lora": ("2", "strength_model"),    # Realism LoRA strength
         "guidance": ("5", "guidance"),      # FluxGuidance (lower = flatter, less "enhanced")
     },
@@ -211,9 +212,10 @@ class Comfy:
                          frames=frames, width=w, height=h)
 
     def flux_still(self, prompt: str, w: int, h: int, dest: Path,
-                   seed: int = 0, lora: float = 0.8, guidance: float = 3.5) -> Path:
+                   seed: int = 0, lora: float = 0.8, guidance: float = 3.5,
+                   steps: int = 12) -> Path:
         return self._run("flux_still", dest, prompt=prompt, width=w, height=h,
-                         seed=seed, lora=lora, guidance=guidance)
+                         seed=seed, steps=steps, lora=lora, guidance=guidance)
 
     def wan22(self, image: Path, prompt: str, w: int, h: int, length: int,
               fps: int, dest: Path, seed: int = 0) -> Path:

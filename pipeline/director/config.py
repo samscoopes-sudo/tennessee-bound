@@ -38,7 +38,10 @@ WAN_FPS = 16                         # Wan 2.1 I2V native rate (VHS combine enco
 # Boreal shifts FLUX to mundane cell-phone snapshots; trigger word is "photo", it's
 # overtrained so strength stays < 1.0, and low guidance keeps it flat (not cinematic).
 FLUX_LORA = 0.7
+FLUX_LORA_PEOPLE = 0.35                 # lower LoRA for people — Boreal degrades faces at full strength
 FLUX_GUIDANCE = 3.5
+FLUX_STEPS = 12
+FLUX_STEPS_PEOPLE = 20                  # more steps for people — better face/body detail
 # Per-channel visual look (default = Appalachia). A channel overrides this via
 # channel.json "style_suffix"; FLUX_ANTIHANDS is appended to EVERY channel.
 FLUX_STYLE = ("candid documentary snapshot, soft natural light, muted earthy colors, "
@@ -49,21 +52,25 @@ FLUX_STYLE = ("candid documentary snapshot, soft natural light, muted earthy col
 FLUX_ANTIHANDS = ("an unattended still life of objects alone, empty room, nobody present, "
                   "no people and no hands anywhere in the frame")
 # When the shot DOES involve people, allow them but avoid close-up hand detail.
-FLUX_PEOPLE = ("wide or medium shot, full body or upper body visible, "
-               "no extreme close-ups of faces, no detailed hands in foreground")
+FLUX_PEOPLE = ("wide or medium shot showing full body or upper body, "
+               "faces small in the frame, no extreme close-ups of faces, "
+               "no detailed hands in foreground, natural proportions")
 
 _PEOPLE_KEYWORDS = {"person", "people", "man", "woman", "men", "women", "crowd",
                     "group", "figure", "settler", "soldier", "farmer", "plumber",
                     "worker", "founder", "leader", "children", "family", "audience"}
 
 
-def flux_prompt(subject: str, style: str | None = None) -> str:
-    """Boreal wants the trigger 'photo'; if the subject mentions people, allow them
-    in a wide/medium shot instead of forcing an empty still-life."""
+def flux_prompt(subject: str, style: str | None = None) -> tuple[str, float, int]:
+    """Boreal wants the trigger 'photo'; returns (prompt, lora_strength, steps).
+    People shots get lower LoRA + more steps for better face quality."""
     subject = subject.strip().rstrip(",. ")
     words = set(subject.lower().split())
-    framing = FLUX_PEOPLE if words & _PEOPLE_KEYWORDS else FLUX_ANTIHANDS
-    return f"photo of {subject}, {style or FLUX_STYLE}, {framing}"
+    has_people = bool(words & _PEOPLE_KEYWORDS)
+    framing = FLUX_PEOPLE if has_people else FLUX_ANTIHANDS
+    lora = FLUX_LORA_PEOPLE if has_people else FLUX_LORA
+    steps = FLUX_STEPS_PEOPLE if has_people else FLUX_STEPS
+    return f"photo of {subject}, {style or FLUX_STYLE}, {framing}", lora, steps
 
 # --- Wan 2.2 5B (self-hosted on the pod, FREE) — the b-roll motion engine ---
 WAN22_W, WAN22_H = 1280, 720         # higher res 16:9 for sharper stills/motion

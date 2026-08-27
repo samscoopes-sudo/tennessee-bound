@@ -28,10 +28,10 @@ def _make_still(comfy, s: dict, i: int, out: Path, style: str | None = None):
     # itemized shots carry a full `flux_subject` (canonical object + framing) and a per-item seed
     # for cross-shot consistency; fall back to the bare planner subject otherwise.
     subject = s.get("flux_subject") or s["prompt"].split(",")[0].strip()
-    prompt = config.flux_prompt(subject, style)
+    prompt, lora, steps = config.flux_prompt(subject, style)
     st = comfy.flux_still(prompt, config.WAN22_W, config.WAN22_H, dest,
                           seed=int(s.get("seed", 1000 + i)),
-                          lora=config.FLUX_LORA, guidance=config.FLUX_GUIDANCE)
+                          lora=lora, guidance=config.FLUX_GUIDANCE, steps=steps)
     return st, "flux+boreal"
 
 
