@@ -101,6 +101,8 @@ def main() -> None:
     se_p.add_argument("--force", action="store_true", help="re-download even if clip exists")
     se_p.add_argument("--fetch-only", action="store_true", help="download clips but don't assemble")
     se_p.add_argument("--pexels-key", default=None, help="Pexels API key (or set PEXELS_API_KEY)")
+    se_p.add_argument("--google-api-key", default=None, help="Google CSE API key (or GOOGLE_API_KEY)")
+    se_p.add_argument("--google-cse-id", default=None, help="Google CSE ID (or GOOGLE_CSE_ID)")
 
     a = sub.add_parser("assemble", help="assets + VO -> video.mp4")
     _add_channel_args(a)
@@ -220,7 +222,10 @@ def main() -> None:
         else:
             shots = Path(args.shots)
             out_dir = shots.parent / "output"
-        se.fetch_stock(shots, api_key, out_dir, args.limit, args.start, args.force)
+        g_key = args.google_api_key or os.environ.get("GOOGLE_API_KEY")
+        g_cse = args.google_cse_id or os.environ.get("GOOGLE_CSE_ID")
+        se.fetch_stock(shots, api_key, out_dir, args.limit, args.start, args.force,
+                       google_api_key=g_key, google_cse_id=g_cse)
         if not args.fetch_only:
             vo = _resolve_vo(args, rd if channel else None)
             out = (rd / "output" / "video.mp4") if channel else Path(args.out)
