@@ -32,11 +32,11 @@ class ShotList(BaseModel):
 
 # Per-channel framing (niche / narrator / scene style) is injected; these defaults
 # reproduce the original Appalachia prompt so the no-channel path is unchanged.
-_DEFAULT_NICHE = "practical how-to and documentary-style content for everyday viewers"
-_DEFAULT_PERSONA = ("Bart, a friendly white middle-aged American plumber in VOICEOVER; he appears "
-                    "on camera only a handful of times, inserted separately")
-_DEFAULT_SCENE = ("a clear, well-lit documentary shot — the subject front and center, "
-                  "plain real-world background, nothing staged or cinematic")
+_DEFAULT_NICHE = "data-driven Tennessee relocation guides — town-by-town cost-of-living breakdowns for people planning a move"
+_DEFAULT_PERSONA = ("Tennessee Bound, a calm authoritative narrator in VOICEOVER delivering ground-truth analysis; "
+                    "he appears on camera only occasionally, inserted separately")
+_DEFAULT_SCENE = ("a clear, well-lit documentary shot of the specific Tennessee town, landmark, or data point "
+                  "the narration names — real places, real scenery, nothing generic or staged")
 
 
 def build_system(niche: str = "", persona: str = "", scene_style: str = "") -> str:
