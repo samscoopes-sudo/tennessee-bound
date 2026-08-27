@@ -32,8 +32,8 @@ else:
             countdown_idxs.add(seg[0]["index"])
     if countdown_idxs:                             # countdown: intro + each "Number X" + outro
         idxs = sorted({0, n - 1} | countdown_idxs)
-    else:                                          # documentary: evenly-spaced (~every 12 shots)
-        count = max(3, n // 12)
+    else:                                          # documentary: evenly-spaced (~10% of shots)
+        count = max(3, n // 10)
         mids = count - 2
         idxs = [0] + [round(n * (k + 1) / (mids + 1)) for k in range(mids)] + [n - 1]
         idxs = sorted(set(min(i, n - 1) for i in idxs))
