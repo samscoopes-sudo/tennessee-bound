@@ -1,0 +1,13 @@
+{
+  "title": "Tennessee Bound",
+  "niche": "data-driven Tennessee relocation analysis for retirees — town-by-town property tax, hospital access, insurance, flood risk, cost of living",
+  "narrator_persona": "a calm, knowledgeable guide who speaks directly to camera a few times; mostly voiceover narration with b-roll",
+  "scene_style": "Tennessee small-town Main Streets, rolling farmland, modest suburban homes, county courthouses, hospital exteriors, lakefront properties — documentary, not tourism-board pretty",
+  "avatar": "avatar.png",
+  "avatar_count": 5,
+  "style_suffix": "candid documentary snapshot, soft natural light, muted earthy colors, mostly in focus, mundane and plain, photorealistic, not cinematic, not glossy",
+  "script_notes": "No hype, no clickbait. Every claim backed by a named source (Comptroller, FEMA, State Data Center). Speak to a 55-65 year old considering Tennessee retirement.",
+  "voice": {
+    "engine": "elevenlabs"
+  }
+}

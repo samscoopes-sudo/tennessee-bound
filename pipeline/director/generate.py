@@ -75,6 +75,7 @@ def generate(shots_path: Path, comfy_url: str, avatar: Path,
                 wav = _slice_vo(vo, s["start"], s["duration"], out / f"th_{i:04d}.wav")
                 frames = max(config.FPS, int(round(s["duration"] * config.FPS)))
                 av = avatars[th_order.index(i) % len(avatars)]   # rotate angles, resume-safe
+                av = av if (av.exists() and av.stat().st_size > 0) else av.name
                 asset = comfy.infinitetalk(av, wav, config.TALKING_HEAD_PROMPT,
                                            config.TALKING_HEAD_NEGATIVE,
                                            config.VIDEO_W, config.VIDEO_H, frames,
