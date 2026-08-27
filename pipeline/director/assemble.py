@@ -169,7 +169,8 @@ def assemble(shots_path: Path, vo_path: Path, out_path: Path) -> None:
                 th_count += 1
                 print(f"  clip {i:>3}  {dur:5.1f}s  talking_head [{style}]", flush=True)
             else:
-                if s["kind"] == "broll" and not s["motion"]:
+                is_image = asset.suffix.lower() in (".jpg", ".jpeg", ".png", ".bmp", ".webp")
+                if is_image:
                     _kenburns(asset, dur, clip, KB_EFFECTS[i % len(KB_EFFECTS)])
                 else:
                     _normalize_video(asset, dur, clip)
