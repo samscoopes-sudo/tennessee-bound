@@ -18,7 +18,8 @@ import requests
 
 from . import config
 
-PEXELS_BASE = "https://api.pexels.com/videos/search"
+PEXELS_VIDEO_URL = "https://api.pexels.com/videos/search"
+PEXELS_PHOTO_URL = "https://api.pexels.com/v1/search"
 
 _STOP = {
     "a", "an", "the", "of", "with", "on", "in", "and", "from", "by", "at", "to",
@@ -36,16 +37,16 @@ def _query(subject: str) -> str:
 
 def _best_video(query: str, api_key: str, min_dur: float,
                 want_w: int = 1920, want_h: int = 1080) -> str | None:
-    """Search Pexels and return the download URL of the best-match clip, or None."""
+    """Search Pexels videos and return the download URL of the best-match clip, or None."""
     try:
-        r = requests.get(PEXELS_BASE,
+        r = requests.get(PEXELS_VIDEO_URL,
                          headers={"Authorization": api_key},
                          params={"query": query, "orientation": "landscape",
                                  "per_page": 15, "size": "medium"},
                          timeout=30)
         r.raise_for_status()
     except Exception as e:
-        print(f"    Pexels search failed: {e}")
+        print(f"    Pexels video search failed: {e}")
         return None
 
     best_score, best_url = -1.0, None
@@ -66,6 +67,37 @@ def _best_video(query: str, api_key: str, min_dur: float,
             score += min(w, 3840) / 3840
             if score > best_score:
                 best_score, best_url = score, f.get("link")
+    return best_url
+
+
+def _best_photo(query: str, api_key: str,
+                want_w: int = 1920, want_h: int = 1080) -> str | None:
+    """Search Pexels photos and return the URL of the best landscape image, or None."""
+    try:
+        r = requests.get(PEXELS_PHOTO_URL,
+                         headers={"Authorization": api_key},
+                         params={"query": query, "orientation": "landscape",
+                                 "per_page": 15},
+                         timeout=30)
+        r.raise_for_status()
+    except Exception as e:
+        print(f"    Pexels photo search failed: {e}")
+        return None
+
+    best_score, best_url = -1.0, None
+    for p in r.json().get("photos", []):
+        w = int(p.get("width") or 0)
+        h = int(p.get("height") or 0)
+        if w < want_w * 0.5:
+            continue
+        score = 0.0
+        if h and abs((w / h) - 16 / 9) < 0.15:
+            score += 2
+        score += min(w, 3840) / 3840
+        src = p.get("src", {})
+        url = src.get("original") or src.get("large2x") or src.get("large")
+        if url and score > best_score:
+            best_score, best_url = score, url
     return best_url
 
 
@@ -99,10 +131,11 @@ def fetch_stock(shots_path: Path, api_key: str, out_dir: Path,
         if s["kind"] != "broll":
             continue
 
-        dest = out_dir / f"br_{idx:04d}.mp4"
-        if dest.exists() and not force:
-            s["asset"] = str(dest)
-            print(f"  [{idx:>3}] skip (exists): {dest.name}")
+        dest_mp4 = out_dir / f"br_{idx:04d}.mp4"
+        dest_jpg = out_dir / f"br_{idx:04d}.jpg"
+        if (dest_mp4.exists() or dest_jpg.exists()) and not force:
+            s["asset"] = str(dest_mp4 if dest_mp4.exists() else dest_jpg)
+            print(f"  [{idx:>3}] skip (exists)")
             continue
 
         subject = s.get("subject", s.get("prompt", ""))
@@ -111,17 +144,29 @@ def fetch_stock(shots_path: Path, api_key: str, out_dir: Path,
         print(f"  [{idx:>3}] search: '{q}' ({dur:.1f}s) ...", end=" ", flush=True)
 
         url = _best_video(q, api_key, dur)
-        if not url:
-            print("NO MATCH")
-            continue
-
-        if _download(url, dest):
-            s["asset"] = str(dest)
-            fetched += 1
-            sz = dest.stat().st_size / 1024 / 1024
-            print(f"OK ({sz:.1f} MB)")
+        if url:
+            if _download(url, dest_mp4):
+                s["asset"] = str(dest_mp4)
+                s["source"] = "pexels_video"
+                fetched += 1
+                sz = dest_mp4.stat().st_size / 1024 / 1024
+                print(f"VIDEO ({sz:.1f} MB)")
+            else:
+                print("DOWNLOAD FAILED")
         else:
-            print("FAILED")
+            url = _best_photo(q, api_key)
+            if url:
+                if _download(url, dest_jpg):
+                    s["asset"] = str(dest_jpg)
+                    s["source"] = "pexels_photo"
+                    s["motion"] = False
+                    fetched += 1
+                    sz = dest_jpg.stat().st_size / 1024 / 1024
+                    print(f"PHOTO ({sz:.1f} MB)")
+                else:
+                    print("DOWNLOAD FAILED")
+            else:
+                print("NO MATCH")
 
         time.sleep(0.2)
 

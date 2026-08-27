@@ -1,302 +1,55 @@
 {
   "title": "10 Plumbing Tips Every Homeowner Should Know",
   "shots": [
-    {
-      "index": 0,
-      "kind": "broll",
-      "motion": false,
-      "subject": "kitchen sink faucet dripping water",
-      "narration": "You clicked on this video because something in your house is dripping",
-      "start": 0.0,
-      "duration": 4.0
-    },
-    {
-      "index": 1,
-      "kind": "broll",
-      "motion": false,
-      "subject": "plumber working under kitchen sink with wrench",
-      "narration": "tired of paying someone two hundred dollars an hour",
-      "start": 4.0,
-      "duration": 4.0
-    },
-    {
-      "index": 2,
-      "kind": "broll",
-      "motion": false,
-      "subject": "clogged drain in bathroom sink with standing water",
-      "narration": "Let us start with the one I get called out for more than anything else clogged drains",
-      "start": 8.0,
-      "duration": 4.0
-    },
-    {
-      "index": 3,
-      "kind": "broll",
-      "motion": false,
-      "subject": "chemical drain cleaner bottle being poured into drain",
-      "narration": "They reach for that bottle of chemical drain cleaner",
-      "start": 12.0,
-      "duration": 3.5
-    },
-    {
-      "index": 4,
-      "kind": "broll",
-      "motion": false,
-      "subject": "drain snake tool being inserted into bathroom drain",
-      "narration": "What you want instead is a simple drain snake",
-      "start": 15.5,
-      "duration": 4.0
-    },
-    {
-      "index": 5,
-      "kind": "broll",
-      "motion": false,
-      "subject": "hair and debris pulled from drain clog",
-      "narration": "you are going to pull out a clump of hair and soap scum",
-      "start": 19.5,
-      "duration": 3.5
-    },
-    {
-      "index": 6,
-      "kind": "broll",
-      "motion": false,
-      "subject": "large water heater tank in basement utility room",
-      "narration": "Your water heater that big tank sitting in your basement",
-      "start": 23.0,
-      "duration": 4.0
-    },
-    {
-      "index": 7,
-      "kind": "broll",
-      "motion": false,
-      "subject": "water heater drain valve with garden hose attached",
-      "narration": "There is a little valve on the bottom called the drain valve",
-      "start": 27.0,
-      "duration": 4.0
-    },
-    {
-      "index": 8,
-      "kind": "broll",
-      "motion": false,
-      "subject": "sediment and rusty water draining from water heater",
-      "narration": "Sediment builds up in there minerals from your water supply",
-      "start": 31.0,
-      "duration": 3.5
-    },
-    {
-      "index": 9,
-      "kind": "broll",
-      "motion": false,
-      "subject": "garden hose flushing water heater outdoors",
-      "narration": "Hook up a garden hose open the valve let it run",
-      "start": 34.5,
-      "duration": 4.0
-    },
-    {
-      "index": 10,
-      "kind": "broll",
-      "motion": false,
-      "subject": "main water shutoff valve in basement near meter",
-      "narration": "Know where your main water shutoff valve is",
-      "start": 38.5,
-      "duration": 4.0
-    },
-    {
-      "index": 11,
-      "kind": "broll",
-      "motion": false,
-      "subject": "burst pipe spraying water inside house flooding",
-      "narration": "water is spraying everywhere the ceiling is coming down",
-      "start": 42.5,
-      "duration": 3.5
-    },
-    {
-      "index": 12,
-      "kind": "broll",
-      "motion": false,
-      "subject": "hand turning water shutoff valve to off position",
-      "narration": "walk to the shutoff valve and turn it off",
-      "start": 46.0,
-      "duration": 3.5
-    },
-    {
-      "index": 13,
-      "kind": "broll",
-      "motion": false,
-      "subject": "water damage on ceiling with peeling paint and stains",
-      "narration": "save you ten twenty even fifty thousand dollars in water damage",
-      "start": 49.5,
-      "duration": 4.0
-    },
-    {
-      "index": 14,
-      "kind": "broll",
-      "motion": false,
-      "subject": "wrench tightening pipe fitting under sink",
-      "narration": "Overtightening people think tighter means better",
-      "start": 53.5,
-      "duration": 4.0
-    },
-    {
-      "index": 15,
-      "kind": "broll",
-      "motion": false,
-      "subject": "cracked PVC pipe fitting leaking water",
-      "narration": "overtightening is one of the fastest ways to crack a fitting",
-      "start": 57.5,
-      "duration": 3.5
-    },
-    {
-      "index": 16,
-      "kind": "broll",
-      "motion": false,
-      "subject": "plumber hand tightening pipe fitting gently with wrench",
-      "narration": "Hand-tight then a quarter turn with a wrench",
-      "start": 61.0,
-      "duration": 3.5
-    },
-    {
-      "index": 17,
-      "kind": "broll",
-      "motion": false,
-      "subject": "teflon tape being wrapped around pipe thread",
-      "narration": "Teflon tape that thin white stuff you wrap around pipe threads",
-      "start": 64.5,
-      "duration": 4.0
-    },
-    {
-      "index": 18,
-      "kind": "broll",
-      "motion": false,
-      "subject": "close up pipe threads with white plumbers tape wrapped correctly",
-      "narration": "Wrap it clockwise three or four times keep it tight",
-      "start": 68.5,
-      "duration": 4.0
-    },
-    {
-      "index": 19,
-      "kind": "broll",
-      "motion": false,
-      "subject": "toilet tank interior with flapper valve and flush mechanism",
-      "narration": "Fixing a running toilet the problem is the flapper",
-      "start": 72.5,
-      "duration": 4.0
-    },
-    {
-      "index": 20,
-      "kind": "broll",
-      "motion": false,
-      "subject": "hand replacing rubber toilet flapper in tank",
-      "narration": "You can replace one in about five minutes for less than ten dollars",
-      "start": 76.5,
-      "duration": 3.5
-    },
-    {
-      "index": 21,
-      "kind": "broll",
-      "motion": false,
-      "subject": "cleaning toilet flush valve seat with sandpaper",
-      "narration": "Take some fine sandpaper and smooth that surface out",
-      "start": 80.0,
-      "duration": 3.5
-    },
-    {
-      "index": 22,
-      "kind": "broll",
-      "motion": false,
-      "subject": "mesh drain screen strainer over shower drain",
-      "narration": "Mesh drain screens they cost about two dollars each",
-      "start": 83.5,
-      "duration": 4.0
-    },
-    {
-      "index": 23,
-      "kind": "broll",
-      "motion": false,
-      "subject": "hand cleaning hair from drain screen strainer",
-      "narration": "I clean mine out once a week takes about ten seconds",
-      "start": 87.5,
-      "duration": 3.5
-    },
-    {
-      "index": 24,
-      "kind": "broll",
-      "motion": false,
-      "subject": "P-trap curved pipe under bathroom sink",
-      "narration": "Every drain has a curved pipe underneath called a P-trap",
-      "start": 91.0,
-      "duration": 4.0
-    },
-    {
-      "index": 25,
-      "kind": "broll",
-      "motion": false,
-      "subject": "running water from faucet into sink drain",
-      "narration": "Just run the water for about thirty seconds every month",
-      "start": 95.0,
-      "duration": 3.5
-    },
-    {
-      "index": 26,
-      "kind": "broll",
-      "motion": false,
-      "subject": "garbage disposal unit under kitchen sink",
-      "narration": "Know what you can and cannot put down a garbage disposal",
-      "start": 98.5,
-      "duration": 4.0
-    },
-    {
-      "index": 27,
-      "kind": "broll",
-      "motion": false,
-      "subject": "pouring cooking grease into kitchen sink drain",
-      "narration": "Grease coats the inside of your pipes and hardens",
-      "start": 102.5,
-      "duration": 3.5
-    },
-    {
-      "index": 28,
-      "kind": "broll",
-      "motion": false,
-      "subject": "potato peels in kitchen sink near garbage disposal",
-      "narration": "Potato peels turn into a starchy paste that gums up the blades",
-      "start": 106.0,
-      "duration": 3.5
-    },
-    {
-      "index": 29,
-      "kind": "broll",
-      "motion": false,
-      "subject": "cold water running from kitchen faucet",
-      "narration": "always run cold water while the disposal is running",
-      "start": 109.5,
-      "duration": 3.5
-    },
-    {
-      "index": 30,
-      "kind": "broll",
-      "motion": false,
-      "subject": "taking photo of plumbing pipes with smartphone",
-      "narration": "Before you start any plumbing project take a picture with your phone",
-      "start": 113.0,
-      "duration": 4.0
-    },
-    {
-      "index": 31,
-      "kind": "broll",
-      "motion": false,
-      "subject": "person working under kitchen sink with pipe connections visible",
-      "narration": "when you are elbow deep under a sink your memory is not as good",
-      "start": 117.0,
-      "duration": 4.0
-    },
-    {
-      "index": 32,
-      "kind": "broll",
-      "motion": false,
-      "subject": "plumber tools wrench tape on workbench",
-      "narration": "Ten tips from twenty-five years of crawling under houses",
-      "start": 121.0,
-      "duration": 4.0
-    }
+    {"index": 0, "kind": "broll", "motion": false, "subject": "kitchen sink faucet dripping water droplet", "start": 0.0, "duration": 3.0},
+    {"index": 1, "kind": "broll", "motion": false, "subject": "frustrated homeowner looking at leaking pipe", "start": 3.0, "duration": 3.0},
+    {"index": 2, "kind": "broll", "motion": false, "subject": "plumber working under kitchen sink with tools", "start": 6.0, "duration": 3.0},
+    {"index": 3, "kind": "broll", "motion": false, "subject": "hundred dollar bills cash money on table", "start": 9.0, "duration": 2.5},
+    {"index": 4, "kind": "broll", "motion": false, "subject": "clogged bathroom sink drain with dirty water", "start": 11.5, "duration": 3.0},
+    {"index": 5, "kind": "broll", "motion": false, "subject": "chemical drain cleaner liquid bottle", "start": 14.5, "duration": 2.5},
+    {"index": 6, "kind": "broll", "motion": false, "subject": "old corroded cast iron plumbing pipes", "start": 17.0, "duration": 3.0},
+    {"index": 7, "kind": "broll", "motion": false, "subject": "drain snake auger plumbing tool close up", "start": 20.0, "duration": 3.0},
+    {"index": 8, "kind": "broll", "motion": false, "subject": "using drain snake in bathroom sink", "start": 23.0, "duration": 3.0},
+    {"index": 9, "kind": "broll", "motion": false, "subject": "hair clog pulled from shower drain gross", "start": 26.0, "duration": 2.5},
+    {"index": 10, "kind": "broll", "motion": false, "subject": "clean water flowing freely down drain", "start": 28.5, "duration": 2.5},
+    {"index": 11, "kind": "broll", "motion": false, "subject": "water heater tank in basement utility room", "start": 31.0, "duration": 3.0},
+    {"index": 12, "kind": "broll", "motion": false, "subject": "person standing in cold shower shivering", "start": 34.0, "duration": 2.5},
+    {"index": 13, "kind": "broll", "motion": false, "subject": "water heater drain valve close up", "start": 36.5, "duration": 3.0},
+    {"index": 14, "kind": "broll", "motion": false, "subject": "sediment and mineral buildup in water tank", "start": 39.5, "duration": 3.0},
+    {"index": 15, "kind": "broll", "motion": false, "subject": "garden hose connected to water heater drain", "start": 42.5, "duration": 3.0},
+    {"index": 16, "kind": "broll", "motion": false, "subject": "rusty brown water flushing from hose outdoors", "start": 45.5, "duration": 2.5},
+    {"index": 17, "kind": "broll", "motion": false, "subject": "main water shutoff valve brass handle", "start": 48.0, "duration": 3.0},
+    {"index": 18, "kind": "broll", "motion": false, "subject": "burst pipe spraying water flooding room", "start": 51.0, "duration": 3.0},
+    {"index": 19, "kind": "broll", "motion": false, "subject": "water damaged ceiling with stains and peeling", "start": 54.0, "duration": 2.5},
+    {"index": 20, "kind": "broll", "motion": false, "subject": "hand turning red water shutoff valve", "start": 56.5, "duration": 3.0},
+    {"index": 21, "kind": "broll", "motion": false, "subject": "water meter in basement near pipes", "start": 59.5, "duration": 2.5},
+    {"index": 22, "kind": "broll", "motion": false, "subject": "flooded living room water damage hardwood floor", "start": 62.0, "duration": 3.0},
+    {"index": 23, "kind": "broll", "motion": false, "subject": "wrench tightening copper pipe fitting", "start": 65.0, "duration": 3.0},
+    {"index": 24, "kind": "broll", "motion": false, "subject": "cracked PVC pipe fitting dripping leak", "start": 68.0, "duration": 3.0},
+    {"index": 25, "kind": "broll", "motion": false, "subject": "plumber hands gently connecting pipe joint", "start": 71.0, "duration": 2.5},
+    {"index": 26, "kind": "broll", "motion": false, "subject": "wet drywall water damage behind wall mold", "start": 73.5, "duration": 3.0},
+    {"index": 27, "kind": "broll", "motion": false, "subject": "roll of white teflon plumber tape", "start": 76.5, "duration": 2.5},
+    {"index": 28, "kind": "broll", "motion": false, "subject": "wrapping teflon tape around pipe threads", "start": 79.0, "duration": 3.0},
+    {"index": 29, "kind": "broll", "motion": false, "subject": "threaded pipe connection close up detail", "start": 82.0, "duration": 2.5},
+    {"index": 30, "kind": "broll", "motion": false, "subject": "toilet running water wasting constantly", "start": 84.5, "duration": 3.0},
+    {"index": 31, "kind": "broll", "motion": false, "subject": "toilet tank interior flapper valve mechanism", "start": 87.5, "duration": 3.0},
+    {"index": 32, "kind": "broll", "motion": false, "subject": "hand replacing rubber flapper in toilet tank", "start": 90.5, "duration": 3.0},
+    {"index": 33, "kind": "broll", "motion": false, "subject": "sandpaper cleaning rough surface close up", "start": 93.5, "duration": 2.5},
+    {"index": 34, "kind": "broll", "motion": false, "subject": "high water bill utility statement paper", "start": 96.0, "duration": 2.5},
+    {"index": 35, "kind": "broll", "motion": false, "subject": "mesh drain strainer screen over shower drain", "start": 98.5, "duration": 3.0},
+    {"index": 36, "kind": "broll", "motion": false, "subject": "hair caught in shower drain strainer", "start": 101.5, "duration": 2.5},
+    {"index": 37, "kind": "broll", "motion": false, "subject": "kitchen sink drain with food scraps", "start": 104.0, "duration": 2.5},
+    {"index": 38, "kind": "broll", "motion": false, "subject": "P-trap curved white PVC pipe under sink", "start": 106.5, "duration": 3.0},
+    {"index": 39, "kind": "broll", "motion": false, "subject": "bathroom sink running water into drain", "start": 109.5, "duration": 2.5},
+    {"index": 40, "kind": "broll", "motion": false, "subject": "empty guest bathroom unused dusty", "start": 112.0, "duration": 3.0},
+    {"index": 41, "kind": "broll", "motion": false, "subject": "basement floor drain concrete utility", "start": 115.0, "duration": 2.5},
+    {"index": 42, "kind": "broll", "motion": false, "subject": "garbage disposal unit under kitchen sink", "start": 117.5, "duration": 3.0},
+    {"index": 43, "kind": "broll", "motion": false, "subject": "pouring cooking grease oil into pan", "start": 120.5, "duration": 2.5},
+    {"index": 44, "kind": "broll", "motion": false, "subject": "peeling potatoes with potato peels in sink", "start": 123.0, "duration": 2.5},
+    {"index": 45, "kind": "broll", "motion": false, "subject": "cooked pasta noodles in pot boiling", "start": 125.5, "duration": 2.5},
+    {"index": 46, "kind": "broll", "motion": false, "subject": "cold water running from kitchen faucet", "start": 128.0, "duration": 2.5},
+    {"index": 47, "kind": "broll", "motion": false, "subject": "person taking photo of pipes with smartphone", "start": 130.5, "duration": 3.0},
+    {"index": 48, "kind": "broll", "motion": false, "subject": "complex plumbing pipe connections under sink", "start": 133.5, "duration": 3.0},
+    {"index": 49, "kind": "broll", "motion": false, "subject": "plumber tools wrench tape on workbench organized", "start": 136.5, "duration": 3.0}
   ]
 }
