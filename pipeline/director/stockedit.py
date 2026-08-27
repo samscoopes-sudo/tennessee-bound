@@ -59,14 +59,14 @@ def _best_video(query: str, api_key: str, min_dur: float,
                 continue
             w = int(f.get("width") or 0)
             h = int(f.get("height") or 0)
-            if w < want_w * 0.5:
+            if w < want_w * 0.5 or w > want_w:
                 continue
             score = 0.0
             if dur >= min_dur:
                 score += 3
             if h and abs((w / h) - 16 / 9) < 0.12:
                 score += 1
-            score += min(w, 3840) / 3840
+            score += min(w, want_w) / want_w
             if score > best_score:
                 best_score, best_url = score, f.get("link")
     return best_url
@@ -89,12 +89,12 @@ def _best_photo(query: str, api_key: str,
     for p in r.json().get("photos", []):
         w = int(p.get("width") or 0)
         h = int(p.get("height") or 0)
-        if w < want_w * 0.5:
+        if w < want_w * 0.5 or w > want_w:
             continue
         score = 0.0
         if h and abs((w / h) - 16 / 9) < 0.15:
             score += 2
-        score += min(w, 3840) / 3840
+        score += min(w, want_w) / want_w
         src = p.get("src", {})
         url = src.get("original") or src.get("large2x") or src.get("large")
         if url and score > best_score:
@@ -130,12 +130,12 @@ def _wikimedia_image(query: str, want_w: int = 1920) -> str | None:
                 continue
             w = int(ii.get("width") or 0)
             h = int(ii.get("height") or 0)
-            if w < want_w * 0.4:
+            if w < want_w * 0.4 or w > want_w:
                 continue
             score = 0.0
             if h and abs((w / h) - 16 / 9) < 0.2:
                 score += 2
-            score += min(w, 3840) / 3840
+            score += min(w, want_w) / want_w
             url = ii.get("thumburl") or ii.get("url")
             if url and score > best_score:
                 best_score, best_url = score, url
@@ -165,12 +165,12 @@ def _google_image(query: str, api_key: str, cse_id: str,
         img = item.get("image", {})
         w = int(img.get("width") or 0)
         h = int(img.get("height") or 0)
-        if w < want_w * 0.4:
+        if w < want_w * 0.4 or w > want_w:
             continue
         score = 0.0
         if h and abs((w / h) - 16 / 9) < 0.2:
             score += 2
-        score += min(w, 3840) / 3840
+        score += min(w, want_w) / want_w
         url = item.get("link")
         if url and score > best_score:
             best_score, best_url = score, url
