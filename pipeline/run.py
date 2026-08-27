@@ -15,6 +15,7 @@ from director import assemble as asm
 from director import channels as ch
 from director import generate as gen
 from director import plan as pl
+from director import stockedit as se
 from director import tts as tts_mod
 
 
@@ -89,6 +90,17 @@ def main() -> None:
     g.add_argument("--stock", action="store_true", help="opt in to stock footage; default is AI-only")
     g.add_argument("--only", choices=["broll", "avatar"], help="render only b-roll, or only avatar shots "
                    "(keeps InfiniteTalk out of VRAM during the b-roll pass)")
+
+    se_p = sub.add_parser("stock-edit", help="shot-list -> Pexels stock clips -> assemble (no GPU)")
+    _add_channel_args(se_p)
+    se_p.add_argument("--shots", default="shot-list.json", help="(legacy mode only)")
+    se_p.add_argument("--vo", help="voiceover file (defaults to the run's vo.wav)")
+    se_p.add_argument("--out", default="output/video.mp4", help="(legacy mode only)")
+    se_p.add_argument("--limit", type=int, default=None, help="only fetch N clips (testing)")
+    se_p.add_argument("--start", type=int, default=0, help="skip shots before this index")
+    se_p.add_argument("--force", action="store_true", help="re-download even if clip exists")
+    se_p.add_argument("--fetch-only", action="store_true", help="download clips but don't assemble")
+    se_p.add_argument("--pexels-key", default=None, help="Pexels API key (or set PEXELS_API_KEY)")
 
     a = sub.add_parser("assemble", help="assets + VO -> video.mp4")
     _add_channel_args(a)
@@ -195,6 +207,24 @@ def main() -> None:
         else:
             gen.generate(Path(args.shots), args.comfy, Path(args.avatar), args.limit,
                          args.start, args.force, use_stock=args.stock)
+
+    elif args.cmd == "stock-edit":
+        import os
+        api_key = args.pexels_key or os.environ.get("PEXELS_API_KEY")
+        if not api_key:
+            raise SystemExit("need --pexels-key or PEXELS_API_KEY env var")
+        if channel:
+            rd = _run_dir(channel, args, for_new=False)
+            shots = rd / "shot-list.json"
+            out_dir = rd / "output"
+        else:
+            shots = Path(args.shots)
+            out_dir = shots.parent / "output"
+        se.fetch_stock(shots, api_key, out_dir, args.limit, args.start, args.force)
+        if not args.fetch_only:
+            vo = _resolve_vo(args, rd if channel else None)
+            out = (rd / "output" / "video.mp4") if channel else Path(args.out)
+            asm.assemble(shots, vo, out)
 
     elif args.cmd == "assemble":
         if channel:
