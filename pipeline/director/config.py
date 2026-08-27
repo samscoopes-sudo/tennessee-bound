@@ -30,7 +30,7 @@ ALL_BROLL_MOTION = False
 
 # --- Render dimensions (16:9) ---
 STILL_W, STILL_H = 1920, 1080        # higher res stills for sharper output
-VIDEO_W, VIDEO_H = 832, 480          # higher res avatar for sharper face detail
+VIDEO_W, VIDEO_H = 1280, 720         # higher res avatar + Wan motion for sharper output
 FPS = 25
 WAN_FPS = 16                         # Wan 2.1 I2V native rate (VHS combine encodes at 16)
 
@@ -40,8 +40,8 @@ WAN_FPS = 16                         # Wan 2.1 I2V native rate (VHS combine enco
 FLUX_LORA = 0.7
 FLUX_LORA_PEOPLE = 0.35                 # lower LoRA for people — Boreal degrades faces at full strength
 FLUX_GUIDANCE = 3.5
-FLUX_STEPS = 20
-FLUX_STEPS_PEOPLE = 25                  # more steps for people — better face/body detail
+FLUX_STEPS = 12
+FLUX_STEPS_PEOPLE = 20                  # more steps for people — better face/body detail
 # Per-channel visual look (default = Appalachia). A channel overrides this via
 # channel.json "style_suffix"; FLUX_ANTIHANDS is appended to EVERY channel.
 FLUX_STYLE = ("candid documentary snapshot, soft natural light, muted earthy colors, "
