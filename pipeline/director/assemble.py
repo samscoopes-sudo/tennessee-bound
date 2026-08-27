@@ -3,12 +3,10 @@
 Stills get a slow Ken Burns push-in; generated videos are scaled/padded to 16:9;
 all clips are concatenated and the full voiceover is muxed on top as the spine.
 
-Avatar shots cycle through 5 visual styles for variety:
+Avatar shots cycle through 3 full-screen styles for variety:
   0 = medium (default full-frame)
   1 = close-up (crop + zoom into upper portion)
   2 = Ken Burns push-in on the avatar video
-  3 = picture-in-picture (avatar small in corner, previous b-roll behind)
-  4 = split-screen (avatar left, previous b-roll right)
 """
 from __future__ import annotations
 
@@ -22,7 +20,7 @@ from . import config
 OUT_W, OUT_H = 1920, 1080
 W, H, FPS = OUT_W, OUT_H, config.FPS
 
-AVATAR_STYLES = ("medium", "closeup", "kenburns", "pip", "split")
+AVATAR_STYLES = ("medium", "closeup", "kenburns")
 
 
 def _run(cmd: list[str]) -> None:
@@ -161,15 +159,10 @@ def assemble(shots_path: Path, vo_path: Path, out_path: Path) -> None:
             apiece = tmp / f"a_{i:04d}.wav"
             if s["kind"] == "talking_head":
                 style = AVATAR_STYLES[th_count % len(AVATAR_STYLES)]
-                bg = _find_nearby_broll(plan["shots"], i)
                 if style == "closeup":
                     _avatar_closeup(asset, dur, clip)
                 elif style == "kenburns":
                     _avatar_kenburns(asset, dur, clip)
-                elif style == "pip":
-                    _avatar_pip(asset, dur, clip, bg)
-                elif style == "split":
-                    _avatar_split(asset, dur, clip, bg)
                 else:
                     _avatar_medium(asset, dur, clip)
                 _clip_audio(asset, dur, apiece)
