@@ -103,6 +103,7 @@ def main() -> None:
     se_p.add_argument("--pexels-key", default=None, help="Pexels API key (or set PEXELS_API_KEY)")
     se_p.add_argument("--google-api-key", default=None, help="Google CSE API key (or GOOGLE_API_KEY)")
     se_p.add_argument("--google-cse-id", default=None, help="Google CSE ID (or GOOGLE_CSE_ID)")
+    se_p.add_argument("--photos-only", action="store_true", help="Pexels photos only (no video/Wikimedia/Google)")
 
     a = sub.add_parser("assemble", help="assets + VO -> video.mp4")
     _add_channel_args(a)
@@ -225,7 +226,8 @@ def main() -> None:
         g_key = args.google_api_key or os.environ.get("GOOGLE_API_KEY")
         g_cse = args.google_cse_id or os.environ.get("GOOGLE_CSE_ID")
         se.fetch_stock(shots, api_key, out_dir, args.limit, args.start, args.force,
-                       google_api_key=g_key, google_cse_id=g_cse)
+                       google_api_key=g_key, google_cse_id=g_cse,
+                       photos_only=args.photos_only)
         if not args.fetch_only:
             vo = _resolve_vo(args, rd if channel else None)
             out = (rd / "output" / "video.mp4") if channel else Path(args.out)

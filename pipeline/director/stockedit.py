@@ -201,7 +201,8 @@ def fetch_stock(shots_path: Path, api_key: str, out_dir: Path,
                 limit: int | None = None, start: int = 0,
                 force: bool = False,
                 google_api_key: str | None = None,
-                google_cse_id: str | None = None) -> int:
+                google_cse_id: str | None = None,
+                photos_only: bool = False) -> int:
     """Download clips for every b-roll shot from multiple sources. Returns count fetched."""
     plan = json.loads(shots_path.read_text())
     shots = plan["shots"]
@@ -229,17 +230,18 @@ def fetch_stock(shots_path: Path, api_key: str, out_dir: Path,
         dur = float(s.get("duration", 3.5))
         print(f"  [{idx:>3}] search: '{q}' ({dur:.1f}s) ...", end=" ", flush=True)
 
-        # 1. Pexels video
-        url = _best_video(q, api_key, dur)
-        if url:
-            if _download(url, dest_mp4):
-                s["asset"] = str(dest_mp4)
-                s["source"] = "pexels_video"
-                fetched += 1
-                sz = dest_mp4.stat().st_size / 1024 / 1024
-                print(f"PEXELS VIDEO ({sz:.1f} MB)")
-                time.sleep(0.2)
-                continue
+        # 1. Pexels video (skipped in photos-only mode)
+        if not photos_only:
+            url = _best_video(q, api_key, dur)
+            if url:
+                if _download(url, dest_mp4):
+                    s["asset"] = str(dest_mp4)
+                    s["source"] = "pexels_video"
+                    fetched += 1
+                    sz = dest_mp4.stat().st_size / 1024 / 1024
+                    print(f"PEXELS VIDEO ({sz:.1f} MB)")
+                    time.sleep(0.2)
+                    continue
 
         # 2. Pexels photo
         url = _best_photo(q, api_key)
@@ -253,20 +255,21 @@ def fetch_stock(shots_path: Path, api_key: str, out_dir: Path,
                 time.sleep(0.2)
                 continue
 
-        # 3. Wikimedia Commons (no API key needed)
-        url = _wikimedia_image(q)
-        if url:
-            if _download(url, dest_jpg):
-                s["asset"] = str(dest_jpg)
-                s["source"] = "wikimedia"
-                fetched += 1
-                sz = dest_jpg.stat().st_size / 1024 / 1024
-                print(f"WIKIMEDIA ({sz:.1f} MB)")
-                time.sleep(0.2)
-                continue
+        # 3. Wikimedia Commons (no API key needed; skipped in photos-only mode)
+        if not photos_only:
+            url = _wikimedia_image(q)
+            if url:
+                if _download(url, dest_jpg):
+                    s["asset"] = str(dest_jpg)
+                    s["source"] = "wikimedia"
+                    fetched += 1
+                    sz = dest_jpg.stat().st_size / 1024 / 1024
+                    print(f"WIKIMEDIA ({sz:.1f} MB)")
+                    time.sleep(0.2)
+                    continue
 
-        # 4. Google Images (needs API key + CSE ID)
-        if google_api_key and google_cse_id:
+        # 4. Google Images (needs API key + CSE ID; skipped in photos-only mode)
+        if not photos_only and google_api_key and google_cse_id:
             url = _google_image(q, google_api_key, google_cse_id)
             if url:
                 if _download(url, dest_jpg):
