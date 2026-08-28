@@ -8,8 +8,8 @@
   "style_suffix": "photorealistic outdoor scene, natural daylight, soft shadows, DSLR quality, shallow depth of field, no text, no watermark, no logos",
   "script_notes": "Practical advice, no hype. Speak to regular homeowners who want a better lawn without spending a fortune.",
   "talking_head_prompt": "a friendly white middle-aged American man with short brown hair, wearing a dark green polo shirt, standing outdoors in a suburban backyard with a green lawn behind him, speaking naturally to the camera, warm afternoon sunlight, casual and approachable, documentary style",
-  "broll_w": 768,
-  "broll_h": 432,
+  "broll_w": 1280,
+  "broll_h": 720,
   "voice": {
     "engine": "elevenlabs"
   }

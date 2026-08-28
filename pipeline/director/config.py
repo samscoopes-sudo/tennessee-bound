@@ -37,11 +37,11 @@ WAN_FPS = 16                         # Wan 2.1 I2V native rate (VHS combine enco
 # --- FLUX.1-dev + Boreal amateur-photo LoRA (self-hosted stills on the pod, FREE) ---
 # Boreal shifts FLUX to mundane cell-phone snapshots; trigger word is "photo", it's
 # overtrained so strength stays < 1.0, and low guidance keeps it flat (not cinematic).
-FLUX_LORA = 0.7
-FLUX_LORA_PEOPLE = 0.35                 # lower LoRA for people — Boreal degrades faces at full strength
-FLUX_GUIDANCE = 3.5
-FLUX_STEPS = 12
-FLUX_STEPS_PEOPLE = 20                  # more steps for people — better face/body detail
+FLUX_LORA = 0.65
+FLUX_LORA_PEOPLE = 0.30                 # lower LoRA for people — Boreal degrades faces at full strength
+FLUX_GUIDANCE = 4.0
+FLUX_STEPS = 20
+FLUX_STEPS_PEOPLE = 28                  # more steps for people — better face/body detail
 # Per-channel visual look (default = Appalachia). A channel overrides this via
 # channel.json "style_suffix"; FLUX_ANTIHANDS is appended to EVERY channel.
 FLUX_STYLE = ("candid documentary snapshot, soft natural light, muted earthy colors, "
