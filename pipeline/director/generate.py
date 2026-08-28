@@ -21,15 +21,16 @@ def _slice_vo(vo: Path, start: float, dur: float, dest: Path) -> Path:
     return dest
 
 
-def _make_still(comfy, s: dict, i: int, out: Path, style: str | None = None):
+def _make_still(comfy, s: dict, i: int, out: Path, style: str | None = None,
+                broll_w: int | None = None, broll_h: int | None = None):
     """Realistic b-roll still on the pod: FLUX.1-dev + Boreal amateur-photo LoRA (FREE).
     Returns (path, source_tag)."""
     dest = out / f"br_{i:04d}.png"
-    # itemized shots carry a full `flux_subject` (canonical object + framing) and a per-item seed
-    # for cross-shot consistency; fall back to the bare planner subject otherwise.
     subject = s.get("flux_subject") or s["prompt"].split(",")[0].strip()
     prompt, lora, steps = config.flux_prompt(subject, style)
-    st = comfy.flux_still(prompt, config.WAN22_W, config.WAN22_H, dest,
+    bw = broll_w or config.WAN22_W
+    bh = broll_h or config.WAN22_H
+    st = comfy.flux_still(prompt, bw, bh, dest,
                           seed=int(s.get("seed", 1000 + i)),
                           lora=lora, guidance=config.FLUX_GUIDANCE, steps=steps)
     return st, "flux+boreal"
@@ -39,7 +40,9 @@ def generate(shots_path: Path, comfy_url: str, avatar: Path,
              limit: int | None = None, start: int = 0, force: bool = False,
              use_stock: bool = False, out_dir: Path | None = None,
              only: str | None = None, avatars: list[Path] | None = None,
-             style: str | None = None) -> None:
+             style: str | None = None,
+             th_prompt: str | None = None, th_negative: str | None = None,
+             broll_w: int | None = None, broll_h: int | None = None) -> None:
     plan = json.loads(shots_path.read_text())
     vo = Path(plan["vo_path"])
     comfy = Comfy(comfy_url)
@@ -76,8 +79,9 @@ def generate(shots_path: Path, comfy_url: str, avatar: Path,
                 frames = max(config.FPS, int(round(s["duration"] * config.FPS)))
                 av = avatars[th_order.index(i) % len(avatars)]   # rotate angles, resume-safe
                 av = av if (av.exists() and av.stat().st_size > 0) else av.name
-                asset = comfy.infinitetalk(av, wav, config.TALKING_HEAD_PROMPT,
-                                           config.TALKING_HEAD_NEGATIVE,
+                asset = comfy.infinitetalk(av, wav,
+                                           th_prompt or config.TALKING_HEAD_PROMPT,
+                                           th_negative or config.TALKING_HEAD_NEGATIVE,
                                            config.VIDEO_W, config.VIDEO_H, frames,
                                            out / f"th_{i:04d}.mp4")
             elif s["motion"]:
@@ -88,7 +92,7 @@ def generate(shots_path: Path, comfy_url: str, avatar: Path,
                 if asset:
                     s["source"] = "stock"
                 else:
-                    still, stsrc = _make_still(comfy, s, i, out, style)   # FLUX+Boreal still
+                    still, stsrc = _make_still(comfy, s, i, out, style, broll_w, broll_h)
                     subject = s.get("flux_subject") or s["prompt"].split(",")[0]
                     cue = config.WAN22_MOTION_CUES[i % len(config.WAN22_MOTION_CUES)]
                     wan_prompt = f"{subject}. {cue}"
@@ -96,7 +100,7 @@ def generate(shots_path: Path, comfy_url: str, avatar: Path,
                                           config.VIDEO_W, config.VIDEO_H, out / f"br_{i:04d}.mp4")
                     s["source"] = f"{stsrc}+wan21-14b"
             else:
-                asset, s["source"] = _make_still(comfy, s, i, out, style)
+                asset, s["source"] = _make_still(comfy, s, i, out, style, broll_w, broll_h)
             s["asset"] = str(asset)
             made += 1
             tag = s.get("source", "")

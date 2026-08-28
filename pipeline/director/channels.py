@@ -48,6 +48,9 @@ class Channel:
     avatar_files: list[str] = field(default_factory=list)   # multiple angles; rotated across avatar shots
     avatar_count: int = 5              # how many on-camera avatar moments to inject
     style_suffix: str | None = None    # FLUX still-style override; None -> config.FLUX_STYLE
+    talking_head_prompt: str | None = None   # InfiniteTalk prompt override; None -> config.TALKING_HEAD_PROMPT
+    broll_w: int | None = None         # b-roll resolution override for speed; None -> config defaults
+    broll_h: int | None = None
     script_notes: str = ""             # extra channel-specific scriptwriting guardrails
     planner_model: str | None = None   # None -> config.PLANNER_MODEL
     voice: dict = field(default_factory=dict)     # TTS settings (step 2)
@@ -98,6 +101,9 @@ def load(name: str) -> Channel:
         avatar_files=d.get("avatars", []),
         avatar_count=int(d.get("avatar_count", 5)),
         style_suffix=d.get("style_suffix"),
+        talking_head_prompt=d.get("talking_head_prompt"),
+        broll_w=d.get("broll_w"),
+        broll_h=d.get("broll_h"),
         script_notes=d.get("script_notes", ""),
         planner_model=d.get("planner_model"),
         voice=d.get("voice", {}),

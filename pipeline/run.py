@@ -206,7 +206,9 @@ def main() -> None:
             gen.generate(rd / "shot-list.json", args.comfy, channel.avatar,
                          args.limit, args.start, args.force, use_stock=args.stock,
                          out_dir=rd / "output", only=args.only,
-                         avatars=channel.avatars, style=channel.style_suffix)
+                         avatars=channel.avatars, style=channel.style_suffix,
+                         th_prompt=channel.talking_head_prompt,
+                         broll_w=channel.broll_w, broll_h=channel.broll_h)
         else:
             gen.generate(Path(args.shots), args.comfy, Path(args.avatar), args.limit,
                          args.start, args.force, use_stock=args.stock)
