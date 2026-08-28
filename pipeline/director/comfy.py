@@ -187,6 +187,8 @@ class Comfy:
         hist = self.wait(self.queue(wf))
         outs = self.outputs(hist)
         if not outs:
+            import sys
+            print(f"DEBUG {name} history outputs: {json.dumps(hist.get('outputs', {}), indent=2)[:2000]}", file=sys.stderr, flush=True)
             raise RuntimeError(f"{name} produced no output{self._why(hist)}")
         return self.download(outs[-1], dest)
 
