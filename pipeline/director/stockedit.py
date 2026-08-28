@@ -177,12 +177,20 @@ def _google_image(query: str, api_key: str, cse_id: str,
     return best_url
 
 
+MAX_FILE_MB = 30
+
 def _download(url: str, dest: Path) -> bool:
     try:
-        r = requests.get(url, timeout=180)
+        r = requests.get(url, timeout=180, stream=True)
         r.raise_for_status()
+        size = int(r.headers.get("content-length", 0))
+        if size > MAX_FILE_MB * 1024 * 1024:
+            print(f"    skip ({size / 1024 / 1024:.0f} MB > {MAX_FILE_MB} MB limit)")
+            r.close()
+            return False
+        data = r.content
         dest.parent.mkdir(parents=True, exist_ok=True)
-        dest.write_bytes(r.content)
+        dest.write_bytes(data)
         return True
     except Exception as e:
         print(f"    download failed: {e}")

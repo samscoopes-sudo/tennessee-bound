@@ -53,7 +53,8 @@ def _kenburns(image: Path, dur: float, dest: Path, effect: str = "in") -> None:
 def _normalize_video(src: Path, dur: float, dest: Path) -> None:
     vf = (f"scale={W}:{H}:force_original_aspect_ratio=decrease,"
           f"pad={W}:{H}:(ow-iw)/2:(oh-ih)/2,fps={FPS},format=yuv420p")
-    _run(["ffmpeg", "-y", "-i", str(src), "-t", f"{dur:.3f}", "-vf", vf, "-an", str(dest)])
+    _run(["ffmpeg", "-y", "-i", str(src), "-t", f"{dur:.3f}", "-vf", vf,
+          "-c:v", "libx264", "-preset", "ultrafast", "-crf", "23", "-an", str(dest)])
 
 
 def _avatar_medium(src: Path, dur: float, dest: Path) -> None:
