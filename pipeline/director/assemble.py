@@ -194,8 +194,7 @@ def assemble(shots_path: Path, vo_path: Path, out_path: Path) -> None:
 
         _run(["ffmpeg", "-y", "-i", str(silent), "-i", str(full_audio),
               "-map", "0:v", "-map", "1:a",
-              "-vf", f"scale={OUT_W}:{OUT_H}:force_original_aspect_ratio=decrease,pad={OUT_W}:{OUT_H}:(ow-iw)/2:(oh-ih)/2,format=yuv420p",
-              "-c:v", "libx264", "-preset", "medium", "-crf", "20",
+              "-c:v", "copy",
               "-c:a", "aac", "-b:a", "192k",
               str(out_path)])
     print(f"\nWrote {out_path}")
