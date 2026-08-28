@@ -1,0 +1,13 @@
+{
+  "title": "Dave",
+  "niche": "practical lawn care tips and seasonal maintenance for everyday homeowners",
+  "narrator_persona": "a friendly, knowledgeable lawn guy who keeps it simple and direct — like your neighbor who actually knows what he's doing",
+  "scene_style": "suburban lawns, driveways, garden sheds, soil close-ups, lawn equipment, healthy green grass — natural outdoor light, documentary feel",
+  "avatar": "avatar.png",
+  "avatar_count": 5,
+  "style_suffix": "photorealistic outdoor scene, natural daylight, soft shadows, DSLR quality, shallow depth of field, no text, no watermark, no logos",
+  "script_notes": "Practical advice, no hype. Speak to regular homeowners who want a better lawn without spending a fortune.",
+  "voice": {
+    "engine": "elevenlabs"
+  }
+}
