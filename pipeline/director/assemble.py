@@ -33,25 +33,25 @@ KB_EFFECTS = ("zoom_in", "zoom_out", "tl_br", "br_tl", "tc_bc", "bl_tr")
 def _kenburns(image: Path, dur: float, dest: Path, effect: str = "zoom_in") -> None:
     """Smooth Ken Burns: zoom in/out or keyframe position moves (corner to corner)."""
     frames = max(1, int(dur * FPS))
-    zi, zo = 1.0, 1.10
+    zi, zo = 1.0, 1.03
     rate = (zo - zi) / max(frames - 1, 1)
     if effect == "zoom_out":
         z = f"max({zo}-{rate:.6f}*on,{zi})"
         x, y = "iw/2-(iw/zoom/2)", "ih/2-(ih/zoom/2)"
     elif effect == "tl_br":
-        z = "1.15"
+        z = "1.05"
         x = f"(iw-iw/zoom)*on/{frames}"
         y = f"(ih-ih/zoom)*on/{frames}"
     elif effect == "br_tl":
-        z = "1.15"
+        z = "1.05"
         x = f"(iw-iw/zoom)*(1-on/{frames})"
         y = f"(ih-ih/zoom)*(1-on/{frames})"
     elif effect == "tc_bc":
-        z = "1.15"
+        z = "1.05"
         x = "iw/2-(iw/zoom/2)"
         y = f"(ih-ih/zoom)*on/{frames}"
     elif effect == "bl_tr":
-        z = "1.15"
+        z = "1.05"
         x = f"(iw-iw/zoom)*on/{frames}"
         y = f"(ih-ih/zoom)*(1-on/{frames})"
     else:
