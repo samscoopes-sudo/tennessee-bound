@@ -96,13 +96,17 @@ class Comfy:
     def queue(self, workflow: dict) -> str:
         r = self.session.post(f"{self.base}/prompt",
                               json={"prompt": workflow, "client_id": self.client_id}, timeout=60)
-        if r.status_code >= 400:                       # surface ComfyUI's node_errors, not a bare 400
+        data = r.json()
+        if r.status_code >= 400:
             try:
-                detail = json.dumps(r.json())[:1000]
+                detail = json.dumps(data)[:1000]
             except Exception:
                 detail = r.text[:1000]
             raise RuntimeError(f"/prompt rejected ({r.status_code}): {detail}")
-        return r.json()["prompt_id"]
+        if data.get("node_errors"):
+            import sys
+            print(f"DEBUG node_errors: {json.dumps(data['node_errors'], indent=2)[:3000]}", file=sys.stderr, flush=True)
+        return data["prompt_id"]
 
     def wait(self, prompt_id: str, poll: float = 2.0, timeout: float = 3600) -> dict:
         """Poll history until the job finishes. Tolerates the RunPod proxy briefly
