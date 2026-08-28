@@ -27,23 +27,36 @@ def _run(cmd: list[str]) -> None:
     subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
 
 
-KB_EFFECTS = ("in", "out", "panr", "panl")   # cycled per shot for variety
+KB_EFFECTS = ("zoom_in", "zoom_out", "tl_br", "br_tl", "tc_bc", "bl_tr")
 
 
-def _kenburns(image: Path, dur: float, dest: Path, effect: str = "in") -> None:
-    """Slow move over a still. Varied: zoom-in, zoom-out (start tight -> pull back), or a pan."""
+def _kenburns(image: Path, dur: float, dest: Path, effect: str = "zoom_in") -> None:
+    """Smooth Ken Burns: zoom in/out or keyframe position moves (corner to corner)."""
     frames = max(1, int(dur * FPS))
-    zi, zo = 1.0, 1.12
+    zi, zo = 1.0, 1.10
     rate = (zo - zi) / max(frames - 1, 1)
-    cx, cy = "iw/2-(iw/zoom/2)", "ih/2-(ih/zoom/2)"
-    if effect == "out":
-        z, x, y = f"max({zo}-{rate:.6f}*on,{zi})", cx, cy
-    elif effect == "panr":
-        z, x, y = "1.10", f"(iw-iw/zoom)*on/{frames}", cy
-    elif effect == "panl":
-        z, x, y = "1.10", f"(iw-iw/zoom)*(1-on/{frames})", cy
+    if effect == "zoom_out":
+        z = f"max({zo}-{rate:.6f}*on,{zi})"
+        x, y = "iw/2-(iw/zoom/2)", "ih/2-(ih/zoom/2)"
+    elif effect == "tl_br":
+        z = "1.15"
+        x = f"(iw-iw/zoom)*on/{frames}"
+        y = f"(ih-ih/zoom)*on/{frames}"
+    elif effect == "br_tl":
+        z = "1.15"
+        x = f"(iw-iw/zoom)*(1-on/{frames})"
+        y = f"(ih-ih/zoom)*(1-on/{frames})"
+    elif effect == "tc_bc":
+        z = "1.15"
+        x = "iw/2-(iw/zoom/2)"
+        y = f"(ih-ih/zoom)*on/{frames}"
+    elif effect == "bl_tr":
+        z = "1.15"
+        x = f"(iw-iw/zoom)*on/{frames}"
+        y = f"(ih-ih/zoom)*(1-on/{frames})"
     else:
-        z, x, y = f"min({zi}+{rate:.6f}*on,{zo})", cx, cy
+        z = f"min({zi}+{rate:.6f}*on,{zo})"
+        x, y = "iw/2-(iw/zoom/2)", "ih/2-(ih/zoom/2)"
     vf = (f"zoompan=z='{z}':x='{x}':y='{y}':d={frames}:s={W}x{H}:fps={FPS},"
           f"format=yuv420p")
     _run(["ffmpeg", "-y", "-loop", "1", "-i", str(image), "-t", f"{dur:.3f}",
