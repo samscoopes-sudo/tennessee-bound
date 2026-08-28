@@ -28,6 +28,11 @@ _STOP = {
     "a", "an", "the", "of", "with", "on", "in", "and", "from", "by", "at", "to",
     "old", "close", "closeup", "up", "shot", "small", "few", "some", "very",
     "weathered", "rustic", "vintage", "dim", "empty", "s", "no", "not",
+    "looking", "showing", "being", "getting", "every", "into", "their",
+    "under", "over", "inside", "outside", "around", "through", "next",
+    "completely", "full", "standing", "sitting", "holding", "using",
+    "professional", "expensive", "frustrated", "dirty", "slow",
+    "person", "hand", "hands", "number", "parked",
 }
 
 
@@ -35,7 +40,7 @@ def _query(subject: str) -> str:
     subject = subject.split(",")[0]
     words = re.findall(r"[a-zA-Z]+", subject.lower())
     kept = [w for w in words if w not in _STOP]
-    return " ".join(kept[:5]) or subject.strip()
+    return " ".join(kept[:3]) or subject.strip()
 
 
 def _best_video(query: str, api_key: str, min_dur: float,
