@@ -26,7 +26,7 @@
   },
   "4": {
     "class_type": "CLIPTextEncode",
-    "inputs": { "clip": ["11", 0], "text": "" },
+    "inputs": { "clip": ["11", 0], "text": "text, words, letters, numbers, writing, signage, labels, captions, subtitles, watermark, logo, brand name, blurry text, garbled text, symbols, glyphs, typography, font, script, handwriting, graffiti, headline" },
     "_meta": { "title": "Negative" }
   },
   "5": {
