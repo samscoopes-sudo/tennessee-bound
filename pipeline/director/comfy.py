@@ -184,11 +184,14 @@ class Comfy:
                                f"and fill node ids first.")
         wf = self.load_template(name)
         self._apply(name, wf, **values)
-        hist = self.wait(self.queue(wf))
+        pid = self.queue(wf)
+        import sys
+        print(f"DEBUG {name} queued as {pid}", file=sys.stderr, flush=True)
+        hist = self.wait(pid)
         outs = self.outputs(hist)
         if not outs:
-            import sys
-            print(f"DEBUG {name} history outputs: {json.dumps(hist.get('outputs', {}), indent=2)[:2000]}", file=sys.stderr, flush=True)
+            print(f"DEBUG {name} full status: {json.dumps(hist.get('status', {}), indent=2)[:3000]}", file=sys.stderr, flush=True)
+            print(f"DEBUG {name} outputs: {json.dumps(hist.get('outputs', {}), indent=2)[:2000]}", file=sys.stderr, flush=True)
             raise RuntimeError(f"{name} produced no output{self._why(hist)}")
         return self.download(outs[-1], dest)
 
