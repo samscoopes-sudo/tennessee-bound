@@ -36,6 +36,7 @@ PARAM_MAP: dict[str, dict] = {
         "width": ("245", "value"),          # INTConstant "Width"
         "height": ("246", "value"),         # INTConstant "Height"
         "frames": ("270", "value"),         # INTConstant "Max frames" -> clip length
+        "steps": ("128", "steps"),          # WanVideoSampler inference steps
     },
     "wan_i2v": {
         "file": "wan_i2v.json",
@@ -236,11 +237,11 @@ class Comfy:
                          width=w, height=h, length=length, fps=fps, seed=seed)
 
     def infinitetalk(self, avatar: "Path | str", audio: Path, prompt: str, negative: str,
-                     w: int, h: int, frames: int, dest: Path) -> Path:
+                     w: int, h: int, frames: int, dest: Path, steps: int = 6) -> Path:
         a_img = {"name": avatar} if isinstance(avatar, str) else self.upload(avatar)
         a_wav = self.upload(audio, kind="input")
         return self._run("infinitetalk", dest, image=a_img["name"], audio=a_wav["name"],
-                         prompt=prompt, negative=negative, width=w, height=h, frames=frames)
+                         prompt=prompt, negative=negative, width=w, height=h, frames=frames, steps=steps)
 
     def tts(self, text: str, ref_audio: Path, ref_text: str, dest: Path,
             seed: int = 1, speed: float = 1.0, nfe: int = 64, cfg: float = 2.0,
