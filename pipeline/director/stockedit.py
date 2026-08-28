@@ -89,14 +89,14 @@ def _best_photo(query: str, api_key: str,
     for p in r.json().get("photos", []):
         w = int(p.get("width") or 0)
         h = int(p.get("height") or 0)
-        if w < want_w * 0.5 or w > want_w:
+        if w < want_w * 0.5:
             continue
         score = 0.0
         if h and abs((w / h) - 16 / 9) < 0.15:
             score += 2
         score += min(w, want_w) / want_w
         src = p.get("src", {})
-        url = src.get("original") or src.get("large2x") or src.get("large")
+        url = src.get("large2x") or src.get("large") or src.get("original")
         if url and score > best_score:
             best_score, best_url = score, url
     return best_url
