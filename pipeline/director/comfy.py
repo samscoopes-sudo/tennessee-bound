@@ -237,7 +237,7 @@ class Comfy:
                          width=w, height=h, length=length, fps=fps, seed=seed)
 
     def infinitetalk(self, avatar: "Path | str", audio: Path, prompt: str, negative: str,
-                     w: int, h: int, frames: int, dest: Path, steps: int = 6) -> Path:
+                     w: int, h: int, frames: int, dest: Path, steps: int = 10) -> Path:
         a_img = {"name": avatar} if isinstance(avatar, str) else self.upload(avatar)
         a_wav = self.upload(audio, kind="input")
         return self._run("infinitetalk", dest, image=a_img["name"], audio=a_wav["name"],
