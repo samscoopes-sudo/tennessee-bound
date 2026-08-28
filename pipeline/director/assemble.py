@@ -27,34 +27,32 @@ def _run(cmd: list[str]) -> None:
     subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
 
 
-KB_EFFECTS = ("zoom_in", "zoom_out", "tl_br", "br_tl", "tc_bc", "bl_tr")
+KB_EFFECTS = ("zoom_in", "pan_ud", "pan_lr", "pan_du", "pan_rl")
 
 
 def _kenburns(image: Path, dur: float, dest: Path, effect: str = "zoom_in") -> None:
-    """Smooth Ken Burns: zoom in/out or keyframe position moves (corner to corner)."""
+    """Subtle Ken Burns: slow zoom-in or gentle directional pans."""
     frames = max(1, int(dur * FPS))
-    zi, zo = 1.0, 1.03
-    rate = (zo - zi) / max(frames - 1, 1)
-    if effect == "zoom_out":
-        z = f"max({zo}-{rate:.6f}*on,{zi})"
-        x, y = "iw/2-(iw/zoom/2)", "ih/2-(ih/zoom/2)"
-    elif effect == "tl_br":
-        z = "1.05"
-        x = f"(iw-iw/zoom)*on/{frames}"
-        y = f"(ih-ih/zoom)*on/{frames}"
-    elif effect == "br_tl":
-        z = "1.05"
-        x = f"(iw-iw/zoom)*(1-on/{frames})"
-        y = f"(ih-ih/zoom)*(1-on/{frames})"
-    elif effect == "tc_bc":
-        z = "1.05"
+    Z = "1.08"
+    if effect == "pan_ud":
+        z = Z
         x = "iw/2-(iw/zoom/2)"
         y = f"(ih-ih/zoom)*on/{frames}"
-    elif effect == "bl_tr":
-        z = "1.05"
-        x = f"(iw-iw/zoom)*on/{frames}"
+    elif effect == "pan_du":
+        z = Z
+        x = "iw/2-(iw/zoom/2)"
         y = f"(ih-ih/zoom)*(1-on/{frames})"
+    elif effect == "pan_lr":
+        z = Z
+        x = f"(iw-iw/zoom)*on/{frames}"
+        y = "ih/2-(ih/zoom/2)"
+    elif effect == "pan_rl":
+        z = Z
+        x = f"(iw-iw/zoom)*(1-on/{frames})"
+        y = "ih/2-(ih/zoom/2)"
     else:
+        zi, zo = 1.0, 1.04
+        rate = (zo - zi) / max(frames - 1, 1)
         z = f"min({zi}+{rate:.6f}*on,{zo})"
         x, y = "iw/2-(iw/zoom/2)", "ih/2-(ih/zoom/2)"
     vf = (f"zoompan=z='{z}':x='{x}':y='{y}':d={frames}:s={W}x{H}:fps={FPS},"
