@@ -184,8 +184,11 @@ class Comfy:
                                f"and fill node ids first.")
         wf = self.load_template(name)
         self._apply(name, wf, **values)
-        pid = self.queue(wf)
         import sys
+        if name == "infinitetalk":
+            for nid in ["284", "125", "245", "246", "270"]:
+                print(f"DEBUG node {nid} inputs: {json.dumps(wf[nid]['inputs'])}", file=sys.stderr, flush=True)
+        pid = self.queue(wf)
         print(f"DEBUG {name} queued as {pid}", file=sys.stderr, flush=True)
         hist = self.wait(pid)
         outs = self.outputs(hist)
