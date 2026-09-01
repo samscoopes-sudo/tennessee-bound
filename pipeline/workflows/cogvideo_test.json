@@ -1,0 +1,60 @@
+{
+  "1": {
+    "class_type": "DownloadAndLoadCogVideoModel",
+    "inputs": {
+      "model": "THUDM/CogVideoX-5b",
+      "precision": "bf16",
+      "fp8_transformer": "enabled",
+      "compile": "disabled",
+      "enable_sequential_cpu_offload": false,
+      "attention_mode": "sdpa"
+    },
+    "_meta": { "title": "Load CogVideoX" }
+  },
+  "2": {
+    "class_type": "CogVideoTextEncode",
+    "inputs": {
+      "pipeline": ["1", 0],
+      "prompt": "placeholder",
+      "negative_prompt": "blurry, low quality, distorted, deformed"
+    },
+    "_meta": { "title": "Positive" }
+  },
+  "3": {
+    "class_type": "CogVideoSampler",
+    "inputs": {
+      "pipeline": ["1", 0],
+      "positive": ["2", 0],
+      "negative": ["2", 1],
+      "height": 480,
+      "width": 720,
+      "num_frames": 49,
+      "steps": 50,
+      "cfg": 6.0,
+      "seed": 42,
+      "scheduler": "DPM"
+    },
+    "_meta": { "title": "Sampler" }
+  },
+  "4": {
+    "class_type": "CogVideoDecode",
+    "inputs": {
+      "pipeline": ["1", 0],
+      "samples": ["3", 0],
+      "enable_vae_tiling": true
+    },
+    "_meta": { "title": "Decode" }
+  },
+  "5": {
+    "class_type": "VHS_VideoCombine",
+    "inputs": {
+      "images": ["4", 0],
+      "frame_rate": 8,
+      "loop_count": 0,
+      "filename_prefix": "cogvideo_test",
+      "format": "video/h264-mp4",
+      "save_output": true
+    },
+    "_meta": { "title": "Save Video" }
+  }
+}

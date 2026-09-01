@@ -1,0 +1,41 @@
+{
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": { "ckpt_name": "sd3.5_large.safetensors" },
+    "_meta": { "title": "Load SD3.5" }
+  },
+  "3": {
+    "class_type": "CLIPTextEncode",
+    "inputs": { "clip": ["1", 1], "text": "placeholder" },
+    "_meta": { "title": "Positive" }
+  },
+  "4": {
+    "class_type": "CLIPTextEncode",
+    "inputs": { "clip": ["1", 1], "text": "blurry, low quality, deformed, ugly, watermark" },
+    "_meta": { "title": "Negative" }
+  },
+  "6": {
+    "class_type": "EmptySD3LatentImage",
+    "inputs": { "width": 1280, "height": 720, "batch_size": 1 },
+    "_meta": { "title": "Latent" }
+  },
+  "7": {
+    "class_type": "KSampler",
+    "inputs": {
+      "seed": 42, "steps": 28, "cfg": 4.5, "sampler_name": "euler",
+      "scheduler": "simple", "denoise": 1.0,
+      "model": ["1", 0], "positive": ["3", 0], "negative": ["4", 0], "latent_image": ["6", 0]
+    },
+    "_meta": { "title": "KSampler" }
+  },
+  "8": {
+    "class_type": "VAEDecode",
+    "inputs": { "samples": ["7", 0], "vae": ["1", 2] },
+    "_meta": { "title": "Decode" }
+  },
+  "9": {
+    "class_type": "SaveImage",
+    "inputs": { "images": ["8", 0], "filename_prefix": "sd35_test" },
+    "_meta": { "title": "Save" }
+  }
+}
