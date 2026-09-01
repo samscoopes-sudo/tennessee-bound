@@ -90,6 +90,7 @@ def main() -> None:
     g.add_argument("--stock", action="store_true", help="opt in to stock footage; default is AI-only")
     g.add_argument("--only", choices=["broll", "avatar"], help="render only b-roll, or only avatar shots "
                    "(keeps InfiniteTalk out of VRAM during the b-roll pass)")
+    g.add_argument("--google", action="store_true", help="use Google Images for b-roll stills instead of FLUX")
 
     se_p = sub.add_parser("stock-edit", help="shot-list -> Pexels stock clips -> assemble (no GPU)")
     _add_channel_args(se_p)
@@ -208,7 +209,8 @@ def main() -> None:
                          out_dir=rd / "output", only=args.only,
                          avatars=channel.avatars, style=channel.style_suffix,
                          th_prompt=channel.talking_head_prompt,
-                         broll_w=channel.broll_w, broll_h=channel.broll_h)
+                         broll_w=channel.broll_w, broll_h=channel.broll_h,
+                         use_google=args.google)
         else:
             gen.generate(Path(args.shots), args.comfy, Path(args.avatar), args.limit,
                          args.start, args.force, use_stock=args.stock)

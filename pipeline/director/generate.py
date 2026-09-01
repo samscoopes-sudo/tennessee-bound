@@ -36,13 +36,23 @@ def _make_still(comfy, s: dict, i: int, out: Path, style: str | None = None,
     return st, "flux+boreal"
 
 
+def _make_still_google(s: dict, i: int, out: Path):
+    """Download a b-roll still from Google Images. Returns (path, source_tag)."""
+    from . import google_images
+    dest = out / f"br_{i:04d}.png"
+    query = s.get("subject") or s["prompt"].split(",")[0].strip()
+    google_images.search_and_download(query, dest)
+    return dest, "google"
+
+
 def generate(shots_path: Path, comfy_url: str, avatar: Path,
              limit: int | None = None, start: int = 0, force: bool = False,
              use_stock: bool = False, out_dir: Path | None = None,
              only: str | None = None, avatars: list[Path] | None = None,
              style: str | None = None,
              th_prompt: str | None = None, th_negative: str | None = None,
-             broll_w: int | None = None, broll_h: int | None = None) -> None:
+             broll_w: int | None = None, broll_h: int | None = None,
+             use_google: bool = False) -> None:
     plan = json.loads(shots_path.read_text())
     vo = Path(plan["vo_path"])
     comfy = Comfy(comfy_url)
@@ -100,7 +110,10 @@ def generate(shots_path: Path, comfy_url: str, avatar: Path,
                                           config.VIDEO_W, config.VIDEO_H, out / f"br_{i:04d}.mp4")
                     s["source"] = f"{stsrc}+wan21-14b"
             else:
-                asset, s["source"] = _make_still(comfy, s, i, out, style, broll_w, broll_h)
+                if use_google:
+                    asset, s["source"] = _make_still_google(s, i, out)
+                else:
+                    asset, s["source"] = _make_still(comfy, s, i, out, style, broll_w, broll_h)
             s["asset"] = str(asset)
             made += 1
             tag = s.get("source", "")
