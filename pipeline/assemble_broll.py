@@ -14,7 +14,9 @@ KB_EFFECTS = ("zoom_in", "pan_ud", "pan_lr", "pan_du", "pan_rl")
 
 
 def run(cmd):
-    subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+    r = subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, timeout=120)
+    if r.returncode != 0:
+        raise RuntimeError(r.stderr.decode(errors="replace")[-500:])
 
 
 def kenburns(image, dur, dest, effect="zoom_in"):
@@ -57,13 +59,23 @@ def main():
                 continue
             clip = tmp / f"clip_{i:04d}.mp4"
             effect = KB_EFFECTS[i % len(KB_EFFECTS)]
+            if image.stat().st_size < 5000:
+                print(f"  [{i:>3}] SKIP (too small {image.stat().st_size}B)", flush=True)
+                continue
             print(f"  [{i:>3}] {dur:5.1f}s  {effect}", end="", flush=True)
             try:
                 kenburns(image, dur, clip, effect)
                 clips.append(clip)
                 print("  OK", flush=True)
             except Exception as e:
-                print(f"  FAILED: {e}", flush=True)
+                try:
+                    run(["ffmpeg", "-y", "-loop", "1", "-i", str(image), "-t", f"{dur:.3f}",
+                         "-vf", f"scale={W}:{H}:force_original_aspect_ratio=decrease,pad={W}:{H}:(ow-iw)/2:(oh-ih)/2,format=yuv420p",
+                         "-r", str(FPS), "-an", str(clip)])
+                    clips.append(clip)
+                    print("  OK (fallback)", flush=True)
+                except Exception:
+                    print(f"  FAILED: {e}", flush=True)
 
         if not clips:
             print("No clips produced!")
