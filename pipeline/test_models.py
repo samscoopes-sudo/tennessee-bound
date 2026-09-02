@@ -173,11 +173,13 @@ def main():
         results["sd35"] = test_sd35(comfy, IMAGE_PROMPTS)
 
     if not args.skip_video:
-        # Need a source still for Wan i2v
-        still = OUT / f"flux_{IMAGE_PROMPTS[0][0]}.png"
+        # Need a source still for Wan i2v — use SD3.5 output if available
+        still = OUT / f"sd35_{IMAGE_PROMPTS[0][0]}.png"
         if not still.exists():
-            print("\nGenerating a source still for video tests...")
-            comfy.flux_still(IMAGE_PROMPTS[0][1], 1280, 720, still, seed=42)
+            still = OUT / f"flux_{IMAGE_PROMPTS[0][0]}.png"
+        if not still.exists():
+            print("\nERROR: No source still for video tests. Run image tests first.")
+            sys.exit(1)
         results["wan"] = test_wan(comfy, still, VIDEO_PROMPTS)
         results["cogvideo"] = test_cogvideo(comfy, VIDEO_PROMPTS)
 
