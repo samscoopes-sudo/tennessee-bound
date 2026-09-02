@@ -4,19 +4,28 @@
     "inputs": { "ckpt_name": "sd3.5_large.safetensors" },
     "_meta": { "title": "Load SD3.5" }
   },
+  "2": {
+    "class_type": "TripleCLIPLoader",
+    "inputs": {
+      "clip_name1": "clip_l.safetensors",
+      "clip_name2": "clip_g.safetensors",
+      "clip_name3": "t5xxl_fp8_e4m3fn.safetensors"
+    },
+    "_meta": { "title": "Load CLIP" }
+  },
   "3": {
     "class_type": "CLIPTextEncode",
-    "inputs": { "clip": ["1", 1], "text": "placeholder" },
+    "inputs": { "clip": ["2", 0], "text": "placeholder" },
     "_meta": { "title": "Positive" }
   },
   "4": {
     "class_type": "CLIPTextEncode",
-    "inputs": { "clip": ["1", 1], "text": "blurry, low quality, deformed, ugly, watermark" },
+    "inputs": { "clip": ["2", 0], "text": "blurry, low quality, deformed, ugly, watermark" },
     "_meta": { "title": "Negative" }
   },
   "6": {
     "class_type": "EmptySD3LatentImage",
-    "inputs": { "width": 1280, "height": 720, "batch_size": 1 },
+    "inputs": { "width": 1024, "height": 576, "batch_size": 1 },
     "_meta": { "title": "Latent" }
   },
   "7": {

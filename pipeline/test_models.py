@@ -37,18 +37,33 @@ VIDEO_PROMPTS = [
 
 
 def test_flux(comfy, prompts):
-    """Test FLUX.1-dev + Boreal (current model)."""
-    print("\n=== FLUX.1-dev + Boreal ===")
+    """Test FLUX.1-dev + Boreal (fp8 checkpoint, no GGUF needed)."""
+    print("\n=== FLUX.1-dev + Boreal (fp8) ===")
+    wf_path = Path(__file__).resolve().parent / "workflows" / "flux_still_fp8.json"
+    if not wf_path.exists():
+        print("  ERROR: flux_still_fp8.json workflow not found — skip")
+        return []
+    template = json.loads(wf_path.read_text())
     times = []
     for name, prompt in prompts:
         dest = OUT / f"flux_{name}.png"
         print(f"  {name}...", end=" ", flush=True)
+        wf = json.loads(json.dumps(template))
+        for nid, node in wf.items():
+            if node.get("_meta", {}).get("title") == "Positive":
+                node["inputs"]["text"] = prompt
         t0 = time.time()
         try:
-            comfy.flux_still(prompt, 1280, 720, dest, seed=42, lora=0.65, guidance=4.0, steps=20)
-            dt = time.time() - t0
-            times.append(dt)
-            print(f"OK {dt:.1f}s ({dest.stat().st_size // 1024}KB)")
+            pid = comfy.queue(wf)
+            hist = comfy.wait(pid)
+            outs = comfy.outputs(hist)
+            if outs:
+                comfy.download(outs[-1], dest)
+                dt = time.time() - t0
+                times.append(dt)
+                print(f"OK {dt:.1f}s ({dest.stat().st_size // 1024}KB)")
+            else:
+                print("FAILED: no output")
         except Exception as e:
             print(f"FAILED: {e}")
     return times
