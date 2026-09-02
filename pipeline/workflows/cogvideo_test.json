@@ -15,6 +15,7 @@
     "class_type": "CogVideoTextEncode",
     "inputs": {
       "pipeline": ["1", 0],
+      "clip": ["1", 1],
       "prompt": "placeholder",
       "negative_prompt": "blurry, low quality, distorted, deformed"
     },
@@ -32,7 +33,7 @@
       "steps": 50,
       "cfg": 6.0,
       "seed": 42,
-      "scheduler": "DPM"
+      "scheduler": "DPM++"
     },
     "_meta": { "title": "Sampler" }
   },
@@ -53,7 +54,8 @@
       "loop_count": 0,
       "filename_prefix": "cogvideo_test",
       "format": "video/h264-mp4",
-      "save_output": true
+      "save_output": true,
+      "pingpong": false
     },
     "_meta": { "title": "Save Video" }
   }
