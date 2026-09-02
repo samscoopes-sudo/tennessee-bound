@@ -140,7 +140,10 @@ def test_cogvideo(comfy, prompts):
         wf = json.loads(json.dumps(template))
         for nid, node in wf.items():
             if node.get("_meta", {}).get("title") == "Positive":
-                node["inputs"]["text"] = prompt
+                if "prompt" in node["inputs"]:
+                    node["inputs"]["prompt"] = prompt
+                else:
+                    node["inputs"]["text"] = prompt
         t0 = time.time()
         try:
             pid = comfy.queue(wf)

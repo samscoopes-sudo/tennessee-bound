@@ -4,52 +4,68 @@
     "inputs": {
       "model": "THUDM/CogVideoX-5b",
       "precision": "bf16",
-      "fp8_transformer": "enabled",
-      "compile": "disabled",
+      "quantization": "fp8_e4m3fn",
       "enable_sequential_cpu_offload": false,
       "attention_mode": "sdpa"
     },
     "_meta": { "title": "Load CogVideoX" }
   },
   "2": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "t5xxl_fp8_e4m3fn.safetensors",
+      "type": "cogvideox"
+    },
+    "_meta": { "title": "Load T5 for CogVideo" }
+  },
+  "3": {
     "class_type": "CogVideoTextEncode",
     "inputs": {
-      "pipeline": ["1", 0],
-      "clip": ["1", 1],
-      "prompt": "placeholder",
-      "negative_prompt": "blurry, low quality, distorted, deformed"
+      "clip": ["2", 0],
+      "prompt": "placeholder"
     },
     "_meta": { "title": "Positive" }
   },
-  "3": {
+  "4": {
+    "class_type": "CogVideoTextEncode",
+    "inputs": {
+      "clip": ["2", 0],
+      "prompt": "blurry, low quality, distorted, deformed"
+    },
+    "_meta": { "title": "Negative" }
+  },
+  "5": {
     "class_type": "CogVideoSampler",
     "inputs": {
-      "pipeline": ["1", 0],
-      "positive": ["2", 0],
-      "negative": ["2", 1],
-      "height": 480,
-      "width": 720,
+      "model": ["1", 0],
+      "positive": ["3", 0],
+      "negative": ["4", 0],
       "num_frames": 49,
       "steps": 50,
       "cfg": 6.0,
       "seed": 42,
-      "scheduler": "DPM++"
+      "scheduler": "CogVideoXDDIM"
     },
     "_meta": { "title": "Sampler" }
   },
-  "4": {
+  "6": {
     "class_type": "CogVideoDecode",
     "inputs": {
-      "pipeline": ["1", 0],
-      "samples": ["3", 0],
-      "enable_vae_tiling": true
+      "vae": ["1", 1],
+      "samples": ["5", 0],
+      "enable_vae_tiling": true,
+      "tile_sample_min_height": 240,
+      "tile_sample_min_width": 360,
+      "tile_overlap_factor_height": 0.2,
+      "tile_overlap_factor_width": 0.2,
+      "auto_tile_size": true
     },
     "_meta": { "title": "Decode" }
   },
-  "5": {
+  "7": {
     "class_type": "VHS_VideoCombine",
     "inputs": {
-      "images": ["4", 0],
+      "images": ["6", 0],
       "frame_rate": 8,
       "loop_count": 0,
       "filename_prefix": "cogvideo_test",
