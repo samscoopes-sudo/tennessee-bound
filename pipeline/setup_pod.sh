@@ -4,7 +4,16 @@
 # Plus SD3.5 for generating source stills
 set -e
 
-COMFY="/workspace/ComfyUI"
+# Auto-detect ComfyUI location
+if [ -d "/workspace/ComfyUI" ]; then
+  COMFY="/workspace/ComfyUI"
+elif [ -d "/workspace/runpod-slim/ComfyUI" ]; then
+  COMFY="/workspace/runpod-slim/ComfyUI"
+else
+  echo "ERROR: Cannot find ComfyUI. Please set COMFY= path manually."
+  exit 1
+fi
+echo "Found ComfyUI at: $COMFY"
 MODELS="$COMFY/models"
 CUSTOM="$COMFY/custom_nodes"
 
