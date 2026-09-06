@@ -166,6 +166,7 @@ def main():
     ap.add_argument("--comfy", required=True, help="ComfyUI URL")
     ap.add_argument("--skip-video", action="store_true", help="Only test image models")
     ap.add_argument("--skip-image", action="store_true", help="Only test video models")
+    ap.add_argument("--still", type=str, help="Path to source still for Wan i2v")
     args = ap.parse_args()
 
     comfy = Comfy(args.comfy)
@@ -176,12 +177,13 @@ def main():
         results["sd35"] = test_sd35(comfy, IMAGE_PROMPTS)
 
     if not args.skip_video:
-        # Need a source still for Wan i2v — use SD3.5 output if available
-        still = OUT / f"sd35_{IMAGE_PROMPTS[0][0]}.png"
+        still = Path(args.still) if args.still else None
+        if not still or not still.exists():
+            still = OUT / f"sd35_{IMAGE_PROMPTS[0][0]}.png"
         if not still.exists():
             still = OUT / f"flux_{IMAGE_PROMPTS[0][0]}.png"
         if not still.exists():
-            print("\nERROR: No source still for video tests. Run image tests first.")
+            print("\nERROR: No source still for video tests. Provide --still path.")
             sys.exit(1)
         results["wan"] = test_wan(comfy, still, VIDEO_PROMPTS)
         results["cogvideo"] = test_cogvideo(comfy, VIDEO_PROMPTS)

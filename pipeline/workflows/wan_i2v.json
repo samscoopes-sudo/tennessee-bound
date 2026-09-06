@@ -1,7 +1,7 @@
 {
   "11": {
     "inputs": {
-      "model_name": "umt5-xxl-enc-fp8_e4m3fn.safetensors",
+      "model_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
       "precision": "bf16",
       "load_device": "offload_device",
       "quantization": "disabled"
@@ -34,16 +34,12 @@
   },
   "22": {
     "inputs": {
-      "model": "wan2.1-i2v-14b-480p-Q4_K_M.gguf",
-      "base_precision": "fp16",
+      "model": "wan2.1_i2v_480p_14B_fp8_e4m3fn.safetensors",
+      "base_precision": "bf16",
       "quantization": "disabled",
       "load_device": "offload_device",
       "attention_mode": "sdpa",
-      "rms_norm_function": "default",
-      "lora": [
-        "69",
-        0
-      ]
+      "rms_norm_function": "default"
     },
     "class_type": "WanVideoModelLoader",
     "_meta": {
@@ -52,8 +48,8 @@
   },
   "27": {
     "inputs": {
-      "steps": 4,
-      "cfg": 1,
+      "steps": 20,
+      "cfg": 5,
       "shift": 5,
       "seed": 1057359483639287,
       "force_offload": true,
@@ -146,7 +142,7 @@
   },
   "38": {
     "inputs": {
-      "model_name": "Wan2_1_VAE_bf16.safetensors",
+      "model_name": "wan_2.1_vae.safetensors",
       "precision": "bf16",
       "use_cpu_cache": false,
       "verbose": false
@@ -275,18 +271,6 @@
     "class_type": "ImageResizeKJv2",
     "_meta": {
       "title": "Resize Image v2"
-    }
-  },
-  "69": {
-    "inputs": {
-      "lora": "lightx2v_I2V_14B_480p_cfg_step_distill_rank64_bf16.safetensors",
-      "strength": 1,
-      "low_mem_load": false,
-      "merge_loras": false
-    },
-    "class_type": "WanVideoLoraSelect",
-    "_meta": {
-      "title": "WanVideo Lora Select"
     }
   },
   "70": {
