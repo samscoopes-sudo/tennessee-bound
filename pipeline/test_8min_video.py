@@ -24,6 +24,20 @@ STILL_W, STILL_H = 1024, 576
 REF_AUDIO = "f5_ref.wav"
 REF_TEXT = "Today we're going to make something special in our little van kitchen."
 
+REALISTIC_SUFFIX = (
+    "photorealistic, natural matte lighting, no glossy reflections, no shiny surfaces, "
+    "not airbrushed, not polished, muted desaturated colors, documentary photograph, "
+    "natural skin texture, no artificial lighting, no studio look, candid and authentic"
+)
+
+AVATAR_PROMPT = (
+    "candid photo of a woman in her late 40s with long dark brown hair with grey streaks "
+    "in a loose side braid, wearing a rustic earth-tone knit wool sweater, chest and shoulders "
+    "framing, looking directly at camera with calm friendly expression, warm natural window "
+    "light from the side, cozy camper van interior background with wooden shelves, "
+    "matte skin texture, natural imperfections, no makeup, " + REALISTIC_SUFFIX
+)
+
 SCRIPT = [
     # --- INTRO (0:00 - 0:30) ---
     {
@@ -232,7 +246,8 @@ def gen_stills(comfy: Comfy, out: Path) -> dict:
                 print(f"  [{key}] {shot['prompt'][:50]}...", end=" ", flush=True)
                 t0 = time.time()
                 try:
-                    comfy.flux_still(shot["prompt"], STILL_W, STILL_H, dest,
+                    prompt = f"{shot['prompt']}, {REALISTIC_SUFFIX}"
+                    comfy.flux_still(prompt, STILL_W, STILL_H, dest,
                                     seed=1000+idx, lora=0.0, guidance=3.5, steps=20)
                     stills[key] = dest
                     print(f"OK {time.time()-t0:.1f}s")
@@ -263,7 +278,8 @@ def gen_videos(comfy: Comfy, out: Path) -> dict:
                 print(f"  [{key}] {frames}f {shot['prompt'][:50]}...", end=" ", flush=True)
                 t0 = time.time()
                 try:
-                    comfy.wan_t2v(shot["prompt"], VIDEO_W, VIDEO_H, frames, dest,
+                    prompt = f"{shot['prompt']}, realistic natural lighting, not glossy, not shiny"
+                    comfy.wan_t2v(prompt, VIDEO_W, VIDEO_H, frames, dest,
                                  seed=2000+idx)
                     videos[key] = dest
                     print(f"OK {time.time()-t0:.1f}s")
@@ -290,9 +306,13 @@ def gen_avatars(comfy: Comfy, out: Path) -> dict:
                 import math
                 n = max(1, math.ceil((frames - 1) / 4))
                 frames = 4 * n + 1
-                prompt = ("a woman with dark brown hair in a braid, wearing a rustic wool sweater, "
-                          "speaking calmly to camera, subtle head movements and blinking, "
-                          "warm golden-hour lighting, cozy van interior background")
+                prompt = (
+                    "a woman with dark brown hair in a braid, wearing a rustic wool sweater, "
+                    "speaking calmly to camera, subtle head movements and blinking, "
+                    "cozy van interior background, natural matte window lighting, "
+                    "not glossy, not shiny, not airbrushed, realistic skin texture, "
+                    "documentary interview, muted earthy colors"
+                )
                 print(f"  [{key}] {frames}f avatar...", end=" ", flush=True)
                 t0 = time.time()
                 try:
