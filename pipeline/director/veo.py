@@ -36,7 +36,9 @@ class Veo:
         }
         r = requests.post(f"{BASE}/v2/veo/text-to-video",
                           json=body, headers=self.headers)
-        r.raise_for_status()
+        if not r.ok:
+            raise RuntimeError(f"{r.status_code}: {r.text}")
+
         data = r.json()
         histories = data.get("histories", [data] if "id" in data else [])
         if not histories:
