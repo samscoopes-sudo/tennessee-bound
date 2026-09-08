@@ -103,23 +103,37 @@ def test_sd35(comfy, prompts):
     return times
 
 
-def test_wan(comfy, image_path, prompts):
-    """Test Wan 2.1 14B (current video model)."""
-    print("\n=== Wan 2.1 14B (video) ===")
+def test_wan_t2v(comfy, prompts):
+    """Test Wan 2.1 1.3B text-to-video."""
+    print("\n=== Wan 2.1 1.3B (t2v) ===")
+    wf_path = Path(__file__).resolve().parent / "workflows" / "wan_t2v_1.3b.json"
+    if not wf_path.exists():
+        print("  ERROR: wan_t2v_1.3b.json workflow not found — skip")
+        return []
+    template = json.loads(wf_path.read_text())
     times = []
     for name, prompt in prompts:
         dest = OUT / f"wan_{name}.mp4"
         print(f"  {name}...", end=" ", flush=True)
+        wf = json.loads(json.dumps(template))
+        for nid, node in wf.items():
+            if node.get("_meta", {}).get("title") == "Positive":
+                if "positive_prompt" in node["inputs"]:
+                    node["inputs"]["positive_prompt"] = prompt
+                else:
+                    node["inputs"]["text"] = prompt
         t0 = time.time()
         try:
-            # Use a test still as input
-            still = OUT / f"flux_{IMAGE_PROMPTS[0][0]}.png"
-            if not still.exists():
-                still = image_path
-            comfy.wan_i2v(still, prompt, 49, 832, 480, dest)  # 49 frames ~3s
-            dt = time.time() - t0
-            times.append(dt)
-            print(f"OK {dt:.1f}s")
+            pid = comfy.queue(wf)
+            hist = comfy.wait(pid)
+            outs = comfy.outputs(hist)
+            if outs:
+                comfy.download(outs[-1], dest)
+                dt = time.time() - t0
+                times.append(dt)
+                print(f"OK {dt:.1f}s")
+            else:
+                print("FAILED: no output")
         except Exception as e:
             print(f"FAILED: {e}")
     return times
@@ -177,16 +191,7 @@ def main():
         results["sd35"] = test_sd35(comfy, IMAGE_PROMPTS)
 
     if not args.skip_video:
-        still = Path(args.still) if args.still else None
-        if not still or not still.exists():
-            still = OUT / f"sd35_{IMAGE_PROMPTS[0][0]}.png"
-        if not still.exists():
-            still = OUT / f"flux_{IMAGE_PROMPTS[0][0]}.png"
-        if not still.exists():
-            print("\nERROR: No source still for video tests. Provide --still path.")
-            sys.exit(1)
-        results["wan"] = test_wan(comfy, still, VIDEO_PROMPTS)
-        results["cogvideo"] = test_cogvideo(comfy, VIDEO_PROMPTS)
+        results["wan_1.3b"] = test_wan_t2v(comfy, VIDEO_PROMPTS)
 
     # Summary
     print("\n" + "=" * 60)
