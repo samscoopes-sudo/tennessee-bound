@@ -18,27 +18,27 @@ AVATAR_PROMPT = (
     "chest and shoulders framing"
 )
 
-AVATAR_IMAGE_URL = "https://files.genaipro.io/image_eff5539a-a268-4900-9c9a-5799cf5c3337_0.png"
+AVATAR_IMAGE = OUT / "avatar_presenter.png"
 
 TALKING_HEAD_SHOTS = [
     {
         "prompt": "The man in the image facing the camera, speaking calmly as a presenter, subtle lip movement and natural blinking, warm indoor lighting",
-        "duration": 5,
+        "duration": 8,
         "name": "avatar_intro",
     },
     {
         "prompt": "The man in the image looking directly at camera, nodding slightly while speaking, friendly expression, natural gestures",
-        "duration": 5,
+        "duration": 8,
         "name": "avatar_mid1",
     },
     {
         "prompt": "The man in the image speaking to camera with enthusiasm, slight hand gesture, warm smile, natural presenter energy",
-        "duration": 5,
+        "duration": 8,
         "name": "avatar_mid2",
     },
     {
         "prompt": "The man in the image facing camera, speaking thoughtfully, calm closing statement expression, warm lighting",
-        "duration": 5,
+        "duration": 8,
         "name": "avatar_outro",
     },
 ]
@@ -49,8 +49,6 @@ def main():
     ap.add_argument("--api-key", required=True)
     ap.add_argument("--image-only", action="store_true",
                     help="Only generate the avatar image")
-    ap.add_argument("--image-url", default=AVATAR_IMAGE_URL,
-                    help="GenAI Pro hosted URL of avatar image")
     args = ap.parse_args()
 
     veo = Veo(args.api_key)
@@ -58,18 +56,21 @@ def main():
     print(f"Credits available: {credits}")
 
     if args.image_only:
-        avatar_img = OUT / "avatar_presenter.png"
-        if avatar_img.exists():
-            print(f"Avatar image already exists: {avatar_img}")
+        if AVATAR_IMAGE.exists():
+            print(f"Avatar image already exists: {AVATAR_IMAGE}")
         else:
             print("Generating avatar image...")
-            veo.create_image(AVATAR_PROMPT, avatar_img)
-            print(f"Avatar image saved: {avatar_img}")
+            veo.create_image(AVATAR_PROMPT, AVATAR_IMAGE)
+            print(f"Avatar image saved: {AVATAR_IMAGE}")
         return
 
-    # Generate talking head clips from the avatar image
+    if not AVATAR_IMAGE.exists():
+        print(f"ERROR: Avatar image not found at {AVATAR_IMAGE}")
+        print("Run with --image-only first to generate it.")
+        return
+
     print(f"\nGenerating {len(TALKING_HEAD_SHOTS)} talking head clips...")
-    print(f"Using avatar image: {args.image_url}\n")
+    print(f"Using avatar image: {AVATAR_IMAGE}\n")
 
     for shot in TALKING_HEAD_SHOTS:
         dest = OUT / f"{shot['name']}.mp4"
@@ -78,7 +79,7 @@ def main():
             continue
         print(f"  [{shot['name']}] {shot['prompt'][:60]}...")
         try:
-            veo.frames_to_video(args.image_url, shot["prompt"], dest,
+            veo.frames_to_video(str(AVATAR_IMAGE), shot["prompt"], dest,
                                 duration=shot["duration"])
             print(f"  [{shot['name']}] OK")
         except Exception as e:

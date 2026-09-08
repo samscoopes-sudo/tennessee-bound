@@ -95,24 +95,26 @@ class Veo:
         print(f"  Image task {task_id} submitted, polling...")
         return self._poll_and_download(task_id, dest)
 
-    def frames_to_video(self, image_url: str, prompt: str, dest: Path,
+    def frames_to_video(self, image_path: str, prompt: str, dest: Path,
                         duration: int = 5,
                         aspect_ratio: str = "landscape") -> Path:
-        """Generate video from a reference image URL (hosted on GenAI Pro)."""
+        """Generate video from a local image file via multipart upload."""
         ar_map = {
             "landscape": "VIDEO_ASPECT_RATIO_LANDSCAPE",
             "portrait": "VIDEO_ASPECT_RATIO_PORTRAIT",
             "16:9": "VIDEO_ASPECT_RATIO_LANDSCAPE",
             "9:16": "VIDEO_ASPECT_RATIO_PORTRAIT",
         }
-        body = {
-            "prompt": prompt,
-            "image_url": image_url,
-            "duration": duration,
-            "aspect_ratio": ar_map.get(aspect_ratio, aspect_ratio),
-        }
-        r = requests.post(f"{BASE}/v2/veo/frames-to-video",
-                          json=body, headers=self.headers)
+        with open(image_path, "rb") as f:
+            files = {"start_image": f}
+            data = {
+                "prompt": prompt,
+                "duration": str(duration),
+                "aspect_ratio": ar_map.get(aspect_ratio, aspect_ratio),
+                "number_of_videos": "1",
+            }
+            r = requests.post(f"{BASE}/v2/veo/frames-to-video",
+                              files=files, data=data, headers=self.headers)
         if not r.ok:
             raise RuntimeError(f"{r.status_code}: {r.text}")
         data = r.json()
