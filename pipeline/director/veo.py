@@ -26,12 +26,18 @@ class Veo:
         return 0
 
     def text_to_video(self, prompt: str, dest: Path,
-                      duration: int = 5, aspect_ratio: str = "16:9",
+                      duration: int = 5, aspect_ratio: str = "landscape",
                       number_of_videos: int = 1) -> Path:
+        ar_map = {
+            "landscape": "VIDEO_ASPECT_RATIO_LANDSCAPE",
+            "portrait": "VIDEO_ASPECT_RATIO_PORTRAIT",
+            "16:9": "VIDEO_ASPECT_RATIO_LANDSCAPE",
+            "9:16": "VIDEO_ASPECT_RATIO_PORTRAIT",
+        }
         body = {
             "prompt": prompt,
             "duration": duration,
-            "aspect_ratio": aspect_ratio,
+            "aspect_ratio": ar_map.get(aspect_ratio, aspect_ratio),
             "number_of_videos": number_of_videos,
         }
         r = requests.post(f"{BASE}/v2/veo/text-to-video",
