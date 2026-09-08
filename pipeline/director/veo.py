@@ -70,6 +70,51 @@ class Veo:
             time.sleep(interval)
         raise TimeoutError(f"Veo task {task_id} timed out after {timeout}s")
 
+    def create_image(self, prompt: str, dest: Path,
+                     number_of_images: int = 1) -> Path:
+        body = {
+            "prompt": prompt,
+            "number_of_images": number_of_images,
+        }
+        r = requests.post(f"{BASE}/v2/veo/create-image",
+                          json=body, headers=self.headers)
+        if not r.ok:
+            raise RuntimeError(f"{r.status_code}: {r.text}")
+        data = r.json()
+        histories = data.get("histories", [data] if "id" in data else [])
+        if not histories:
+            raise RuntimeError(f"No task returned: {data}")
+        task_id = histories[0]["id"]
+        print(f"  Image task {task_id} submitted, polling...")
+        return self._poll_and_download(task_id, dest)
+
+    def frames_to_video(self, image_path: str, prompt: str, dest: Path,
+                        duration: int = 5,
+                        aspect_ratio: str = "landscape") -> Path:
+        ar_map = {
+            "landscape": "VIDEO_ASPECT_RATIO_LANDSCAPE",
+            "portrait": "VIDEO_ASPECT_RATIO_PORTRAIT",
+            "16:9": "VIDEO_ASPECT_RATIO_LANDSCAPE",
+            "9:16": "VIDEO_ASPECT_RATIO_PORTRAIT",
+        }
+        body = {
+            "prompt": prompt,
+            "image": image_path,
+            "duration": duration,
+            "aspect_ratio": ar_map.get(aspect_ratio, aspect_ratio),
+        }
+        r = requests.post(f"{BASE}/v2/veo/frames-to-video",
+                          json=body, headers=self.headers)
+        if not r.ok:
+            raise RuntimeError(f"{r.status_code}: {r.text}")
+        data = r.json()
+        histories = data.get("histories", [data] if "id" in data else [])
+        if not histories:
+            raise RuntimeError(f"No task returned: {data}")
+        task_id = histories[0]["id"]
+        print(f"  Frames-to-video task {task_id} submitted, polling...")
+        return self._poll_and_download(task_id, dest)
+
     def _download(self, url: str, dest: Path) -> Path:
         dest.parent.mkdir(parents=True, exist_ok=True)
         r = requests.get(url, stream=True)
