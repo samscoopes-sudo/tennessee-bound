@@ -7,7 +7,7 @@ then stitches them with ffmpeg.
 Usage:
   python3 test_8min_video.py --comfy http://127.0.0.1:8188
 """
-import argparse, json, subprocess, time
+import argparse, json, random, subprocess, time
 from pathlib import Path
 
 import sys
@@ -329,6 +329,48 @@ def gen_avatars(comfy: Comfy, out: Path, avatar_image: Path | None = None) -> di
     return avatars
 
 
+def _ken_burns_clip(src: Path, dest: Path, duration: float, seed: int):
+    """Convert a still image to a video clip with smooth Ken Burns zoom/pan."""
+    rng = random.Random(seed)
+    total_frames = int(duration * FPS)
+    # zoom range: start and end zoom levels (1.0 = no zoom, 1.15 = 15% zoom)
+    style = rng.choice(["zoom_in", "zoom_out", "pan_left", "pan_right", "zoom_in_pan"])
+    z0, z1 = 1.0, 1.0
+    x_expr, y_expr = "iw/2-(iw/zoom/2)", "ih/2-(ih/zoom/2)"
+    if style == "zoom_in":
+        z0, z1 = 1.0, 1.18
+    elif style == "zoom_out":
+        z0, z1 = 1.18, 1.0
+    elif style == "pan_left":
+        z0, z1 = 1.12, 1.12
+        x_expr = f"(iw/zoom-iw/zoom)*{total_frames - 1}/(on+1)*0+iw*0.06*(1-on/{total_frames})"
+        y_expr = "ih/2-(ih/zoom/2)"
+    elif style == "pan_right":
+        z0, z1 = 1.12, 1.12
+        x_expr = f"iw*0.06*on/{total_frames}"
+        y_expr = "ih/2-(ih/zoom/2)"
+    elif style == "zoom_in_pan":
+        z0, z1 = 1.0, 1.15
+        x_expr = f"iw/2-(iw/zoom/2)+iw*0.03*on/{total_frames}"
+        y_expr = "ih/2-(ih/zoom/2)"
+
+    zoom_expr = f"{z0}+({z1}-{z0})*on/{total_frames}"
+    if style in ("pan_left", "pan_right"):
+        zoom_expr = str(z0)
+
+    vf = (
+        f"scale=8000:-1,"
+        f"zoompan=z='{zoom_expr}':x='{x_expr}':y='{y_expr}'"
+        f":d={total_frames}:s={VIDEO_W}x{VIDEO_H}:fps={FPS}"
+    )
+    subprocess.run([
+        "ffmpeg", "-y", "-i", str(src),
+        "-vf", vf,
+        "-c:v", "libx264", "-crf", "18", "-pix_fmt", "yuv420p",
+        str(dest)
+    ], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+
 def assemble(vo: Path, stills: dict, videos: dict, avatars: dict, out: Path) -> Path:
     """Stitch all shots into a single video with voiceover."""
     clips = []
@@ -338,16 +380,9 @@ def assemble(vo: Path, stills: dict, videos: dict, avatars: dict, out: Path) -> 
             if shot["type"] == "still":
                 key = f"still_{still_idx:04d}"
                 if key in stills:
-                    # convert still to video clip
                     clip = out / f"clip_{key}.mp4"
                     if not clip.exists():
-                        subprocess.run([
-                            "ffmpeg", "-y", "-loop", "1", "-i", str(stills[key]),
-                            "-t", str(shot["duration"]),
-                            "-vf", f"scale={VIDEO_W}:{VIDEO_H}:force_original_aspect_ratio=decrease,pad={VIDEO_W}:{VIDEO_H}:(ow-iw)/2:(oh-ih)/2",
-                            "-r", str(FPS), "-pix_fmt", "yuv420p",
-                            "-c:v", "libx264", "-crf", "18", str(clip)
-                        ], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                        _ken_burns_clip(stills[key], clip, shot["duration"], still_idx)
                     clips.append(clip)
                 still_idx += 1
             elif shot["type"] == "video":
