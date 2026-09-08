@@ -16,13 +16,11 @@ class Veo:
         r = requests.get(f"{BASE}/v2/veo/credits", headers=self.headers)
         r.raise_for_status()
         data = r.json()
+        if isinstance(data, list) and data and isinstance(data[0], dict):
+            entry = data[0]
+            return entry.get("quota", 0) - entry.get("used", 0)
         if isinstance(data, dict):
             return data.get("credits", data.get("balance", 0))
-        if isinstance(data, list) and data:
-            return data[0] if isinstance(data[0], int) else 0
-        if isinstance(data, (int, float)):
-            return int(data)
-        print(f"  Credits response: {data}")
         return 0
 
     def text_to_video(self, prompt: str, dest: Path,
