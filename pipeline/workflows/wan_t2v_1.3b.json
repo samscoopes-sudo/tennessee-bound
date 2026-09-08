@@ -1,80 +1,94 @@
 {
   "1": {
-    "class_type": "UNETLoader",
+    "class_type": "WanVideoModelLoader",
     "inputs": {
-      "unet_name": "wan2.1_t2v_1.3B_bf16.safetensors",
-      "weight_dtype": "default"
+      "model": "wan2.1_t2v_1.3B_bf16.safetensors",
+      "base_precision": "bf16",
+      "quantization": "disabled",
+      "load_device": "offload_device",
+      "attention_mode": "sdpa",
+      "rms_norm_function": "default"
     },
     "_meta": { "title": "Load Wan Model" }
   },
   "2": {
-    "class_type": "CLIPLoader",
+    "class_type": "LoadWanVideoT5TextEncoder",
     "inputs": {
-      "clip_name": "umt5_xxl_fp16.safetensors",
-      "type": "wan"
+      "model_name": "umt5_xxl_fp16.safetensors",
+      "precision": "bf16",
+      "load_device": "offload_device",
+      "quantization": "disabled"
     },
     "_meta": { "title": "Load T5" }
   },
   "3": {
-    "class_type": "CLIPTextEncode",
+    "class_type": "WanVideoTextEncode",
     "inputs": {
-      "text": "placeholder",
-      "clip": ["2", 0]
+      "positive_prompt": "placeholder",
+      "negative_prompt": "blurry, low quality, distorted, deformed, ugly, worst quality, oversaturated, overexposed, shiny, glossy, plastic, artificial lighting, unrealistic",
+      "force_offload": true,
+      "use_disk_cache": false,
+      "device": "gpu",
+      "t5": ["2", 0]
     },
     "_meta": { "title": "Positive" }
   },
   "4": {
-    "class_type": "CLIPTextEncode",
-    "inputs": {
-      "text": "blurry, low quality, distorted, deformed, ugly, worst quality, text, watermark, oversaturated, overexposed, shiny, glossy, plastic, artificial lighting, HDR, bloom, lens flare, unrealistic",
-      "clip": ["2", 0]
-    },
-    "_meta": { "title": "Negative" }
-  },
-  "5": {
-    "class_type": "EmptyLatentImage",
+    "class_type": "WanVideoEmptyEmbeds",
     "inputs": {
       "width": 832,
       "height": 480,
-      "batch_size": 25
+      "num_frames": 25
     },
-    "_meta": { "title": "Empty Latent (frames)" }
+    "_meta": { "title": "Empty Embeds (t2v)" }
   },
-  "6": {
-    "class_type": "KSampler",
+  "5": {
+    "class_type": "WanVideoSampler",
     "inputs": {
       "model": ["1", 0],
-      "positive": ["3", 0],
-      "negative": ["4", 0],
-      "latent_image": ["5", 0],
-      "seed": 42,
+      "image_embeds": ["4", 0],
+      "text_embeds": ["3", 0],
       "steps": 20,
       "cfg": 3.5,
-      "sampler_name": "euler",
-      "scheduler": "normal",
-      "denoise": 1.0
+      "shift": 5.0,
+      "seed": 42,
+      "force_offload": true,
+      "scheduler": "dpm++_sde",
+      "riflex_freq_index": 0,
+      "denoise_strength": 1.0,
+      "rope_function": "comfy",
+      "start_step": 0,
+      "end_step": -1
     },
     "_meta": { "title": "Sampler" }
   },
-  "7": {
-    "class_type": "VAELoader",
+  "6": {
+    "class_type": "WanVideoVAELoader",
     "inputs": {
-      "vae_name": "wan_2.1_vae.safetensors"
+      "model_name": "wan_2.1_vae.safetensors",
+      "precision": "bf16",
+      "use_cpu_cache": false
     },
     "_meta": { "title": "Load VAE" }
   },
-  "8": {
-    "class_type": "VAEDecode",
+  "7": {
+    "class_type": "WanVideoDecode",
     "inputs": {
-      "samples": ["6", 0],
-      "vae": ["7", 0]
+      "vae": ["6", 0],
+      "samples": ["5", 0],
+      "enable_vae_tiling": false,
+      "tile_x": 272,
+      "tile_y": 272,
+      "tile_stride_x": 144,
+      "tile_stride_y": 128,
+      "normalization": "default"
     },
     "_meta": { "title": "Decode" }
   },
-  "9": {
+  "8": {
     "class_type": "VHS_VideoCombine",
     "inputs": {
-      "images": ["8", 0],
+      "images": ["7", 0],
       "frame_rate": 16,
       "loop_count": 0,
       "filename_prefix": "wan_t2v",
