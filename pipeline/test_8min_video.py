@@ -359,6 +359,17 @@ def assemble(vo: Path, stills: dict, videos: dict, avatars: dict, out: Path) -> 
                 key = f"avatar_{avatar_idx:04d}"
                 if key in avatars:
                     clips.append(avatars[key])
+                else:
+                    # placeholder black clip for missing avatar
+                    placeholder = out / f"placeholder_{key}.mp4"
+                    if not placeholder.exists():
+                        subprocess.run([
+                            "ffmpeg", "-y", "-f", "lavfi", "-i",
+                            f"color=c=black:s={VIDEO_W}x{VIDEO_H}:r={FPS}:d={shot['duration']}",
+                            "-pix_fmt", "yuv420p", "-c:v", "libx264", "-crf", "18",
+                            str(placeholder)
+                        ], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                    clips.append(placeholder)
                 avatar_idx += 1
 
     if not clips:
