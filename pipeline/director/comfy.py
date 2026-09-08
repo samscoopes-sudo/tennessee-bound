@@ -47,14 +47,14 @@ PARAM_MAP: dict[str, dict] = {
         "frames": ("63", "num_frames"),     # WanVideoImageToVideoEncode
     },
     "flux_still": {
-        "file": "flux_still.json",
+        "file": "flux_still_fp8.json",
         "prompt": ("3", "text"),            # CLIP Text Encode (Positive)
         "width": ("6", "width"),            # EmptySD3LatentImage
         "height": ("6", "height"),
         "seed": ("7", "seed"),              # KSampler
         "steps": ("7", "steps"),            # KSampler inference steps
-        "lora": ("2", "strength_model"),    # Realism LoRA strength
-        "guidance": ("5", "guidance"),      # FluxGuidance (lower = flatter, less "enhanced")
+        "lora": None,                       # no LoRA in fp8 workflow
+        "guidance": ("5", "guidance"),      # FluxGuidance
     },
     "wan22": {
         "file": "wan22.json",
@@ -65,6 +65,16 @@ PARAM_MAP: dict[str, dict] = {
         "length": ("55", "length"),
         "fps": ("57", "fps"),               # CreateVideo
         "seed": ("3", "seed"),              # KSampler
+    },
+    "wan_t2v": {
+        "file": "wan_t2v_1.3b.json",
+        "prompt": ("3", "positive_prompt"),
+        "seed": ("5", "seed"),
+        "width": ("4", "width"),
+        "height": ("4", "height"),
+        "frames": ("4", "num_frames"),
+        "steps": ("5", "steps"),
+        "cfg": ("5", "cfg"),
     },
     "tts": {                                 # F5-TTS voice cloning (ComfyUI-F5-TTS, FromModel node)
         "file": "tts.json",
@@ -242,6 +252,11 @@ class Comfy:
         a_wav = self.upload(audio, kind="input")
         return self._run("infinitetalk", dest, image=a_img["name"], audio=a_wav["name"],
                          prompt=prompt, negative=negative, width=w, height=h, frames=frames, steps=steps)
+
+    def wan_t2v(self, prompt: str, w: int, h: int, frames: int, dest: Path,
+                seed: int = 42, steps: int = 20, cfg: float = 3.5) -> Path:
+        return self._run("wan_t2v", dest, prompt=prompt, width=w, height=h,
+                         frames=frames, seed=seed, steps=steps, cfg=cfg)
 
     def tts(self, text: str, ref_audio: Path, ref_text: str, dest: Path,
             seed: int = 1, speed: float = 1.0, nfe: int = 64, cfg: float = 2.0,
