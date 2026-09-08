@@ -72,12 +72,19 @@ class Veo:
 
     def create_image(self, prompt: str, dest: Path,
                      number_of_images: int = 1) -> Path:
+        # Try JSON first, fall back to form-data
         body = {
             "prompt": prompt,
             "number_of_images": number_of_images,
         }
         r = requests.post(f"{BASE}/v2/veo/create-image",
                           json=body, headers=self.headers)
+        if r.status_code == 400 and "Prompt is required" in r.text:
+            # Try as multipart form data
+            r = requests.post(f"{BASE}/v2/veo/create-image",
+                              files={"prompt": (None, prompt),
+                                     "number_of_images": (None, str(number_of_images))},
+                              headers=self.headers)
         if not r.ok:
             raise RuntimeError(f"{r.status_code}: {r.text}")
         data = r.json()
