@@ -25,107 +25,155 @@ REF_AUDIO = "f5_ref.wav"
 REF_TEXT = "Today we're going to make something special in our little van kitchen."
 
 SCRIPT = [
+    # --- INTRO (0:00 - 0:30) ---
     {
         "narration": "Welcome back to the van life kitchen. Today we are making a simple one-pot trail chili, perfect for cold nights on the road.",
         "shots": [
-            {"type": "avatar", "duration": 5},
-            {"type": "still", "duration": 3, "prompt": "interior of a cozy converted camper van kitchen with wooden shelves and spice jars, warm golden light from window, rustic and lived-in"},
+            {"type": "avatar", "duration": 4},
+            {"type": "still", "duration": 2, "prompt": "exterior of a vintage camper van parked in a desert canyon at sunrise, warm golden light"},
+            {"type": "still", "duration": 2, "prompt": "interior of a cozy converted camper van kitchen with wooden shelves and spice jars, warm golden light from window"},
+            {"type": "still", "duration": 2, "prompt": "a steaming mug of coffee on a small wooden counter inside a camper van, morning light"},
+            {"type": "still", "duration": 3, "prompt": "a cast iron pot and fresh vegetables laid out on a small camper van counter, overhead view, meal prep"},
         ]
     },
+    # --- ONE POT INTRO (0:30 - 1:05) ---
     {
         "narration": "The beauty of this recipe is that everything goes into one pot. No fancy equipment needed, just good ingredients and a little patience.",
         "shots": [
-            {"type": "still", "duration": 3, "prompt": "a cast iron pot on a small camping stove, simple kitchen setup, natural daylight"},
+            {"type": "still", "duration": 2, "prompt": "a single cast iron pot on a small camping stove, simple kitchen setup, natural daylight"},
+            {"type": "still", "duration": 2, "prompt": "close up of a seasoned cast iron pot surface texture, rustic and well-used, warm tones"},
             {"type": "video", "duration": 4, "prompt": "close up of hands chopping onions on a wooden cutting board, warm kitchen lighting, slow deliberate movements"},
+            {"type": "still", "duration": 2, "prompt": "fresh whole vegetables on a rustic wooden surface, onion garlic bell pepper tomatoes, natural light"},
             {"type": "avatar", "duration": 4},
         ]
     },
+    # --- PREP VEGETABLES (1:05 - 1:50) ---
     {
         "narration": "Start with your base. One large onion diced, three cloves of garlic minced, and a bell pepper cut into small pieces.",
         "shots": [
-            {"type": "still", "duration": 3, "prompt": "diced onions and minced garlic on a wooden cutting board, overhead view, natural light"},
+            {"type": "still", "duration": 2, "prompt": "a whole onion on a wooden cutting board with a sharp knife, rustic kitchen, natural light"},
+            {"type": "still", "duration": 2, "prompt": "diced onions and minced garlic on a wooden cutting board, overhead view, natural light"},
             {"type": "video", "duration": 4, "prompt": "close up of a bell pepper being sliced with a knife on a cutting board, smooth slow motion"},
+            {"type": "still", "duration": 2, "prompt": "three garlic cloves being peeled on a wooden surface, close up, warm light"},
             {"type": "still", "duration": 3, "prompt": "small bowls of chopped vegetables arranged neatly, bell pepper onion garlic, prep station"},
+            {"type": "still", "duration": 2, "prompt": "a hand holding a diced bell pepper over a small bowl, close up, natural light"},
         ]
     },
+    # --- COOK ONIONS (1:50 - 2:30) ---
     {
         "narration": "Heat some olive oil in your pot until it shimmers. Add the onions first and let them soften for about three minutes.",
         "shots": [
+            {"type": "still", "duration": 2, "prompt": "a bottle of olive oil next to a cast iron pot on a stove, warm kitchen light"},
             {"type": "video", "duration": 5, "prompt": "olive oil being poured into a cast iron pot on a stove, golden liquid flowing, warm lighting"},
+            {"type": "still", "duration": 2, "prompt": "shimmering olive oil in the bottom of a hot cast iron pot, close up surface detail"},
             {"type": "still", "duration": 3, "prompt": "diced onions sizzling in a cast iron pot, steam rising, warm kitchen light"},
             {"type": "avatar", "duration": 4},
+            {"type": "still", "duration": 2, "prompt": "translucent softened onions in a pot, golden and caramelized edges, close up overhead"},
         ]
     },
+    # --- ADD GARLIC & PEPPER (2:30 - 3:05) ---
     {
         "narration": "Now add the garlic and bell pepper. Stir everything together and cook for another two minutes until fragrant.",
         "shots": [
+            {"type": "still", "duration": 2, "prompt": "minced garlic being added to a pot of onions, close up, warm lighting"},
             {"type": "video", "duration": 4, "prompt": "vegetables being stirred in a pot with a wooden spoon, steam rising, close up cooking shot"},
-            {"type": "still", "duration": 3, "prompt": "colorful chopped vegetables in a cast iron pot, garlic and bell peppers, overhead view"},
+            {"type": "still", "duration": 2, "prompt": "colorful chopped vegetables in a cast iron pot, garlic and bell peppers, overhead view"},
+            {"type": "still", "duration": 2, "prompt": "a wooden spoon resting on the edge of a cast iron pot, steam rising, warm tones"},
             {"type": "still", "duration": 3, "prompt": "aromatic steam rising from a cooking pot, warm ambient lighting, cozy kitchen"},
         ]
     },
+    # --- SPICES (3:05 - 4:00) ---
     {
         "narration": "Here is where the magic happens. Add your spices. Two tablespoons of chili powder, one teaspoon of cumin, half a teaspoon of smoked paprika, and a pinch of cayenne if you like heat.",
         "shots": [
             {"type": "avatar", "duration": 5},
-            {"type": "still", "duration": 3, "prompt": "small wooden bowls of colorful spices, chili powder cumin paprika, rustic wooden surface"},
+            {"type": "still", "duration": 2, "prompt": "small wooden bowls of colorful spices, chili powder cumin paprika, rustic wooden surface"},
+            {"type": "still", "duration": 2, "prompt": "a measuring spoon full of dark red chili powder, close up, warm tones"},
+            {"type": "still", "duration": 2, "prompt": "ground cumin in a small ceramic bowl, earthy brown color, rustic surface"},
             {"type": "video", "duration": 4, "prompt": "spices being sprinkled into a steaming pot, red and brown powders falling, close up"},
-            {"type": "still", "duration": 3, "prompt": "labeled spice jars on a wooden shelf inside a camper van, organized and cozy"},
+            {"type": "still", "duration": 2, "prompt": "smoked paprika powder on a wooden spoon, deep red color, close up"},
+            {"type": "still", "duration": 2, "prompt": "labeled spice jars on a wooden shelf inside a camper van, organized and cozy"},
+            {"type": "still", "duration": 2, "prompt": "a pinch of cayenne pepper between fingers over a steaming pot, close up"},
         ]
     },
+    # --- TOAST SPICES (4:00 - 4:30) ---
     {
         "narration": "Stir the spices into the vegetables and toast them for about thirty seconds. You will smell them bloom and that is how you know they are ready.",
         "shots": [
             {"type": "video", "duration": 5, "prompt": "wooden spoon stirring spiced vegetables in a pot, rich red and brown colors, steam rising"},
-            {"type": "still", "duration": 3, "prompt": "close up of spiced vegetables in a pot, rich earth tones, warm lighting"},
+            {"type": "still", "duration": 2, "prompt": "close up of spiced vegetables in a pot, rich earth tones, warm lighting"},
+            {"type": "still", "duration": 2, "prompt": "a camper van kitchen with warm light and steam from cooking, atmospheric and cozy"},
+            {"type": "avatar", "duration": 3},
         ]
     },
+    # --- ADD TOMATOES & BEANS (4:30 - 5:15) ---
     {
         "narration": "Pour in one can of crushed tomatoes and one can of kidney beans, drained. Add about half a cup of water or broth.",
         "shots": [
+            {"type": "still", "duration": 2, "prompt": "a can of crushed tomatoes next to a can of kidney beans on a counter, rustic setting"},
             {"type": "video", "duration": 4, "prompt": "crushed tomatoes being poured from a can into a pot, thick red liquid flowing, cooking"},
-            {"type": "still", "duration": 3, "prompt": "can of kidney beans next to a steaming pot, rustic kitchen counter, warm light"},
+            {"type": "still", "duration": 2, "prompt": "kidney beans being drained in a small colander, close up, natural light"},
+            {"type": "still", "duration": 2, "prompt": "kidney beans falling into a pot of chili, close up, rich red tones"},
+            {"type": "still", "duration": 2, "prompt": "a small measuring cup of broth next to a steaming pot, warm kitchen"},
             {"type": "avatar", "duration": 4},
         ]
     },
+    # --- SIMMER (5:15 - 6:00) ---
     {
         "narration": "Give it a good stir, bring it to a gentle simmer, then lower the heat. Let it cook for about twenty minutes, stirring occasionally.",
         "shots": [
             {"type": "video", "duration": 5, "prompt": "a pot of chili simmering gently, small bubbles on the surface, steam rising, warm lighting"},
-            {"type": "still", "duration": 3, "prompt": "a bubbling pot of red chili stew, overhead view, rustic kitchen setting"},
-            {"type": "still", "duration": 3, "prompt": "a timer and a steaming pot on a small camping stove inside a van, cozy setting"},
+            {"type": "still", "duration": 2, "prompt": "a bubbling pot of red chili stew, overhead view, rustic kitchen setting"},
+            {"type": "still", "duration": 2, "prompt": "the dial of a small camping stove turned to low heat, close up"},
+            {"type": "still", "duration": 3, "prompt": "a wooden spoon stirring thick chili in a pot, overhead view, warm tones"},
+            {"type": "still", "duration": 2, "prompt": "a small kitchen timer next to a steaming pot on a camping stove inside a van"},
+            {"type": "avatar", "duration": 3},
         ]
     },
+    # --- SIMMERING TIP (6:00 - 6:40) ---
     {
         "narration": "While the chili simmers, let me share a tip. The longer you let it cook, the better the flavors meld together. If you have the time, forty minutes is even better.",
         "shots": [
-            {"type": "avatar", "duration": 6},
-            {"type": "still", "duration": 4, "prompt": "view through a camper van window showing a desert sunset landscape, warm golden light"},
+            {"type": "avatar", "duration": 5},
+            {"type": "still", "duration": 3, "prompt": "view through a camper van window showing a desert sunset landscape, warm golden light"},
+            {"type": "still", "duration": 2, "prompt": "a person relaxing in a camp chair outside a camper van, desert landscape, golden hour"},
+            {"type": "still", "duration": 2, "prompt": "a pot simmering on a stove with steam curling upward, soft focus background, warm"},
             {"type": "still", "duration": 3, "prompt": "a person reading a book in a camper van with a pot simmering on the stove, cozy interior"},
         ]
     },
+    # --- SEASON (6:40 - 7:10) ---
     {
         "narration": "Season with salt and pepper to taste. I like to add a squeeze of lime juice at the end for brightness.",
         "shots": [
-            {"type": "still", "duration": 3, "prompt": "salt and pepper being added to a steaming pot of chili, close up hands"},
+            {"type": "still", "duration": 2, "prompt": "a salt cellar and pepper grinder on a rustic wooden surface, warm light"},
+            {"type": "still", "duration": 2, "prompt": "coarse salt being pinched over a pot of chili, close up fingers, warm tones"},
             {"type": "video", "duration": 4, "prompt": "a lime being squeezed over a bowl of chili, juice drops falling, close up slow motion"},
-            {"type": "still", "duration": 3, "prompt": "a halved lime next to a steaming bowl of chili, rustic wooden surface, warm light"},
+            {"type": "still", "duration": 2, "prompt": "a halved lime next to a steaming bowl of chili, rustic wooden surface, warm light"},
+            {"type": "avatar", "duration": 4},
         ]
     },
+    # --- SERVE (7:10 - 7:40) ---
     {
         "narration": "Serve it up in a sturdy bowl. Top with some shredded cheese, a dollop of sour cream, and fresh cilantro if you have it.",
         "shots": [
             {"type": "video", "duration": 4, "prompt": "chili being ladled into a ceramic bowl, thick red stew pouring, steam rising"},
-            {"type": "still", "duration": 3, "prompt": "a bowl of chili topped with shredded cheese sour cream and cilantro, rustic presentation"},
-            {"type": "avatar", "duration": 4},
+            {"type": "still", "duration": 2, "prompt": "shredded cheddar cheese being sprinkled over a bowl of hot chili, close up"},
+            {"type": "still", "duration": 2, "prompt": "a dollop of white sour cream on top of a red bowl of chili, contrast colors"},
+            {"type": "still", "duration": 2, "prompt": "fresh green cilantro leaves being placed on top of a bowl of chili, garnish close up"},
+            {"type": "still", "duration": 3, "prompt": "a finished bowl of chili topped with cheese sour cream and cilantro, rustic presentation, overhead"},
         ]
     },
+    # --- OUTRO (7:40 - 8:10) ---
     {
         "narration": "And there you have it. A warm hearty trail chili made right here in the van. Simple ingredients, big flavor, and it feeds you for days. Thanks for watching, and I will see you on the next stop.",
         "shots": [
-            {"type": "still", "duration": 3, "prompt": "a person eating chili from a bowl while sitting at a fold-out table in a camper van, sunset through window"},
-            {"type": "still", "duration": 3, "prompt": "a camper van parked in a desert landscape at golden hour, wide shot, scenic"},
-            {"type": "avatar", "duration": 6},
+            {"type": "still", "duration": 2, "prompt": "a person holding a warm bowl of chili while sitting at a fold-out table in a camper van"},
+            {"type": "still", "duration": 2, "prompt": "a spoonful of chili being lifted from a bowl, steam rising, close up, warm light"},
+            {"type": "still", "duration": 2, "prompt": "an empty clean bowl and spoon on a rustic table, satisfied meal complete"},
+            {"type": "video", "duration": 4, "prompt": "a camper van driving slowly down a desert highway at sunset, wide cinematic shot, dust trail"},
+            {"type": "still", "duration": 2, "prompt": "a camper van parked under stars in a desert landscape, night sky, peaceful"},
+            {"type": "avatar", "duration": 5},
+            {"type": "still", "duration": 3, "prompt": "a desert road stretching into the horizon at golden hour, wide landscape, end of journey"},
         ]
     },
 ]
