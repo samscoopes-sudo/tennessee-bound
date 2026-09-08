@@ -15,7 +15,15 @@ class Veo:
     def credits(self) -> int:
         r = requests.get(f"{BASE}/v2/veo/credits", headers=self.headers)
         r.raise_for_status()
-        return r.json().get("credits", 0)
+        data = r.json()
+        if isinstance(data, dict):
+            return data.get("credits", data.get("balance", 0))
+        if isinstance(data, list) and data:
+            return data[0] if isinstance(data[0], int) else 0
+        if isinstance(data, (int, float)):
+            return int(data)
+        print(f"  Credits response: {data}")
+        return 0
 
     def text_to_video(self, prompt: str, dest: Path,
                       duration: int = 5, aspect_ratio: str = "16:9",
