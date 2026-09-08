@@ -5,7 +5,7 @@ M="$C/models"
 N="$C/custom_nodes"
 cd "$N"
 echo "=== Custom Nodes ==="
-for r in kijai/ComfyUI-WanVideoWrapper Kosinkadink/ComfyUI-VideoHelperSuite kijai/ComfyUI-KJNodes kijai/ComfyUI-F5-TTS; do
+for r in kijai/ComfyUI-WanVideoWrapper Kosinkadink/ComfyUI-VideoHelperSuite kijai/ComfyUI-KJNodes niknah/ComfyUI-F5-TTS; do
 d=$(basename $r)
 [ -d "$d" ] || git clone "https://github.com/$r.git" "$d"
 pip install -r "$d/requirements.txt" 2>/dev/null || true
