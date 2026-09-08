@@ -289,7 +289,10 @@ def gen_videos(comfy: Comfy, out: Path) -> dict:
     return videos
 
 
-def gen_avatars(comfy: Comfy, out: Path) -> dict:
+def gen_avatars(comfy: Comfy, out: Path, avatar_image: Path | None = None) -> dict:
+    """Generate avatar clips using i2v (image-to-video) from a consistent source image."""
+    if avatar_image is None:
+        avatar_image = Path("/workspace/runpod-slim/ComfyUI/input/avatar_presenter.png")
     avatars = {}
     idx = 0
     for seg_i, seg in enumerate(SCRIPT):
@@ -307,17 +310,16 @@ def gen_avatars(comfy: Comfy, out: Path) -> dict:
                 n = max(1, math.ceil((frames - 1) / 4))
                 frames = 4 * n + 1
                 prompt = (
-                    "a woman with dark brown hair in a braid, wearing a rustic wool sweater, "
-                    "speaking calmly to camera, subtle head movements and blinking, "
-                    "cozy van interior background, natural matte window lighting, "
-                    "not glossy, not shiny, not airbrushed, realistic skin texture, "
-                    "documentary interview, muted earthy colors"
+                    "a woman speaking calmly to camera, subtle natural head movements "
+                    "and blinking, warm cozy interior background, "
+                    "natural matte lighting, documentary interview style, "
+                    "realistic skin texture, muted earthy colors"
                 )
-                print(f"  [{key}] {frames}f avatar...", end=" ", flush=True)
+                print(f"  [{key}] {frames}f avatar (i2v)...", end=" ", flush=True)
                 t0 = time.time()
                 try:
-                    comfy.wan_t2v(prompt, VIDEO_W, VIDEO_H, frames, dest,
-                                 seed=3000+idx)
+                    comfy.wan_i2v(avatar_image, prompt, frames,
+                                 VIDEO_W, VIDEO_H, dest)
                     avatars[key] = dest
                     print(f"OK {time.time()-t0:.1f}s")
                 except Exception as e:
@@ -444,7 +446,7 @@ def main():
     avatars = {}
     if not args.skip_avatars and not args.assemble_only:
         print(f"\n=== AVATAR SHOTS ({n_avatars}) ===")
-        avatars = gen_avatars(comfy, OUT)
+        avatars = gen_avatars(comfy, OUT, Path("/workspace/runpod-slim/ComfyUI/input/avatar_presenter.png"))
     else:
         for i in range(n_avatars):
             p = OUT / f"avatar_{i:04d}.mp4"
