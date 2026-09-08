@@ -30,9 +30,10 @@ IMAGE_PROMPTS = [
 ]
 
 VIDEO_PROMPTS = [
-    ("sprinkler", "water sprinkler spinning on green lawn, water droplets catching sunlight"),
-    ("leaves_fall", "autumn leaves gently falling onto grass, slow calm movement"),
-    ("mower_push", "push lawn mower moving forward cutting grass, steady smooth motion"),
+    ("text_title", "a black screen with large white text that reads SUBSCRIBE NOW, cinematic title card"),
+    ("text_lower", "a news broadcast with a lower third banner showing the text BREAKING NEWS, professional TV studio"),
+    ("scene_city", "aerial drone shot of a city skyline at sunset, smooth slow pan, cinematic"),
+    ("scene_ocean", "ocean waves crashing on a rocky shore, slow motion, dramatic lighting"),
 ]
 
 
