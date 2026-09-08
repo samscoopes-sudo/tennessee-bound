@@ -22,22 +22,22 @@ AVATAR_IMAGE = OUT / "avatar_presenter.png"
 
 TALKING_HEAD_SHOTS = [
     {
-        "prompt": "The man in the image facing the camera, speaking calmly as a presenter, subtle lip movement and natural blinking, warm indoor lighting",
+        "prompt": "The man in the image standing in front of a bookshelf, greeting the viewer with a small wave, warm smile, soft indoor lighting from the left side",
         "duration": 8,
         "name": "avatar_intro",
     },
     {
-        "prompt": "The man in the image looking directly at camera, nodding slightly while speaking, friendly expression, natural gestures",
+        "prompt": "The man in the image walking slowly through a park outdoors, talking to the camera, trees and greenery in the background, natural sunlight, slight breeze",
         "duration": 8,
         "name": "avatar_mid1",
     },
     {
-        "prompt": "The man in the image speaking to camera with enthusiasm, slight hand gesture, warm smile, natural presenter energy",
+        "prompt": "The man in the image sitting at a desk leaning forward, gesturing with his hands while explaining something, laptop visible, overhead warm lamp light",
         "duration": 8,
         "name": "avatar_mid2",
     },
     {
-        "prompt": "The man in the image facing camera, speaking thoughtfully, calm closing statement expression, warm lighting",
+        "prompt": "The man in the image standing on a rooftop at golden hour, city skyline behind him, wind in his hair, looking at camera with a thoughtful closing expression",
         "duration": 8,
         "name": "avatar_outro",
     },
