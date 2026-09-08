@@ -310,10 +310,11 @@ def gen_avatars(comfy: Comfy, out: Path, avatar_image: Path | None = None) -> di
                 n = max(1, math.ceil((frames - 1) / 4))
                 frames = 4 * n + 1
                 prompt = (
-                    "a woman speaking calmly to camera, subtle natural head movements "
-                    "and blinking, warm cozy interior background, "
-                    "natural matte lighting, documentary interview style, "
-                    "realistic skin texture, muted earthy colors"
+                    "a woman facing directly toward the camera, looking straight at the viewer, "
+                    "front-facing presenter talking head, speaking calmly with subtle lip movement "
+                    "and natural blinking, no head turning, no looking away, "
+                    "warm cozy interior background, natural matte lighting, "
+                    "documentary interview style, realistic skin texture, muted earthy colors"
                 )
                 print(f"  [{key}] {frames}f avatar (i2v)...", end=" ", flush=True)
                 t0 = time.time()
