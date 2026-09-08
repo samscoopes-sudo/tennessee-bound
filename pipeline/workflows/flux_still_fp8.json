@@ -1,27 +1,22 @@
 {
-  "10": {
-    "class_type": "CheckpointLoaderSimple",
-    "inputs": { "ckpt_name": "flux1-dev-fp8_e4m3fn.safetensors" },
-    "_meta": { "title": "Load FLUX fp8" }
+  "1": {
+    "class_type": "UNETLoader",
+    "inputs": { "unet_name": "flux1-dev-fp8.safetensors", "weight_dtype": "fp8_e4m3fn" },
+    "_meta": { "title": "Load FLUX" }
   },
-  "11": {
+  "2": {
     "class_type": "DualCLIPLoader",
     "inputs": { "clip_name1": "clip_l.safetensors", "clip_name2": "t5xxl_fp8_e4m3fn.safetensors", "type": "flux" },
     "_meta": { "title": "Load CLIP" }
   },
-  "2": {
-    "class_type": "LoraLoaderModelOnly",
-    "inputs": { "model": ["10", 0], "lora_name": "boreal-v2.safetensors", "strength_model": 0.8 },
-    "_meta": { "title": "Boreal amateur-photo LoRA" }
-  },
   "3": {
     "class_type": "CLIPTextEncode",
-    "inputs": { "clip": ["11", 0], "text": "placeholder" },
+    "inputs": { "clip": ["2", 0], "text": "placeholder" },
     "_meta": { "title": "Positive" }
   },
   "4": {
     "class_type": "CLIPTextEncode",
-    "inputs": { "clip": ["11", 0], "text": "text, words, letters, numbers, writing, signage, labels, captions, subtitles, watermark, logo, brand name, blurry text, garbled text, symbols, glyphs, typography, font, script, handwriting, graffiti, headline" },
+    "inputs": { "clip": ["2", 0], "text": "" },
     "_meta": { "title": "Negative" }
   },
   "5": {
@@ -37,20 +32,25 @@
   "7": {
     "class_type": "KSampler",
     "inputs": {
-      "seed": 0, "steps": 12, "cfg": 1.0, "sampler_name": "euler",
+      "seed": 0, "steps": 20, "cfg": 1.0, "sampler_name": "euler",
       "scheduler": "simple", "denoise": 1.0,
-      "model": ["2", 0], "positive": ["5", 0], "negative": ["4", 0], "latent_image": ["6", 0]
+      "model": ["1", 0], "positive": ["5", 0], "negative": ["4", 0], "latent_image": ["6", 0]
     },
     "_meta": { "title": "KSampler" }
   },
   "8": {
-    "class_type": "VAEDecode",
-    "inputs": { "samples": ["7", 0], "vae": ["10", 2] },
-    "_meta": { "title": "VAE Decode" }
+    "class_type": "VAELoader",
+    "inputs": { "vae_name": "ae.safetensors" },
+    "_meta": { "title": "Load VAE" }
   },
   "9": {
+    "class_type": "VAEDecode",
+    "inputs": { "samples": ["7", 0], "vae": ["8", 0] },
+    "_meta": { "title": "VAE Decode" }
+  },
+  "10": {
     "class_type": "SaveImage",
-    "inputs": { "images": ["8", 0], "filename_prefix": "flux" },
+    "inputs": { "images": ["9", 0], "filename_prefix": "flux" },
     "_meta": { "title": "Save" }
   }
 }

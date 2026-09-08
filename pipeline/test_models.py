@@ -22,11 +22,11 @@ OUT.mkdir(exist_ok=True)
 
 # --- Test prompts: mix of normal scenes + text-heavy (the pain point) ---
 IMAGE_PROMPTS = [
-    ("lawn_green", "photo of a lush green lawn in morning sunlight, suburban backyard, photorealistic"),
-    ("text_sign", "photo of a wooden garden sign that reads KEEP OFF THE GRASS, close up, sharp text, photorealistic"),
-    ("text_bag", "photo of a bag of Scott's grass seed with product label visible, store shelf, photorealistic"),
-    ("detail_roots", "photo of grass roots in cross-section of soil, detailed macro shot, photorealistic"),
-    ("person_mowing", "photo of a man mowing a lawn with a push mower, wide shot, suburban neighborhood, photorealistic"),
+    ("text_building", "photo of a modern office building with a large sign that reads TECH SOLUTIONS on the facade, street view, photorealistic"),
+    ("text_product", "photo of a coffee bag with the label MOUNTAIN ROAST PREMIUM BLEND, product photography, white background, sharp text"),
+    ("text_store", "photo of a storefront with neon sign that reads OPEN 24 HOURS, night time, urban street, photorealistic"),
+    ("text_book", "close up photo of a hardcover book with the title THE ART OF FOCUS on the cover, studio lighting, photorealistic"),
+    ("scene_kitchen", "photo of a modern kitchen with marble countertops and stainless steel appliances, interior design, photorealistic"),
 ]
 
 VIDEO_PROMPTS = [
@@ -189,7 +189,6 @@ def main():
 
     if not args.skip_image:
         results["flux"] = test_flux(comfy, IMAGE_PROMPTS)
-        results["sd35"] = test_sd35(comfy, IMAGE_PROMPTS)
 
     if not args.skip_video:
         results["wan_1.3b"] = test_wan_t2v(comfy, VIDEO_PROMPTS)
