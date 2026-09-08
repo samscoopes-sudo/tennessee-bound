@@ -95,9 +95,10 @@ class Veo:
         print(f"  Image task {task_id} submitted, polling...")
         return self._poll_and_download(task_id, dest)
 
-    def frames_to_video(self, image_path: str, prompt: str, dest: Path,
+    def frames_to_video(self, image_url: str, prompt: str, dest: Path,
                         duration: int = 5,
                         aspect_ratio: str = "landscape") -> Path:
+        """Generate video from a reference image URL (hosted on GenAI Pro)."""
         ar_map = {
             "landscape": "VIDEO_ASPECT_RATIO_LANDSCAPE",
             "portrait": "VIDEO_ASPECT_RATIO_PORTRAIT",
@@ -106,7 +107,7 @@ class Veo:
         }
         body = {
             "prompt": prompt,
-            "image": image_path,
+            "image_url": image_url,
             "duration": duration,
             "aspect_ratio": ar_map.get(aspect_ratio, aspect_ratio),
         }
