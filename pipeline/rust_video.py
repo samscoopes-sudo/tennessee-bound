@@ -7,6 +7,7 @@ Assembly via ffmpeg with Ken Burns effects, split-screen, and hard cuts.
 
 Usage:
   python rust_video.py --api-key <GENAIPRO_KEY> --gen-images
+  python rust_video.py --api-key <GENAIPRO_KEY> --gen-videos
   python rust_video.py --api-key <GENAIPRO_KEY> --gen-avatar
   python rust_video.py --assemble-only
 """
@@ -34,32 +35,39 @@ AVATAR_PROMPT = (
 
 AVATAR_IMAGE = OUT / "avatar_mechanic.png"
 
-# B-roll images to generate via GenAI Pro create-image
+# B-roll STILL IMAGES (Ken Burns zoom/pan) — static subjects
 BROLL_IMAGES = [
     {"name": "rusty_frame_rail", "prompt": "Close-up photograph of heavy orange flaky rust on a truck frame rail underside, flashlight beam illuminating the rust texture, dark garage background"},
     {"name": "rusty_rocker_panel", "prompt": "Close-up photograph of rust bubbling through paint on a car rocker panel behind the front tire, peeling flakes, natural daylight"},
-    {"name": "hand_peeling_rust", "prompt": "First person POV of a hand peeling flaky rust scale off a steel frame rail, extreme close-up, workshop lighting"},
     {"name": "repair_invoice_high", "prompt": "Overhead photograph of a printed auto repair invoice on a clipboard showing a circled total of $1500, pen beside it, shop counter background"},
     {"name": "repair_invoice_low", "prompt": "Photograph of a small brown chemical bottle next to a $10 bill and loose coins on a workbench, simple clean shot"},
     {"name": "tools_on_tarp", "prompt": "Overhead photograph of rust removal tools laid out on a blue tarp: wire brush, chemical bottle, rubber gloves, old rags, flathead screwdriver, driveway concrete visible"},
     {"name": "flashlight_under_truck", "prompt": "Low angle photograph of a flashlight beam shining on a truck frame rail underside, person lying on their side on a garage floor, warm lighting"},
-    {"name": "screwdriver_poke_solid", "prompt": "Extreme close-up of a flathead screwdriver tip pressing against surface rust on solid metal frame, showing the metal is firm underneath"},
-    {"name": "screwdriver_poke_through", "prompt": "Close-up photograph of a screwdriver puncturing through severely rusted perforated metal on a car frame, hole visible, dramatic lighting"},
     {"name": "chemical_bottle_pink", "prompt": "Product-style photograph of a small pink gel rust dissolver bottle on a clean workbench, 8 ounce size, hardware store brand, clear label visible"},
-    {"name": "brushing_chemical", "prompt": "First person POV close-up of a hand applying pink gel chemical with a small brush onto rusty metal surface, chemical bubbling on contact"},
-    {"name": "wire_brush_scrubbing", "prompt": "Close-up photograph of a wire brush scrubbing rust off metal, revealing bare shiny steel underneath, rust flakes scattered around"},
     {"name": "water_on_rust", "prompt": "Extreme close-up macro photograph of water droplets sitting on a rusty orange metal surface, shallow depth of field"},
-    {"name": "mechanic_under_lift", "prompt": "Low angle photograph of a mechanic in work clothes pointing at the undercarriage of a truck on a two-post shop lift, clipboard in other hand"},
     {"name": "bare_metal_after", "prompt": "Close-up photograph of clean bare gray metal after rust removal, showing the phosphate conversion coating, smooth surface, workshop lighting"},
     {"name": "primer_spray_can", "prompt": "Photograph of a can of self-etching primer spray paint next to a wire brush and chemical bottle on a garage workbench, ready to use"},
-    {"name": "undercoat_spray", "prompt": "Photograph of a mechanic spraying black rubberized undercoating on a clean truck undercarriage on a shop lift, spray mist visible"},
     {"name": "paint_bubble_rust", "prompt": "Close-up photograph of bubbling paint with rust bleeding through on a car body panel, showing where rust formed underneath the paint"},
     {"name": "four_steps_paper", "prompt": "Top-down photograph of lined paper with handwritten numbers 1 through 4 with brief labels next to each, pen beside paper, clean desk"},
     {"name": "truck_driveway", "prompt": "Wide photograph of a pickup truck parked on a residential driveway, person crouching beside it with a flashlight looking at the frame, afternoon light"},
-    {"name": "baking_soda_rinse", "prompt": "Photograph of a hand holding a spray bottle of baking soda water solution next to a clean rag on a workbench, simple setup"},
     {"name": "flash_rust_example", "prompt": "Close-up photograph of bare metal surface showing faint orange flash rust forming overnight, microscopic new rust layer on previously clean steel"},
     {"name": "before_after_split", "prompt": "Side by side comparison photograph, left showing heavy orange rust on metal, right showing clean treated bare gray metal, same lighting, workshop bench"},
     {"name": "brake_lines_rusty", "prompt": "Close-up photograph of thin steel brake lines running along a truck frame rail, showing flaky puffed-up rust on the lines, flashlight illumination"},
+]
+
+# B-roll VIDEO CLIPS (real motion) — action/hands-on shots
+BROLL_VIDEOS = [
+    {"name": "vid_hand_peeling_rust", "prompt": "First person POV close-up of a hand slowly peeling flaky orange rust scale off a steel frame rail, rust crumbling away, workshop lighting", "duration": 5},
+    {"name": "vid_brushing_chemical", "prompt": "Close-up of a hand applying pink gel chemical with a small brush onto a rusty metal surface, gel bubbling on contact with rust, workshop bench", "duration": 5},
+    {"name": "vid_wire_brush_scrub", "prompt": "Close-up of a wire brush scrubbing back and forth on rusted metal, rust flakes flying off revealing shiny bare steel underneath", "duration": 5},
+    {"name": "vid_screwdriver_poke_solid", "prompt": "Extreme close-up of a flathead screwdriver tip pressing firmly against surface rust on a solid metal frame rail, metal does not give way, firm tap", "duration": 5},
+    {"name": "vid_screwdriver_poke_through", "prompt": "Close-up of a screwdriver pushing through severely rusted perforated metal on a car frame, metal crumbling and breaking apart, dramatic", "duration": 5},
+    {"name": "vid_mechanic_under_lift", "prompt": "Low angle shot of a mechanic in work clothes pointing at the undercarriage of a truck on a two-post shop lift, gesturing with clipboard in hand", "duration": 5},
+    {"name": "vid_holding_invoice", "prompt": "Close-up of hands holding and reviewing a printed auto repair invoice, finger pointing at a circled line item, shop counter background", "duration": 5},
+    {"name": "vid_undercoat_spray", "prompt": "Mechanic spraying black rubberized undercoating onto a clean truck undercarriage on a shop lift, spray mist visible, steady sweeping motion", "duration": 5},
+    {"name": "vid_flashlight_inspect", "prompt": "First person POV of a hand holding a flashlight shining it along a truck frame rail underside, slowly panning across rusty surface, garage floor", "duration": 5},
+    {"name": "vid_baking_soda_wipe", "prompt": "Close-up of a hand wiping bare metal surface with a rag soaked in baking soda solution, neutralizing chemical residue, clean workshop", "duration": 5},
+    {"name": "vid_primer_spray", "prompt": "Close-up of a hand spraying self-etching primer from a spray can onto bare gray metal surface, even sweeping coat, workshop background", "duration": 5},
 ]
 
 # Avatar talking head clips via frames-to-video
@@ -76,102 +84,104 @@ AVATAR_CLIPS = [
 # type: "avatar" | "broll" | "split" | "graphic"
 # For broll/split, "image" references a BROLL_IMAGES name
 # For avatar/split, "avatar" references an AVATAR_CLIPS name
+# Timeline segments
+# type: "avatar" | "image" (still+KenBurns) | "video" (motion clip) | "split"
+# "image" refs BROLL_IMAGES name, "video" refs BROLL_VIDEOS name
 TIMELINE = [
     # 0:00-0:04 Avatar intro
     {"type": "avatar", "avatar": "avatar_intro", "start": 0, "dur": 4},
-    # 0:04-0:07 B-roll: rusty frame rail
-    {"type": "broll", "image": "rusty_frame_rail", "dur": 3},
+    # 0:04-0:07 Image: rusty frame rail
+    {"type": "image", "asset": "rusty_frame_rail", "dur": 3},
     # 0:07-0:10 Split: avatar + rusty rocker
-    {"type": "split", "avatar": "avatar_intro", "image": "rusty_rocker_panel", "dur": 3},
-    # 0:10-0:13 B-roll: hand peeling rust
-    {"type": "broll", "image": "hand_peeling_rust", "dur": 3},
-    # 0:13-0:16 B-roll: water on rust macro
-    {"type": "broll", "image": "water_on_rust", "dur": 3},
+    {"type": "split", "avatar": "avatar_intro", "asset": "rusty_rocker_panel", "asset_type": "image", "dur": 3},
+    # 0:10-0:13 VIDEO: hand peeling rust (action)
+    {"type": "video", "asset": "vid_hand_peeling_rust", "dur": 3},
+    # 0:13-0:16 Image: water on rust macro
+    {"type": "image", "asset": "water_on_rust", "dur": 3},
     # 0:16-0:19 Avatar speaking
     {"type": "avatar", "avatar": "avatar_explain", "start": 0, "dur": 3},
-    # 0:19-0:22 B-roll: repair invoice high
-    {"type": "broll", "image": "repair_invoice_high", "dur": 3},
-    # 0:22-0:25 B-roll: brushing chemical
-    {"type": "broll", "image": "brushing_chemical", "dur": 3},
-    # 0:25-0:28 B-roll: wire brush scrubbing
-    {"type": "broll", "image": "wire_brush_scrubbing", "dur": 3},
-    # 0:28-0:31 Split: avatar + mechanic under lift
-    {"type": "split", "avatar": "avatar_explain", "image": "mechanic_under_lift", "dur": 3},
-    # 0:31-0:34 B-roll: invoice high circled
-    {"type": "broll", "image": "repair_invoice_high", "dur": 3},
+    # 0:19-0:22 Image: repair invoice high
+    {"type": "image", "asset": "repair_invoice_high", "dur": 3},
+    # 0:22-0:25 VIDEO: brushing chemical (action)
+    {"type": "video", "asset": "vid_brushing_chemical", "dur": 3},
+    # 0:25-0:28 VIDEO: wire brush scrubbing (action)
+    {"type": "video", "asset": "vid_wire_brush_scrub", "dur": 3},
+    # 0:28-0:31 Split: avatar + mechanic under lift (video)
+    {"type": "split", "avatar": "avatar_explain", "asset": "vid_mechanic_under_lift", "asset_type": "video", "dur": 3},
+    # 0:31-0:34 VIDEO: holding invoice (action)
+    {"type": "video", "asset": "vid_holding_invoice", "dur": 3},
     # 0:34-0:37 Avatar warning about upsell
     {"type": "avatar", "avatar": "avatar_warning", "start": 0, "dur": 3},
-    # 0:37-0:40 B-roll: undercoat spray
-    {"type": "broll", "image": "undercoat_spray", "dur": 3},
-    # 0:40-0:43 Split: avatar + chemical bottle
-    {"type": "split", "avatar": "avatar_warning", "image": "chemical_bottle_pink", "dur": 3},
-    # 0:43-0:46 B-roll: cheap bottle vs cash
-    {"type": "broll", "image": "repair_invoice_low", "dur": 3},
+    # 0:37-0:40 VIDEO: undercoat spray (action)
+    {"type": "video", "asset": "vid_undercoat_spray", "dur": 3},
+    # 0:40-0:43 Split: avatar + chemical bottle (image)
+    {"type": "split", "avatar": "avatar_warning", "asset": "chemical_bottle_pink", "asset_type": "image", "dur": 3},
+    # 0:43-0:46 Image: cheap bottle vs cash
+    {"type": "image", "asset": "repair_invoice_low", "dur": 3},
     # 0:46-0:49 Avatar - good news
     {"type": "avatar", "avatar": "avatar_friendly", "start": 0, "dur": 3},
-    # 0:49-0:52 B-roll: tools on tarp
-    {"type": "broll", "image": "tools_on_tarp", "dur": 3},
-    # -- AD BREAK ~0:52-1:10 (skip for now, placeholder) --
-    # 1:10-1:13 Avatar back
+    # 0:49-0:52 Image: tools on tarp
+    {"type": "image", "asset": "tools_on_tarp", "dur": 3},
+    # 0:52-0:55 Avatar back
     {"type": "avatar", "avatar": "avatar_friendly", "start": 2, "dur": 3},
-    # 1:13-1:16 B-roll: four steps paper
-    {"type": "broll", "image": "four_steps_paper", "dur": 3},
-    # 1:16-1:19 Avatar pointing
+    # 0:55-0:58 Image: four steps paper
+    {"type": "image", "asset": "four_steps_paper", "dur": 3},
+    # 0:58-1:01 Avatar pointing
     {"type": "avatar", "avatar": "avatar_pointing", "start": 0, "dur": 3},
     # -- CHAPTER 2: Inspection --
-    # 1:19-1:23 B-roll: truck on driveway
-    {"type": "broll", "image": "truck_driveway", "dur": 4},
-    # 1:23-1:26 B-roll: flashlight under truck
-    {"type": "broll", "image": "flashlight_under_truck", "dur": 3},
-    # 1:26-1:29 Split: avatar + rusty frame
-    {"type": "split", "avatar": "avatar_explain", "image": "rusty_frame_rail", "dur": 3},
-    # 1:29-1:33 B-roll: screwdriver poke solid
-    {"type": "broll", "image": "screwdriver_poke_solid", "dur": 4},
-    # 1:33-1:36 Avatar explain
+    # 1:01-1:05 Image: truck on driveway
+    {"type": "image", "asset": "truck_driveway", "dur": 4},
+    # 1:05-1:08 VIDEO: flashlight inspect (action)
+    {"type": "video", "asset": "vid_flashlight_inspect", "dur": 3},
+    # 1:08-1:11 Split: avatar + rusty frame (image)
+    {"type": "split", "avatar": "avatar_explain", "asset": "rusty_frame_rail", "asset_type": "image", "dur": 3},
+    # 1:11-1:15 VIDEO: screwdriver poke solid (action)
+    {"type": "video", "asset": "vid_screwdriver_poke_solid", "dur": 4},
+    # 1:15-1:18 Avatar explain
     {"type": "avatar", "avatar": "avatar_explain", "start": 2, "dur": 3},
-    # 1:36-1:40 B-roll: screwdriver poke through
-    {"type": "broll", "image": "screwdriver_poke_through", "dur": 4},
-    # 1:40-1:43 Avatar warning
+    # 1:18-1:22 VIDEO: screwdriver poke through (action)
+    {"type": "video", "asset": "vid_screwdriver_poke_through", "dur": 4},
+    # 1:22-1:25 Avatar warning
     {"type": "avatar", "avatar": "avatar_warning", "start": 2, "dur": 3},
-    # 1:43-1:46 B-roll: paint bubble rust
-    {"type": "broll", "image": "paint_bubble_rust", "dur": 3},
-    # 1:46-1:50 Split: avatar + brake lines
-    {"type": "split", "avatar": "avatar_warning", "image": "brake_lines_rusty", "dur": 4},
+    # 1:25-1:28 Image: paint bubble rust
+    {"type": "image", "asset": "paint_bubble_rust", "dur": 3},
+    # 1:28-1:32 Split: avatar + brake lines (image)
+    {"type": "split", "avatar": "avatar_warning", "asset": "brake_lines_rusty", "asset_type": "image", "dur": 4},
     # -- CHAPTER 3: The Bottle --
-    # 1:50-1:53 Avatar friendly
+    # 1:32-1:35 Avatar friendly
     {"type": "avatar", "avatar": "avatar_friendly", "start": 2, "dur": 3},
-    # 1:53-1:57 B-roll: chemical bottle pink
-    {"type": "broll", "image": "chemical_bottle_pink", "dur": 4},
-    # 1:57-2:00 B-roll: brushing chemical
-    {"type": "broll", "image": "brushing_chemical", "dur": 3},
-    # 2:00-2:04 B-roll: bare metal after
-    {"type": "broll", "image": "bare_metal_after", "dur": 4},
-    # 2:04-2:07 Split: avatar + before/after
-    {"type": "split", "avatar": "avatar_friendly", "image": "before_after_split", "dur": 3},
-    # 2:07-2:10 B-roll: invoice comparison
-    {"type": "broll", "image": "repair_invoice_high", "dur": 3},
-    # 2:10-2:13 B-roll: cheap fix
-    {"type": "broll", "image": "repair_invoice_low", "dur": 3},
-    # 2:13-2:16 Avatar explain
+    # 1:35-1:39 Image: chemical bottle pink
+    {"type": "image", "asset": "chemical_bottle_pink", "dur": 4},
+    # 1:39-1:42 VIDEO: brushing chemical again (action)
+    {"type": "video", "asset": "vid_brushing_chemical", "start": 2, "dur": 3},
+    # 1:42-1:46 Image: bare metal after
+    {"type": "image", "asset": "bare_metal_after", "dur": 4},
+    # 1:46-1:49 Split: avatar + before/after (image)
+    {"type": "split", "avatar": "avatar_friendly", "asset": "before_after_split", "asset_type": "image", "dur": 3},
+    # 1:49-1:52 Image: invoice comparison
+    {"type": "image", "asset": "repair_invoice_high", "dur": 3},
+    # 1:52-1:55 Image: cheap fix
+    {"type": "image", "asset": "repair_invoice_low", "dur": 3},
+    # 1:55-1:58 Avatar explain
     {"type": "avatar", "avatar": "avatar_explain", "start": 3, "dur": 3},
     # -- CHAPTER 4: Making it hold --
-    # 2:16-2:19 Avatar warning - don't skip
+    # 1:58-2:01 Avatar warning - don't skip
     {"type": "avatar", "avatar": "avatar_warning", "start": 3, "dur": 3},
-    # 2:19-2:22 B-roll: flash rust
-    {"type": "broll", "image": "flash_rust_example", "dur": 3},
-    # 2:22-2:26 B-roll: baking soda rinse
-    {"type": "broll", "image": "baking_soda_rinse", "dur": 4},
-    # 2:26-2:29 B-roll: primer spray can
-    {"type": "broll", "image": "primer_spray_can", "dur": 3},
-    # 2:29-2:33 Split: avatar + bare metal
-    {"type": "split", "avatar": "avatar_pointing", "image": "bare_metal_after", "dur": 4},
-    # 2:33-2:36 B-roll: before/after
-    {"type": "broll", "image": "before_after_split", "dur": 3},
-    # 2:36-2:40 Avatar closing
+    # 2:01-2:04 Image: flash rust
+    {"type": "image", "asset": "flash_rust_example", "dur": 3},
+    # 2:04-2:08 VIDEO: baking soda wipe (action)
+    {"type": "video", "asset": "vid_baking_soda_wipe", "dur": 4},
+    # 2:08-2:11 VIDEO: primer spray (action)
+    {"type": "video", "asset": "vid_primer_spray", "dur": 3},
+    # 2:11-2:15 Split: avatar + bare metal (image)
+    {"type": "split", "avatar": "avatar_pointing", "asset": "bare_metal_after", "asset_type": "image", "dur": 4},
+    # 2:15-2:18 Image: before/after
+    {"type": "image", "asset": "before_after_split", "dur": 3},
+    # 2:18-2:22 Avatar closing
     {"type": "avatar", "avatar": "avatar_closing", "start": 0, "dur": 4},
-    # 2:40-2:44 B-roll: truck driveway final
-    {"type": "broll", "image": "truck_driveway", "dur": 4},
-    # 2:44-2:48 Avatar final
+    # 2:22-2:26 Image: truck driveway final
+    {"type": "image", "asset": "truck_driveway", "dur": 4},
+    # 2:26-2:30 Avatar final
     {"type": "avatar", "avatar": "avatar_closing", "start": 2, "dur": 4},
 ]
 
@@ -240,6 +250,22 @@ def gen_images(veo: Veo):
             print(f"  [{img['name']}] FAILED: {e}")
 
 
+def gen_videos(veo: Veo):
+    """Generate all B-roll video clips via GenAI Pro text-to-video."""
+    print(f"Generating {len(BROLL_VIDEOS)} B-roll video clips...")
+    for vid in BROLL_VIDEOS:
+        dest = OUT / f"{vid['name']}.mp4"
+        if dest.exists() and dest.stat().st_size > 0:
+            print(f"  [{vid['name']}] skip (cached)")
+            continue
+        print(f"  [{vid['name']}] generating...")
+        try:
+            veo.text_to_video(vid["prompt"], dest, duration=vid["duration"])
+            print(f"  [{vid['name']}] OK")
+        except Exception as e:
+            print(f"  [{vid['name']}] FAILED: {e}")
+
+
 def gen_avatar_image(veo: Veo):
     """Generate the avatar mechanic image."""
     if AVATAR_IMAGE.exists():
@@ -301,29 +327,59 @@ def assemble():
                 ], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
                 scaled.replace(seg_dest)
 
-        elif seg["type"] == "broll":
-            image_path = OUT / f"{seg['image']}.png"
+        elif seg["type"] == "image":
+            image_path = OUT / f"{seg['asset']}.png"
             if not image_path.exists():
-                print(f"  [seg_{i:04d}] MISSING image {seg['image']}, using black")
+                print(f"  [seg_{i:04d}] MISSING image {seg['asset']}, using black")
                 _black_frame(seg_dest, dur)
             else:
                 _ken_burns(image_path, seg_dest, dur)
 
+        elif seg["type"] == "video":
+            video_path = OUT / f"{seg['asset']}.mp4"
+            if not video_path.exists():
+                print(f"  [seg_{i:04d}] MISSING video {seg['asset']}, using black")
+                _black_frame(seg_dest, dur)
+            else:
+                start = seg.get("start", 0)
+                _trim_clip(video_path, seg_dest, start, dur)
+                scaled = OUT / f"seg_{i:04d}_scaled.mp4"
+                subprocess.run([
+                    "ffmpeg", "-y", "-i", str(seg_dest),
+                    "-vf", f"scale={VIDEO_W}:{VIDEO_H}:force_original_aspect_ratio=decrease,pad={VIDEO_W}:{VIDEO_H}:(ow-iw)/2:(oh-ih)/2,fps={FPS}",
+                    "-c:v", "libx264", "-crf", "18", "-pix_fmt", "yuv420p",
+                    "-an", str(scaled)
+                ], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                scaled.replace(seg_dest)
+
         elif seg["type"] == "split":
             avatar_clip = OUT / f"{seg['avatar']}.mp4"
-            image_path = OUT / f"{seg['image']}.png"
-            if not avatar_clip.exists() or not image_path.exists():
+            asset_type = seg.get("asset_type", "image")
+            if asset_type == "image":
+                asset_path = OUT / f"{seg['asset']}.png"
+            else:
+                asset_path = OUT / f"{seg['asset']}.mp4"
+            if not avatar_clip.exists() or not asset_path.exists():
                 print(f"  [seg_{i:04d}] MISSING assets for split, using black")
                 _black_frame(seg_dest, dur)
             else:
-                # Make ken burns clip for the image side
                 broll_temp = OUT / f"split_broll_{i:04d}.mp4"
-                _ken_burns(image_path, broll_temp, dur)
-                # Trim avatar
+                if asset_type == "image":
+                    _ken_burns(asset_path, broll_temp, dur)
+                else:
+                    bstart = seg.get("start", 0)
+                    _trim_clip(asset_path, broll_temp, bstart, dur)
+                    scaled_b = OUT / f"split_broll_{i:04d}_s.mp4"
+                    subprocess.run([
+                        "ffmpeg", "-y", "-i", str(broll_temp),
+                        "-vf", f"scale={VIDEO_W}:{VIDEO_H}:force_original_aspect_ratio=decrease,pad={VIDEO_W}:{VIDEO_H}:(ow-iw)/2:(oh-ih)/2,fps={FPS}",
+                        "-c:v", "libx264", "-crf", "18", "-pix_fmt", "yuv420p",
+                        "-an", str(scaled_b)
+                    ], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                    scaled_b.replace(broll_temp)
                 avatar_temp = OUT / f"split_avatar_{i:04d}.mp4"
                 start = seg.get("start", 0)
                 _trim_clip(avatar_clip, avatar_temp, start, dur)
-                # Composite split screen
                 _split_screen(avatar_temp, broll_temp, seg_dest, dur)
                 broll_temp.unlink(missing_ok=True)
                 avatar_temp.unlink(missing_ok=True)
@@ -386,6 +442,7 @@ def main():
     ap.add_argument("--gen-images", action="store_true", help="Generate B-roll images")
     ap.add_argument("--gen-avatar-image", action="store_true", help="Generate avatar image")
     ap.add_argument("--gen-avatar", action="store_true", help="Generate avatar talking head clips")
+    ap.add_argument("--gen-videos", action="store_true", help="Generate B-roll video clips")
     ap.add_argument("--assemble-only", action="store_true", help="Skip generation, just assemble")
     args = ap.parse_args()
 
@@ -409,16 +466,21 @@ def main():
         print(f"\n=== GENERATING {len(BROLL_IMAGES)} B-ROLL IMAGES ===")
         gen_images(veo)
 
+    if args.gen_videos:
+        print(f"\n=== GENERATING {len(BROLL_VIDEOS)} B-ROLL VIDEO CLIPS ===")
+        gen_videos(veo)
+
     if args.gen_avatar:
         print(f"\n=== GENERATING {len(AVATAR_CLIPS)} AVATAR CLIPS ===")
         gen_avatar_clips(veo)
 
-    if not args.gen_images and not args.gen_avatar and not args.gen_avatar_image:
-        print("\nSpecify --gen-images, --gen-avatar-image, --gen-avatar, or --assemble-only")
+    if not args.gen_images and not args.gen_videos and not args.gen_avatar and not args.gen_avatar_image:
+        print("\nSpecify --gen-images, --gen-videos, --gen-avatar-image, --gen-avatar, or --assemble-only")
 
     total_dur = sum(s["dur"] for s in TIMELINE)
     print(f"\nTimeline: {len(TIMELINE)} segments, ~{total_dur}s ({total_dur/60:.1f} min)")
     print(f"B-roll images needed: {len(BROLL_IMAGES)}")
+    print(f"B-roll videos needed: {len(BROLL_VIDEOS)}")
     print(f"Avatar clips needed: {len(AVATAR_CLIPS)}")
 
 
