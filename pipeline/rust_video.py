@@ -53,6 +53,34 @@ BROLL_IMAGES = [
     {"name": "flash_rust_example", "prompt": "Close-up photograph of bare metal surface showing faint orange flash rust forming overnight, microscopic new rust layer on previously clean steel"},
     {"name": "before_after_split", "prompt": "Side by side comparison photograph, left showing heavy orange rust on metal, right showing clean treated bare gray metal, same lighting, workshop bench"},
     {"name": "brake_lines_rusty", "prompt": "Close-up photograph of thin steel brake lines running along a truck frame rail, showing flaky puffed-up rust on the lines, flashlight illumination"},
+    {"name": "rust_scale_closeup", "prompt": "Extreme macro photograph of layered rust scale flaking off steel, showing the orange and brown layers of iron oxide, sharp focus, dark background"},
+    {"name": "wheel_well_rust", "prompt": "Photograph of a car wheel well with rust eating through the inner fender, visible holes and brown staining, natural daylight"},
+    {"name": "rubber_gloves_table", "prompt": "Photograph of yellow rubber gloves laid next to a wire brush and chemical bottle on a garage workbench, ready for rust treatment work"},
+    {"name": "rust_converter_label", "prompt": "Close-up photograph of a rust converter product label on a bottle, showing chemical instructions, workbench background"},
+    {"name": "vinegar_soak_bolt", "prompt": "Photograph of rusty bolts soaking in a glass jar of white vinegar on a workbench, bubbles forming on the rust surface"},
+    {"name": "sanding_disc_used", "prompt": "Photograph of a worn sanding disc next to a fresh one on a workbench, the used one covered in orange rust dust"},
+    {"name": "frame_crossmember", "prompt": "Underneath photograph of a truck frame crossmember showing surface rust and road grime buildup, flashlight illumination"},
+    {"name": "rust_stain_concrete", "prompt": "Photograph of orange rust stain drips on a concrete garage floor beneath a parked vehicle, overhead view"},
+    {"name": "masking_tape_prep", "prompt": "Photograph of blue painters tape masking off areas around bare metal before primer application, clean edges, workshop setting"},
+    {"name": "safety_glasses_bench", "prompt": "Photograph of safety glasses and a dust mask laid on a workbench next to rust removal tools, safety equipment ready"},
+    {"name": "rust_through_hole", "prompt": "Close-up photograph of a quarter-sized perforation hole rusted through a car floor pan, light visible through the hole from below"},
+    {"name": "naval_jelly_applied", "prompt": "Close-up photograph of pink naval jelly chemical paste sitting on a rusty metal surface, partially dissolving the rust, workshop lighting"},
+    {"name": "clean_frame_section", "prompt": "Photograph of a section of truck frame that has been fully cleaned and primed, matte gray finish, contrasting with rusty adjacent area"},
+    {"name": "shop_receipt_comparison", "prompt": "Overhead photograph of two receipts side by side on a counter, one showing a high repair quote and one showing DIY supply costs under twenty dollars"},
+    {"name": "drain_plug_rusty", "prompt": "Close-up photograph of a rusty drain plug on a truck frame, rust buildup around the threads, flashlight beam on it"},
+    {"name": "leaf_spring_rust", "prompt": "Photograph of rusty leaf spring suspension under a truck, showing layered rust between the spring leaves, garage floor visible"},
+    {"name": "wire_wheel_drill", "prompt": "Photograph of a wire wheel attachment on a cordless drill laying on a workbench, rust dust on the wire bristles"},
+    {"name": "exhaust_rust_flakes", "prompt": "Photograph of rusty exhaust pipe with flaking rust falling onto garage floor, heavy corrosion near the muffler connection"},
+    {"name": "phosphoric_acid_reaction", "prompt": "Extreme close-up of phosphoric acid rust converter reacting on metal surface, showing the dark gray conversion coating forming"},
+    {"name": "truck_bed_rust_spot", "prompt": "Photograph of a small rust spot on a pickup truck bed floor, paint chipping around the edges, overhead view"},
+    {"name": "spray_can_collection", "prompt": "Photograph of three spray cans lined up on a workbench: self-etching primer, rubberized undercoating, and clear coat, labels visible"},
+    {"name": "jack_stand_setup", "prompt": "Photograph of a truck raised on jack stands in a driveway, person visible underneath with a flashlight, afternoon sunlight"},
+    {"name": "rust_dust_pile", "prompt": "Close-up photograph of a small pile of orange rust dust and flakes on a blue tarp after wire brushing, detailed texture"},
+    {"name": "caliper_measuring", "prompt": "Photograph of a caliper measuring the thickness of a rusty metal panel, showing how thin the rust has made the steel"},
+    {"name": "newspaper_protect", "prompt": "Photograph of newspaper spread on a driveway under a truck to catch rust flakes and chemical drips during treatment"},
+    {"name": "finished_underside", "prompt": "Wide photograph of a fully treated and undercoated truck undercarriage, clean black rubberized coating, shop lift"},
+    {"name": "thumbs_up_result", "prompt": "Photograph of a hand giving thumbs up next to a section of cleanly treated bare metal on a truck frame, workshop background"},
+    {"name": "sunrise_truck_drive", "prompt": "Wide photograph of a pickup truck driving down a rural road at sunrise, golden light, the truck looking clean and well-maintained"},
 ]
 
 # B-roll VIDEO CLIPS (real motion) — action/hands-on shots
@@ -68,6 +96,19 @@ BROLL_VIDEOS = [
     {"name": "vid_flashlight_inspect", "prompt": "First person POV of a hand holding a flashlight shining it along a truck frame rail underside, slowly panning across rusty surface, garage floor", "duration": 5},
     {"name": "vid_baking_soda_wipe", "prompt": "Close-up of a hand wiping bare metal surface with a rag soaked in baking soda solution, neutralizing chemical residue, clean workshop", "duration": 5},
     {"name": "vid_primer_spray", "prompt": "Close-up of a hand spraying self-etching primer from a spray can onto bare gray metal surface, even sweeping coat, workshop background", "duration": 5},
+    {"name": "vid_drill_wire_wheel", "prompt": "Close-up of a cordless drill with wire wheel attachment spinning and removing rust from a metal surface, sparks and rust dust flying", "duration": 5},
+    {"name": "vid_pouring_vinegar", "prompt": "Close-up of hands pouring white vinegar from a bottle into a glass jar containing rusty bolts, liquid splashing over rusted metal", "duration": 5},
+    {"name": "vid_tapping_frame", "prompt": "Close-up of a hand tapping along a truck frame rail with a small hammer, listening for solid vs hollow sounds, garage setting", "duration": 5},
+    {"name": "vid_peeling_masking", "prompt": "Close-up of hands peeling blue painters tape off a freshly primed metal surface, revealing clean sharp edges, satisfying peel", "duration": 5},
+    {"name": "vid_sanding_by_hand", "prompt": "Close-up of a hand sanding a rusty metal surface with sandpaper, back and forth motion, rust dust accumulating, workshop bench", "duration": 5},
+    {"name": "vid_rust_converter_brush", "prompt": "Close-up of a brush applying dark rust converter liquid onto a rusty surface, the liquid turning the rust black on contact", "duration": 5},
+    {"name": "vid_hosing_off", "prompt": "Close-up of water from a garden hose rinsing off chemical residue from a treated metal surface, water running clear, driveway", "duration": 5},
+    {"name": "vid_crawling_under", "prompt": "Wide shot of a person sliding on a creeper underneath a raised truck on jack stands, flashlight in hand, driveway setting", "duration": 5},
+    {"name": "vid_shaking_spray_can", "prompt": "Close-up of a hand shaking a spray can of primer, the ball bearing rattling inside audibly, then popping the cap off, workshop", "duration": 5},
+    {"name": "vid_rubbing_bare_metal", "prompt": "Close-up of fingers rubbing across clean bare metal surface after rust removal, showing the smooth phosphate coating, satisfied gesture", "duration": 5},
+    {"name": "vid_undercoat_drip", "prompt": "Close-up of black rubberized undercoating being sprayed in thick coat on a frame rail, slight drip forming and being smoothed out", "duration": 5},
+    {"name": "vid_comparing_sections", "prompt": "Camera panning slowly between a rusted section and a treated section of the same truck frame, showing the dramatic before and after difference", "duration": 5},
+    {"name": "vid_tools_cleanup", "prompt": "Hands gathering wire brush, chemical bottle, and rags from a blue tarp, tidying up after completing the rust treatment job", "duration": 5},
 ]
 
 # Avatar talking head clips via frames-to-video
@@ -80,171 +121,157 @@ AVATAR_CLIPS = [
     {"name": "avatar_closing", "prompt": "The mechanic in the image giving a confident thumbs up to camera, warm smile, final goodbye energy, workshop background", "duration": 5},
 ]
 
-# Video timeline: each segment is either solo avatar, solo broll, or split-screen
-# type: "avatar" | "broll" | "split" | "graphic"
-# For broll/split, "image" references a BROLL_IMAGES name
-# For avatar/split, "avatar" references an AVATAR_CLIPS name
-# Timeline segments
+# Timeline segments — ~120 cuts over 8 minutes
 # type: "avatar" | "image" (still+KenBurns) | "video" (motion clip) | "split"
 # "image" refs BROLL_IMAGES name, "video" refs BROLL_VIDEOS name
 TIMELINE = [
-    # 0:00-0:04 Avatar intro
+    # === CHAPTER 1: Hook / Intro (0:00-1:00) ===
     {"type": "avatar", "avatar": "avatar_intro", "start": 0, "dur": 4},
-    # 0:04-0:07 Image: rusty frame rail
     {"type": "image", "asset": "rusty_frame_rail", "dur": 3},
-    # 0:07-0:10 Split: avatar + rusty rocker
     {"type": "split", "avatar": "avatar_intro", "asset": "rusty_rocker_panel", "asset_type": "image", "dur": 3},
-    # 0:10-0:13 VIDEO: hand peeling rust (action)
     {"type": "video", "asset": "vid_hand_peeling_rust", "dur": 3},
-    # 0:13-0:16 Image: water on rust macro
     {"type": "image", "asset": "water_on_rust", "dur": 3},
-    # 0:16-0:19 Avatar speaking
     {"type": "avatar", "avatar": "avatar_explain", "start": 0, "dur": 3},
-    # 0:19-0:22 Image: repair invoice high
     {"type": "image", "asset": "repair_invoice_high", "dur": 3},
-    # 0:22-0:25 VIDEO: brushing chemical (action)
-    {"type": "video", "asset": "vid_brushing_chemical", "dur": 3},
-    # 0:25-0:28 VIDEO: wire brush scrubbing (action)
-    {"type": "video", "asset": "vid_wire_brush_scrub", "dur": 3},
-    # 0:28-0:31 Split: avatar + mechanic under lift (video)
-    {"type": "split", "avatar": "avatar_explain", "asset": "vid_mechanic_under_lift", "asset_type": "video", "dur": 3},
-    # 0:31-0:34 VIDEO: holding invoice (action)
     {"type": "video", "asset": "vid_holding_invoice", "dur": 3},
-    # 0:34-0:37 Avatar warning about upsell
+    {"type": "split", "avatar": "avatar_explain", "asset": "vid_mechanic_under_lift", "asset_type": "video", "dur": 3},
     {"type": "avatar", "avatar": "avatar_warning", "start": 0, "dur": 3},
-    # 0:37-0:40 VIDEO: undercoat spray (action)
-    {"type": "video", "asset": "vid_undercoat_spray", "dur": 3},
-    # 0:40-0:43 Split: avatar + chemical bottle (image)
+    {"type": "image", "asset": "rust_scale_closeup", "dur": 3},
+    {"type": "video", "asset": "vid_brushing_chemical", "dur": 3},
+    {"type": "image", "asset": "wheel_well_rust", "dur": 3},
     {"type": "split", "avatar": "avatar_warning", "asset": "chemical_bottle_pink", "asset_type": "image", "dur": 3},
-    # 0:43-0:46 Image: cheap bottle vs cash
     {"type": "image", "asset": "repair_invoice_low", "dur": 3},
-    # 0:46-0:49 Avatar - good news
     {"type": "avatar", "avatar": "avatar_friendly", "start": 0, "dur": 3},
-    # 0:49-0:52 Image: tools on tarp
     {"type": "image", "asset": "tools_on_tarp", "dur": 3},
-    # 0:52-0:55 Avatar back
-    {"type": "avatar", "avatar": "avatar_friendly", "start": 2, "dur": 3},
-    # 0:55-0:58 Image: four steps paper
     {"type": "image", "asset": "four_steps_paper", "dur": 3},
-    # 0:58-1:01 Avatar pointing
     {"type": "avatar", "avatar": "avatar_pointing", "start": 0, "dur": 3},
-    # -- CHAPTER 2: Inspection --
-    # 1:01-1:05 Image: truck on driveway
+    {"type": "image", "asset": "rubber_gloves_table", "dur": 3},
+    # === CHAPTER 2: Inspection (1:00-2:00) ===
     {"type": "image", "asset": "truck_driveway", "dur": 4},
-    # 1:05-1:08 VIDEO: flashlight inspect (action)
     {"type": "video", "asset": "vid_flashlight_inspect", "dur": 3},
-    # 1:08-1:11 Split: avatar + rusty frame (image)
+    {"type": "image", "asset": "flashlight_under_truck", "dur": 3},
     {"type": "split", "avatar": "avatar_explain", "asset": "rusty_frame_rail", "asset_type": "image", "dur": 3},
-    # 1:11-1:15 VIDEO: screwdriver poke solid (action)
+    {"type": "video", "asset": "vid_tapping_frame", "dur": 4},
     {"type": "video", "asset": "vid_screwdriver_poke_solid", "dur": 4},
-    # 1:15-1:18 Avatar explain
     {"type": "avatar", "avatar": "avatar_explain", "start": 2, "dur": 3},
-    # 1:18-1:22 VIDEO: screwdriver poke through (action)
     {"type": "video", "asset": "vid_screwdriver_poke_through", "dur": 4},
-    # 1:22-1:25 Avatar warning
     {"type": "avatar", "avatar": "avatar_warning", "start": 2, "dur": 3},
-    # 1:25-1:28 Image: paint bubble rust
     {"type": "image", "asset": "paint_bubble_rust", "dur": 3},
-    # 1:28-1:32 Split: avatar + brake lines (image)
+    {"type": "image", "asset": "rust_through_hole", "dur": 3},
     {"type": "split", "avatar": "avatar_warning", "asset": "brake_lines_rusty", "asset_type": "image", "dur": 4},
-    # -- CHAPTER 3: The Bottle --
-    # 1:32-1:35 Avatar friendly
+    {"type": "image", "asset": "frame_crossmember", "dur": 3},
+    {"type": "video", "asset": "vid_crawling_under", "dur": 3},
+    {"type": "image", "asset": "jack_stand_setup", "dur": 3},
+    {"type": "image", "asset": "leaf_spring_rust", "dur": 3},
+    # === CHAPTER 3: The Bottle / Cheap Fix (2:00-3:00) ===
     {"type": "avatar", "avatar": "avatar_friendly", "start": 2, "dur": 3},
-    # 1:35-1:39 Image: chemical bottle pink
     {"type": "image", "asset": "chemical_bottle_pink", "dur": 4},
-    # 1:39-1:42 VIDEO: brushing chemical again (action)
+    {"type": "image", "asset": "rust_converter_label", "dur": 3},
     {"type": "video", "asset": "vid_brushing_chemical", "start": 2, "dur": 3},
-    # 1:42-1:46 Image: bare metal after
+    {"type": "image", "asset": "naval_jelly_applied", "dur": 3},
+    {"type": "video", "asset": "vid_rust_converter_brush", "dur": 4},
     {"type": "image", "asset": "bare_metal_after", "dur": 4},
-    # 1:46-1:49 Split: avatar + before/after (image)
     {"type": "split", "avatar": "avatar_friendly", "asset": "before_after_split", "asset_type": "image", "dur": 3},
-    # 1:49-1:52 Image: invoice comparison
     {"type": "image", "asset": "repair_invoice_high", "dur": 3},
-    # 1:52-1:55 Image: cheap fix
-    {"type": "image", "asset": "repair_invoice_low", "dur": 3},
-    # 1:55-1:58 Avatar explain
+    {"type": "image", "asset": "shop_receipt_comparison", "dur": 4},
     {"type": "avatar", "avatar": "avatar_explain", "start": 3, "dur": 3},
-    # -- CHAPTER 4: Making it hold --
-    # 1:58-2:01 Avatar warning - don't skip
+    {"type": "image", "asset": "repair_invoice_low", "dur": 3},
+    {"type": "video", "asset": "vid_wire_brush_scrub", "dur": 3},
+    {"type": "split", "avatar": "avatar_explain", "asset": "vid_hand_peeling_rust", "asset_type": "video", "dur": 3},
+    {"type": "image", "asset": "vinegar_soak_bolt", "dur": 3},
+    # === CHAPTER 4: Making it Hold (3:00-4:00) ===
     {"type": "avatar", "avatar": "avatar_warning", "start": 3, "dur": 3},
-    # 2:01-2:04 Image: flash rust
     {"type": "image", "asset": "flash_rust_example", "dur": 3},
-    # 2:04-2:08 VIDEO: baking soda wipe (action)
     {"type": "video", "asset": "vid_baking_soda_wipe", "dur": 4},
-    # 2:08-2:11 VIDEO: primer spray (action)
+    {"type": "image", "asset": "phosphoric_acid_reaction", "dur": 3},
+    {"type": "video", "asset": "vid_hosing_off", "dur": 4},
+    {"type": "avatar", "avatar": "avatar_pointing", "start": 2, "dur": 3},
     {"type": "video", "asset": "vid_primer_spray", "dur": 3},
-    # 2:11-2:15 Split: avatar + bare metal (image)
+    {"type": "image", "asset": "primer_spray_can", "dur": 3},
     {"type": "split", "avatar": "avatar_pointing", "asset": "bare_metal_after", "asset_type": "image", "dur": 4},
-    # 2:15-2:18 Image: before/after
+    {"type": "video", "asset": "vid_shaking_spray_can", "dur": 3},
+    {"type": "image", "asset": "masking_tape_prep", "dur": 3},
+    {"type": "video", "asset": "vid_peeling_masking", "dur": 3},
     {"type": "image", "asset": "before_after_split", "dur": 3},
-    # 2:18-2:22 Avatar closing
     {"type": "avatar", "avatar": "avatar_closing", "start": 0, "dur": 4},
-    # 2:22-2:26 Image: truck driveway final
     {"type": "image", "asset": "truck_driveway", "dur": 4},
-    # -- CHAPTER 5: Step by step (voiceover part 2) --
-    # 2:26-2:31 Avatar pointing - transition
-    {"type": "avatar", "avatar": "avatar_pointing", "start": 2, "dur": 5},
-    # VIDEO: flashlight inspect
-    {"type": "video", "asset": "vid_flashlight_inspect", "start": 2, "dur": 5},
-    # Split: avatar + hand peeling (video)
-    {"type": "split", "avatar": "avatar_explain", "asset": "vid_hand_peeling_rust", "asset_type": "video", "dur": 5},
-    # VIDEO: screwdriver poke solid
-    {"type": "video", "asset": "vid_screwdriver_poke_solid", "start": 2, "dur": 5},
-    # Image: tools on tarp
-    {"type": "image", "asset": "tools_on_tarp", "dur": 5},
-    # 2:49-2:54 VIDEO: wire brush scrub
-    {"type": "video", "asset": "vid_wire_brush_scrub", "start": 2, "dur": 5},
-    # Image: chemical bottle
-    {"type": "image", "asset": "chemical_bottle_pink", "dur": 5},
-    # 2:58-3:03 VIDEO: brushing chemical
-    {"type": "video", "asset": "vid_brushing_chemical", "dur": 5},
-    # Avatar friendly
-    {"type": "avatar", "avatar": "avatar_friendly", "start": 0, "dur": 5},
-    # 3:07-3:12 Split: avatar + wire brush (video)
-    {"type": "split", "avatar": "avatar_friendly", "asset": "vid_wire_brush_scrub", "asset_type": "video", "dur": 5},
-    # Image: water on rust
-    {"type": "image", "asset": "water_on_rust", "dur": 5},
-    # 3:16-3:21 VIDEO: baking soda wipe
-    {"type": "video", "asset": "vid_baking_soda_wipe", "start": 2, "dur": 5},
-    # Avatar warning
-    {"type": "avatar", "avatar": "avatar_warning", "start": 0, "dur": 5},
-    # 3:25-3:30 Split: avatar + flash rust (image)
-    {"type": "split", "avatar": "avatar_warning", "asset": "flash_rust_example", "asset_type": "image", "dur": 5},
-    # -- CHAPTER 6: Sealing & Protecting --
-    # 3:30-3:35 VIDEO: primer spray
-    {"type": "video", "asset": "vid_primer_spray", "start": 2, "dur": 5},
-    # Image: bare metal after
-    {"type": "image", "asset": "bare_metal_after", "dur": 5},
-    # 3:39-3:44 VIDEO: undercoat spray
-    {"type": "video", "asset": "vid_undercoat_spray", "start": 2, "dur": 5},
-    # Split: avatar + primer spray (video)
-    {"type": "split", "avatar": "avatar_pointing", "asset": "vid_primer_spray", "asset_type": "video", "dur": 5},
-    # Image: primer can
-    {"type": "image", "asset": "primer_spray_can", "dur": 5},
-    # 3:52-3:57 Avatar explain
-    {"type": "avatar", "avatar": "avatar_explain", "start": 2, "dur": 5},
-    # -- CHAPTER 7: When to Walk Away --
-    # 3:57-4:02 VIDEO: screwdriver poke through
-    {"type": "video", "asset": "vid_screwdriver_poke_through", "start": 2, "dur": 5},
-    # Image: brake lines rusty
-    {"type": "image", "asset": "brake_lines_rusty", "dur": 5},
-    # Split: avatar + poke through (video)
-    {"type": "split", "avatar": "avatar_warning", "asset": "vid_screwdriver_poke_through", "asset_type": "video", "dur": 5},
-    # IMAGE: paint bubble rust
-    {"type": "image", "asset": "paint_bubble_rust", "dur": 5},
-    # 4:14-4:19 VIDEO: mechanic under lift
-    {"type": "video", "asset": "vid_mechanic_under_lift", "start": 2, "dur": 5},
-    # 4:19-4:23 Split: avatar + mechanic lift (video)
-    {"type": "split", "avatar": "avatar_explain", "asset": "vid_mechanic_under_lift", "asset_type": "video", "dur": 4},
-    # -- CHAPTER 8: Closing / Recap --
-    # Avatar friendly
-    {"type": "avatar", "avatar": "avatar_friendly", "start": 2, "dur": 5},
-    # IMAGE: before/after
-    {"type": "image", "asset": "before_after_split", "dur": 5},
-    # Split: avatar + truck driveway (image)
-    {"type": "split", "avatar": "avatar_friendly", "asset": "truck_driveway", "asset_type": "image", "dur": 5},
-    # Split: avatar closing + bare metal (image)
-    {"type": "split", "avatar": "avatar_closing", "asset": "bare_metal_after", "asset_type": "image", "dur": 5},
+    # === CHAPTER 5: Step by Step Process (4:00-5:00) ===
+    {"type": "avatar", "avatar": "avatar_explain", "start": 0, "dur": 4},
+    {"type": "video", "asset": "vid_flashlight_inspect", "start": 2, "dur": 4},
+    {"type": "image", "asset": "rusty_rocker_panel", "dur": 3},
+    {"type": "video", "asset": "vid_sanding_by_hand", "dur": 4},
+    {"type": "image", "asset": "sanding_disc_used", "dur": 3},
+    {"type": "video", "asset": "vid_drill_wire_wheel", "dur": 4},
+    {"type": "split", "avatar": "avatar_explain", "asset": "vid_wire_brush_scrub", "asset_type": "video", "dur": 4},
+    {"type": "image", "asset": "rust_dust_pile", "dur": 3},
+    {"type": "video", "asset": "vid_rust_converter_brush", "start": 2, "dur": 4},
+    {"type": "avatar", "avatar": "avatar_friendly", "start": 0, "dur": 3},
+    {"type": "image", "asset": "water_on_rust", "dur": 3},
+    {"type": "video", "asset": "vid_baking_soda_wipe", "start": 2, "dur": 4},
+    {"type": "image", "asset": "safety_glasses_bench", "dur": 3},
+    {"type": "split", "avatar": "avatar_friendly", "asset": "vid_brushing_chemical", "asset_type": "video", "dur": 4},
+    {"type": "image", "asset": "newspaper_protect", "dur": 3},
+    {"type": "image", "asset": "rust_stain_concrete", "dur": 3},
+    # === CHAPTER 6: Sealing & Protecting (5:00-6:00) ===
+    {"type": "avatar", "avatar": "avatar_pointing", "start": 0, "dur": 4},
+    {"type": "video", "asset": "vid_primer_spray", "start": 2, "dur": 4},
+    {"type": "image", "asset": "spray_can_collection", "dur": 3},
+    {"type": "video", "asset": "vid_undercoat_spray", "dur": 4},
+    {"type": "split", "avatar": "avatar_pointing", "asset": "vid_undercoat_drip", "asset_type": "video", "dur": 4},
+    {"type": "image", "asset": "clean_frame_section", "dur": 4},
+    {"type": "video", "asset": "vid_rubbing_bare_metal", "dur": 3},
+    {"type": "avatar", "avatar": "avatar_explain", "start": 2, "dur": 4},
+    {"type": "video", "asset": "vid_undercoat_spray", "start": 2, "dur": 4},
+    {"type": "image", "asset": "bare_metal_after", "dur": 3},
+    {"type": "split", "avatar": "avatar_explain", "asset": "before_after_split", "asset_type": "image", "dur": 4},
+    {"type": "video", "asset": "vid_comparing_sections", "dur": 4},
+    {"type": "image", "asset": "finished_underside", "dur": 4},
+    # === CHAPTER 7: When to Walk Away (6:00-7:00) ===
+    {"type": "avatar", "avatar": "avatar_warning", "start": 0, "dur": 4},
+    {"type": "video", "asset": "vid_screwdriver_poke_through", "start": 2, "dur": 4},
+    {"type": "image", "asset": "brake_lines_rusty", "dur": 3},
+    {"type": "image", "asset": "rust_through_hole", "dur": 4},
+    {"type": "split", "avatar": "avatar_warning", "asset": "vid_mechanic_under_lift", "asset_type": "video", "dur": 4},
+    {"type": "image", "asset": "exhaust_rust_flakes", "dur": 3},
+    {"type": "video", "asset": "vid_tapping_frame", "start": 2, "dur": 4},
+    {"type": "image", "asset": "caliper_measuring", "dur": 3},
+    {"type": "avatar", "avatar": "avatar_explain", "start": 3, "dur": 4},
+    {"type": "image", "asset": "drain_plug_rusty", "dur": 3},
+    {"type": "video", "asset": "vid_mechanic_under_lift", "start": 2, "dur": 4},
+    {"type": "split", "avatar": "avatar_explain", "asset": "repair_invoice_high", "asset_type": "image", "dur": 4},
+    {"type": "image", "asset": "truck_bed_rust_spot", "dur": 3},
+    {"type": "image", "asset": "paint_bubble_rust", "dur": 3},
+    # === CHAPTER 8: Closing / Recap (7:00-8:00) ===
+    {"type": "avatar", "avatar": "avatar_friendly", "start": 2, "dur": 4},
+    {"type": "image", "asset": "tools_on_tarp", "dur": 3},
+    {"type": "video", "asset": "vid_pouring_vinegar", "dur": 4},
+    {"type": "image", "asset": "chemical_bottle_pink", "dur": 3},
+    {"type": "image", "asset": "shop_receipt_comparison", "dur": 4},
+    {"type": "split", "avatar": "avatar_friendly", "asset": "truck_driveway", "asset_type": "image", "dur": 4},
+    {"type": "video", "asset": "vid_tools_cleanup", "dur": 4},
+    {"type": "image", "asset": "thumbs_up_result", "dur": 3},
+    {"type": "avatar", "avatar": "avatar_closing", "start": 0, "dur": 4},
+    {"type": "split", "avatar": "avatar_closing", "asset": "finished_underside", "asset_type": "image", "dur": 4},
+    {"type": "image", "asset": "before_after_split", "dur": 4},
+    {"type": "image", "asset": "sunrise_truck_drive", "dur": 4},
+    {"type": "avatar", "avatar": "avatar_closing", "start": 2, "dur": 4},
+    # === Extended Closing / Final thoughts (7:57-8:00+) ===
+    {"type": "image", "asset": "wire_wheel_drill", "dur": 4},
+    {"type": "video", "asset": "vid_comparing_sections", "start": 2, "dur": 4},
+    {"type": "image", "asset": "clean_frame_section", "dur": 4},
+    {"type": "split", "avatar": "avatar_friendly", "asset": "vid_rubbing_bare_metal", "asset_type": "video", "dur": 4},
+    {"type": "image", "asset": "leaf_spring_rust", "dur": 4},
+    {"type": "video", "asset": "vid_hosing_off", "start": 2, "dur": 4},
+    {"type": "image", "asset": "vinegar_soak_bolt", "dur": 4},
+    {"type": "avatar", "avatar": "avatar_pointing", "start": 2, "dur": 4},
+    {"type": "image", "asset": "phosphoric_acid_reaction", "dur": 4},
+    {"type": "video", "asset": "vid_drill_wire_wheel", "start": 2, "dur": 4},
+    {"type": "split", "avatar": "avatar_closing", "asset": "thumbs_up_result", "asset_type": "image", "dur": 4},
+    {"type": "image", "asset": "finished_underside", "dur": 4},
+    {"type": "video", "asset": "vid_tools_cleanup", "start": 2, "dur": 4},
+    {"type": "image", "asset": "sunrise_truck_drive", "dur": 4},
+    {"type": "split", "avatar": "avatar_closing", "asset": "before_after_split", "asset_type": "image", "dur": 4},
+    {"type": "avatar", "avatar": "avatar_closing", "start": 0, "dur": 5},
 ]
 
 
