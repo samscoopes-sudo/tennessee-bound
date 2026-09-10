@@ -181,8 +181,70 @@ TIMELINE = [
     {"type": "avatar", "avatar": "avatar_closing", "start": 0, "dur": 4},
     # 2:22-2:26 Image: truck driveway final
     {"type": "image", "asset": "truck_driveway", "dur": 4},
-    # 2:26-2:30 Avatar final
-    {"type": "avatar", "avatar": "avatar_closing", "start": 2, "dur": 4},
+    # -- CHAPTER 5: Step by step (voiceover part 2) --
+    # 2:26-2:31 Avatar pointing - transition
+    {"type": "avatar", "avatar": "avatar_pointing", "start": 2, "dur": 5},
+    # VIDEO: flashlight inspect
+    {"type": "video", "asset": "vid_flashlight_inspect", "start": 2, "dur": 5},
+    # Split: avatar + hand peeling (video)
+    {"type": "split", "avatar": "avatar_explain", "asset": "vid_hand_peeling_rust", "asset_type": "video", "dur": 5},
+    # VIDEO: screwdriver poke solid
+    {"type": "video", "asset": "vid_screwdriver_poke_solid", "start": 2, "dur": 5},
+    # Image: tools on tarp
+    {"type": "image", "asset": "tools_on_tarp", "dur": 5},
+    # 2:49-2:54 VIDEO: wire brush scrub
+    {"type": "video", "asset": "vid_wire_brush_scrub", "start": 2, "dur": 5},
+    # Image: chemical bottle
+    {"type": "image", "asset": "chemical_bottle_pink", "dur": 5},
+    # 2:58-3:03 VIDEO: brushing chemical
+    {"type": "video", "asset": "vid_brushing_chemical", "dur": 5},
+    # Avatar friendly
+    {"type": "avatar", "avatar": "avatar_friendly", "start": 0, "dur": 5},
+    # 3:07-3:12 Split: avatar + wire brush (video)
+    {"type": "split", "avatar": "avatar_friendly", "asset": "vid_wire_brush_scrub", "asset_type": "video", "dur": 5},
+    # Image: water on rust
+    {"type": "image", "asset": "water_on_rust", "dur": 5},
+    # 3:16-3:21 VIDEO: baking soda wipe
+    {"type": "video", "asset": "vid_baking_soda_wipe", "start": 2, "dur": 5},
+    # Avatar warning
+    {"type": "avatar", "avatar": "avatar_warning", "start": 0, "dur": 5},
+    # 3:25-3:30 Split: avatar + flash rust (image)
+    {"type": "split", "avatar": "avatar_warning", "asset": "flash_rust_example", "asset_type": "image", "dur": 5},
+    # -- CHAPTER 6: Sealing & Protecting --
+    # 3:30-3:35 VIDEO: primer spray
+    {"type": "video", "asset": "vid_primer_spray", "start": 2, "dur": 5},
+    # Image: bare metal after
+    {"type": "image", "asset": "bare_metal_after", "dur": 5},
+    # 3:39-3:44 VIDEO: undercoat spray
+    {"type": "video", "asset": "vid_undercoat_spray", "start": 2, "dur": 5},
+    # Split: avatar + primer spray (video)
+    {"type": "split", "avatar": "avatar_pointing", "asset": "vid_primer_spray", "asset_type": "video", "dur": 5},
+    # Image: primer can
+    {"type": "image", "asset": "primer_spray_can", "dur": 5},
+    # 3:52-3:57 Avatar explain
+    {"type": "avatar", "avatar": "avatar_explain", "start": 2, "dur": 5},
+    # -- CHAPTER 7: When to Walk Away --
+    # 3:57-4:02 VIDEO: screwdriver poke through
+    {"type": "video", "asset": "vid_screwdriver_poke_through", "start": 2, "dur": 5},
+    # Image: brake lines rusty
+    {"type": "image", "asset": "brake_lines_rusty", "dur": 5},
+    # Split: avatar + poke through (video)
+    {"type": "split", "avatar": "avatar_warning", "asset": "vid_screwdriver_poke_through", "asset_type": "video", "dur": 5},
+    # IMAGE: paint bubble rust
+    {"type": "image", "asset": "paint_bubble_rust", "dur": 5},
+    # 4:14-4:19 VIDEO: mechanic under lift
+    {"type": "video", "asset": "vid_mechanic_under_lift", "start": 2, "dur": 5},
+    # 4:19-4:23 Split: avatar + mechanic lift (video)
+    {"type": "split", "avatar": "avatar_explain", "asset": "vid_mechanic_under_lift", "asset_type": "video", "dur": 4},
+    # -- CHAPTER 8: Closing / Recap --
+    # Avatar friendly
+    {"type": "avatar", "avatar": "avatar_friendly", "start": 2, "dur": 5},
+    # IMAGE: before/after
+    {"type": "image", "asset": "before_after_split", "dur": 5},
+    # Split: avatar + truck driveway (image)
+    {"type": "split", "avatar": "avatar_friendly", "asset": "truck_driveway", "asset_type": "image", "dur": 5},
+    # Split: avatar closing + bare metal (image)
+    {"type": "split", "avatar": "avatar_closing", "asset": "bare_metal_after", "asset_type": "image", "dur": 5},
 ]
 
 
