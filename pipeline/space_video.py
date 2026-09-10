@@ -196,53 +196,78 @@ def fetch_unique_asset(query: str, pexels: Pexels | None, pixabay: Pixabay | Non
 # Gemini TTS
 # ---------------------------------------------------------------------------
 
-def generate_voiceover(script: str, dest: Path):
-    """Generate voiceover using Gemini 2.5 TTS with Puck voice."""
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key={GOOGLE_KEY}"
-
+def _tts_chunk(text: str, dest: Path, model: str = "gemini-2.5-flash-preview-tts"):
+    """Generate audio for one chunk of text via Gemini TTS."""
+    import base64
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={GOOGLE_KEY}"
     body = {
-        "contents": [
-            {
-                "parts": [{"text": script}]
-            }
-        ],
+        "contents": [{"parts": [{"text": text}]}],
         "generationConfig": {
             "responseModalities": ["AUDIO"],
             "speechConfig": {
                 "voiceConfig": {
-                    "prebuiltVoiceConfig": {
-                        "voiceName": "Puck"
-                    }
+                    "prebuiltVoiceConfig": {"voiceName": "Puck"}
                 }
             }
         }
     }
-
-    print("Generating voiceover via Gemini TTS...")
-    r = requests.post(url, json=body, timeout=120)
+    r = requests.post(url, json=body, timeout=300)
     if not r.ok:
         raise RuntimeError(f"Gemini TTS failed: {r.status_code} {r.text[:500]}")
-
     data = r.json()
     candidates = data.get("candidates", [])
     if not candidates:
-        raise RuntimeError(f"No candidates returned: {data}")
-
-    parts = candidates[0].get("content", {}).get("parts", [])
-    for part in parts:
+        raise RuntimeError(f"No candidates: {data}")
+    for part in candidates[0].get("content", {}).get("parts", []):
         inline = part.get("inlineData", {})
         if inline.get("data"):
-            import base64
             audio_bytes = base64.b64decode(inline["data"])
-            mime = inline.get("mimeType", "audio/wav")
-            ext = ".wav" if "wav" in mime else ".mp3" if "mp3" in mime else ".wav"
             dest.parent.mkdir(parents=True, exist_ok=True)
             with open(dest, "wb") as f:
                 f.write(audio_bytes)
-            print(f"Voiceover saved: {dest} ({len(audio_bytes)} bytes)")
             return dest
+    raise RuntimeError(f"No audio data in response")
 
-    raise RuntimeError(f"No audio data in response: {data}")
+
+def generate_voiceover(script: str, dest: Path):
+    """Generate voiceover using Gemini TTS, splitting into paragraph chunks."""
+    if dest.exists() and dest.stat().st_size > 0:
+        print(f"Voiceover exists: {dest}")
+        return dest
+
+    # Split script into paragraphs to stay within limits
+    paragraphs = [p.strip() for p in script.split("\n\n") if p.strip()]
+    if not paragraphs:
+        paragraphs = [script]
+
+    print(f"Generating voiceover via Gemini TTS ({len(paragraphs)} chunks)...")
+    chunk_files = []
+
+    for i, para in enumerate(paragraphs):
+        chunk_dest = OUT / f"vo_chunk_{i:02d}.wav"
+        if chunk_dest.exists() and chunk_dest.stat().st_size > 0:
+            print(f"  [chunk {i}] skip (cached)")
+            chunk_files.append(chunk_dest)
+            continue
+        print(f"  [chunk {i}] generating ({len(para)} chars)...")
+        _tts_chunk(para, chunk_dest)
+        chunk_files.append(chunk_dest)
+        print(f"  [chunk {i}] OK")
+
+    # Concat all chunks
+    if len(chunk_files) == 1:
+        import shutil
+        shutil.copy2(chunk_files[0], dest)
+    else:
+        listfile = OUT / "vo_chunks_list.txt"
+        listfile.write_text("".join(f"file '{f.resolve()}'\n" for f in chunk_files))
+        subprocess.run([
+            "ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(listfile),
+            "-c:a", "pcm_s16le", str(dest)
+        ], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+    print(f"Voiceover saved: {dest}")
+    return dest
 
 
 # ---------------------------------------------------------------------------
