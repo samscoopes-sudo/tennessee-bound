@@ -477,7 +477,7 @@ def main():
     if args.google_key:
         GOOGLE_KEY = args.google_key
 
-    if not PEXELS_KEY and not PIXABAY_KEY:
+    if not args.assemble_only and not args.tts_only and not PEXELS_KEY and not PIXABAY_KEY:
         print("ERROR: At least one stock API key required (--pexels-key/--pixabay-key or env vars)")
         return
 
