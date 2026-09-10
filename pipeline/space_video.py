@@ -132,30 +132,59 @@ def download_asset(url: str, dest: Path) -> Path:
     return dest
 
 
-def fetch_unique_asset(query: str, pexels: Pexels, pixabay: Pixabay,
+def fetch_unique_asset(query: str, pexels: Pexels | None, pixabay: Pixabay | None,
                        asset_type: str = "video", dest: Path = None) -> Path | None:
-    """Fetch one unique asset matching query. Tries Pexels first, then Pixabay."""
+    """Fetch one unique asset matching query. Tries available sources."""
+    all_used: set[str] = set()
+    if pexels:
+        all_used |= pexels._used_ids
+    if pixabay:
+        all_used |= pixabay._used_ids
+
     for page in range(1, 4):
+        results = []
         if asset_type == "video":
-            results = pexels.search_videos(query, page=page)
-            results += pixabay.search_videos(query, page=page)
+            if pexels:
+                try:
+                    results += pexels.search_videos(query, page=page)
+                except Exception:
+                    pass
+            if pixabay:
+                try:
+                    results += pixabay.search_videos(query, page=page)
+                except Exception:
+                    pass
         else:
-            results = pexels.search_images(query, page=page)
-            results += pixabay.search_images(query, page=page)
+            if pexels:
+                try:
+                    results += pexels.search_images(query, page=page)
+                except Exception:
+                    pass
+            if pixabay:
+                try:
+                    results += pixabay.search_images(query, page=page)
+                except Exception:
+                    pass
 
         for item in results:
-            if item["id"] not in pexels._used_ids and item["id"] not in pixabay._used_ids:
+            if item["id"] not in all_used:
                 ext = ".mp4" if asset_type == "video" else ".jpg"
                 if dest is None:
                     dest = OUT / f"{item['id']}{ext}"
                 if dest.exists() and dest.stat().st_size > 0:
-                    pexels.mark_used(item["id"])
-                    pixabay.mark_used(item["id"])
+                    all_used.add(item["id"])
+                    if pexels:
+                        pexels.mark_used(item["id"])
+                    if pixabay:
+                        pixabay.mark_used(item["id"])
                     return dest
                 try:
                     download_asset(item["url"], dest)
-                    pexels.mark_used(item["id"])
-                    pixabay.mark_used(item["id"])
+                    all_used.add(item["id"])
+                    if pexels:
+                        pexels.mark_used(item["id"])
+                    if pixabay:
+                        pixabay.mark_used(item["id"])
                     return dest
                 except Exception as e:
                     print(f"    Download failed ({item['source']}): {e}")
@@ -423,15 +452,21 @@ def main():
     if args.google_key:
         GOOGLE_KEY = args.google_key
 
-    if not PEXELS_KEY or not PIXABAY_KEY:
-        print("ERROR: Pexels and Pixabay keys required (--pexels-key/--pixabay-key or env vars)")
+    if not PEXELS_KEY and not PIXABAY_KEY:
+        print("ERROR: At least one stock API key required (--pexels-key/--pixabay-key or env vars)")
         return
 
     total_dur = args.segments * args.seg_dur
     print(f"Target: {args.segments} segments x {args.seg_dur}s = {total_dur:.0f}s ({total_dur/60:.1f} min)")
 
-    pexels = Pexels(PEXELS_KEY)
-    pixabay = Pixabay(PIXABAY_KEY)
+    pexels = Pexels(PEXELS_KEY) if PEXELS_KEY else None
+    pixabay = Pixabay(PIXABAY_KEY) if PIXABAY_KEY else None
+    sources = []
+    if pexels:
+        sources.append("Pexels")
+    if pixabay:
+        sources.append("Pixabay")
+    print(f"Stock sources: {', '.join(sources)}")
 
     # Load or fetch script
     script = None
