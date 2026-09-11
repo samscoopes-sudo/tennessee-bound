@@ -437,14 +437,21 @@ def assemble(manifest: list[dict], voiceover_path: Path | None, seg_dur: float =
     # Merge voiceover
     if voiceover_path and voiceover_path.exists():
         final = OUT / "space_video_final.mp4"
-        subprocess.run([
+        result = subprocess.run([
             "ffmpeg", "-y",
             "-i", str(video_only), "-i", str(voiceover_path),
             "-c:v", "copy", "-c:a", "aac", "-b:a", "192k",
             "-shortest",
             str(final)
-        ], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        print(f"Final video with voiceover: {final}")
+        ], capture_output=True, text=True)
+        if result.returncode == 0:
+            print(f"Final video with voiceover: {final}")
+        else:
+            print(f"Audio merge failed (exit {result.returncode}).")
+            print(result.stderr[-500:] if result.stderr else "(no stderr)")
+            import shutil
+            shutil.copy2(video_only, final)
+            print(f"Copied video-only as: {final}")
     else:
         print("No voiceover found. Run with --script to generate one.")
 
