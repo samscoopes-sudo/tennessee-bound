@@ -100,10 +100,19 @@ def _tts_chunk(text: str, dest: Path, google_key: str,
             }
         }
     }
-    import requests
-    r = requests.post(url, json=body, timeout=300)
-    if not r.ok:
-        raise RuntimeError(f"Gemini TTS failed: {r.status_code} {r.text[:500]}")
+    import requests, time as _time
+    for attempt in range(5):
+        r = requests.post(url, json=body, timeout=300)
+        if r.status_code == 429:
+            wait = 30 * (attempt + 1)
+            print(f"    rate limited, waiting {wait}s...")
+            _time.sleep(wait)
+            continue
+        if not r.ok:
+            raise RuntimeError(f"Gemini TTS failed: {r.status_code} {r.text[:500]}")
+        break
+    else:
+        raise RuntimeError("Gemini TTS rate limited after 5 retries")
     data = r.json()
     candidates = data.get("candidates", [])
     if not candidates:
