@@ -113,25 +113,33 @@ def _tts_chunk(text: str, dest: Path, google_key: str,
         if inline.get("data"):
             audio_bytes = base64.b64decode(inline["data"])
             dest.parent.mkdir(parents=True, exist_ok=True)
-            mime = inline.get("mimeType", "audio/wav")
-            ext_map = {"audio/mp3": ".mp3", "audio/mpeg": ".mp3",
-                       "audio/ogg": ".ogg", "audio/wav": ".wav",
-                       "audio/L16": ".raw", "audio/pcm": ".raw"}
-            ext = ext_map.get(mime, ".raw")
-            raw_file = dest.with_suffix(ext)
+            mime = inline.get("mimeType", "")
+            raw_file = dest.with_suffix(".raw")
             raw_file.write_bytes(audio_bytes)
-            if ext != ".wav":
-                result = subprocess.run([
+            # Parse sample rate from mime like "audio/L16;codec=pcm;rate=24000"
+            rate = "24000"
+            if "rate=" in mime:
+                rate = mime.split("rate=")[-1].split(";")[0]
+            is_raw_pcm = "L16" in mime or "pcm" in mime.lower()
+            if is_raw_pcm:
+                cmd = [
+                    "ffmpeg", "-y",
+                    "-f", "s16be", "-ar", rate, "-ac", "1",
+                    "-i", str(raw_file),
+                    "-ar", "24000", "-ac", "1", "-c:a", "pcm_s16le",
+                    str(dest)
+                ]
+            else:
+                cmd = [
                     "ffmpeg", "-y", "-i", str(raw_file),
                     "-ar", "24000", "-ac", "1", "-c:a", "pcm_s16le",
                     str(dest)
-                ], capture_output=True, text=True)
-                if result.returncode != 0:
-                    raise RuntimeError(
-                        f"ffmpeg convert {mime} failed: "
-                        f"{result.stderr[-300:] if result.stderr else ''}")
-            else:
-                shutil.copy2(raw_file, dest)
+                ]
+            result = subprocess.run(cmd, capture_output=True, text=True)
+            if result.returncode != 0:
+                raise RuntimeError(
+                    f"ffmpeg convert ({mime}) failed: "
+                    f"{result.stderr[-300:] if result.stderr else ''}")
             return dest
     raise RuntimeError("No audio data in response")
 
