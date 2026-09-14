@@ -140,14 +140,30 @@ def generate_voiceover(script: str, google_key: str, out_dir: Path) -> Path:
             print(f"  [chunk {i}] OK")
         chunks.append(chunk)
 
-    if len(chunks) == 1:
-        shutil.copy2(chunks[0], dest)
+    # Normalize each chunk to proper WAV (Gemini returns raw audio data)
+    norm_chunks = []
+    for i, c in enumerate(chunks):
+        normed = out_dir / f"vo_norm_{i:02d}.wav"
+        if normed.exists() and normed.stat().st_size > 0:
+            norm_chunks.append(normed)
+            continue
+        result = subprocess.run([
+            "ffmpeg", "-y", "-i", str(c),
+            "-ar", "24000", "-ac", "1", "-c:a", "pcm_s16le", str(normed)
+        ], capture_output=True, text=True)
+        if result.returncode != 0:
+            print(f"  normalize chunk {i} failed: {result.stderr[-300:] if result.stderr else ''}")
+            norm_chunks.append(c)
+        else:
+            norm_chunks.append(normed)
+
+    if len(norm_chunks) == 1:
+        shutil.copy2(norm_chunks[0], dest)
     else:
-        # Build ffmpeg filter concat to avoid Windows path issues in list files
         inputs = []
-        for c in chunks:
+        for c in norm_chunks:
             inputs.extend(["-i", str(c)])
-        filter_str = f"concat=n={len(chunks)}:v=0:a=1[out]"
+        filter_str = f"concat=n={len(norm_chunks)}:v=0:a=1[out]"
         cmd = ["ffmpeg", "-y"] + inputs + [
             "-filter_complex", filter_str, "-map", "[out]",
             "-c:a", "pcm_s16le", "-ar", "24000", "-ac", "1", str(dest)
@@ -157,8 +173,7 @@ def generate_voiceover(script: str, google_key: str, out_dir: Path) -> Path:
             print(f"ffmpeg concat failed (exit {result.returncode})")
             if result.stderr:
                 print(result.stderr[-500:])
-            # Fallback: just use the first chunk
-            shutil.copy2(chunks[0], dest)
+            shutil.copy2(norm_chunks[0], dest)
             print("Using first chunk only as fallback.")
 
     print(f"Voiceover saved: {dest} ({dest.stat().st_size / 1024:.0f} KB)")
