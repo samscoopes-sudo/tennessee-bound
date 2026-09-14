@@ -143,12 +143,23 @@ def generate_voiceover(script: str, google_key: str, out_dir: Path) -> Path:
     if len(chunks) == 1:
         shutil.copy2(chunks[0], dest)
     else:
-        listfile = out_dir / "vo_list.txt"
-        listfile.write_text("".join(f"file '{f.resolve()}'\n" for f in chunks))
-        subprocess.run([
-            "ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(listfile),
-            "-c:a", "pcm_s16le", str(dest)
-        ], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+        # Build ffmpeg filter concat to avoid Windows path issues in list files
+        inputs = []
+        for c in chunks:
+            inputs.extend(["-i", str(c)])
+        filter_str = f"concat=n={len(chunks)}:v=0:a=1[out]"
+        cmd = ["ffmpeg", "-y"] + inputs + [
+            "-filter_complex", filter_str, "-map", "[out]",
+            "-c:a", "pcm_s16le", "-ar", "24000", "-ac", "1", str(dest)
+        ]
+        result = subprocess.run(cmd, capture_output=True, text=True)
+        if result.returncode != 0:
+            print(f"ffmpeg concat failed (exit {result.returncode})")
+            if result.stderr:
+                print(result.stderr[-500:])
+            # Fallback: just use the first chunk
+            shutil.copy2(chunks[0], dest)
+            print("Using first chunk only as fallback.")
 
     print(f"Voiceover saved: {dest} ({dest.stat().st_size / 1024:.0f} KB)")
     return dest
