@@ -113,7 +113,25 @@ def _tts_chunk(text: str, dest: Path, google_key: str,
         if inline.get("data"):
             audio_bytes = base64.b64decode(inline["data"])
             dest.parent.mkdir(parents=True, exist_ok=True)
-            dest.write_bytes(audio_bytes)
+            mime = inline.get("mimeType", "audio/wav")
+            ext_map = {"audio/mp3": ".mp3", "audio/mpeg": ".mp3",
+                       "audio/ogg": ".ogg", "audio/wav": ".wav",
+                       "audio/L16": ".raw", "audio/pcm": ".raw"}
+            ext = ext_map.get(mime, ".raw")
+            raw_file = dest.with_suffix(ext)
+            raw_file.write_bytes(audio_bytes)
+            if ext != ".wav":
+                result = subprocess.run([
+                    "ffmpeg", "-y", "-i", str(raw_file),
+                    "-ar", "24000", "-ac", "1", "-c:a", "pcm_s16le",
+                    str(dest)
+                ], capture_output=True, text=True)
+                if result.returncode != 0:
+                    raise RuntimeError(
+                        f"ffmpeg convert {mime} failed: "
+                        f"{result.stderr[-300:] if result.stderr else ''}")
+            else:
+                shutil.copy2(raw_file, dest)
             return dest
     raise RuntimeError("No audio data in response")
 
