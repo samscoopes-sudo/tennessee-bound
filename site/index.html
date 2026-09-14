@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tennessee Bound — The Complete Relocation Guide for Retirees</title>
+<meta name="description" content="3-volume guide covering taxes, towns, and landing logistics for retirees relocating to Tennessee.">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://gumroad.com/js/gumroad.js" defer></script>
+<style>
+:root{
+  --navy:#1b2a4a;--gold:#c8973e;--cream:#faf7f2;--dark:#111;
+  --card-bg:#fff;--text:#333;--muted:#666;--border:#e0dcd4;
+  --gold-light:#f5e6c8;--navy-light:#2d4470;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Montserrat',sans-serif;color:var(--text);background:var(--cream);line-height:1.6}
+img{max-width:100%;display:block}
+a{color:var(--gold);text-decoration:none}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+
+/* NAV */
+.topbar{background:var(--navy);color:#fff;padding:12px 0;text-align:center;font-size:.85rem;letter-spacing:.5px}
+nav{background:#fff;border-bottom:2px solid var(--gold);padding:14px 0;position:sticky;top:0;z-index:100}
+nav .container{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.logo{font-size:1.4rem;font-weight:800;color:var(--navy)}
+.logo span{color:var(--gold)}
+nav ul{list-style:none;display:flex;gap:22px;flex-wrap:wrap}
+nav a{color:var(--navy);font-weight:600;font-size:.9rem;transition:color .2s}
+nav a:hover{color:var(--gold)}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:#fff;padding:70px 0 80px;text-align:center;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:6px;background:var(--gold)}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:900;margin-bottom:12px;line-height:1.15}
+.hero h1 em{color:var(--gold);font-style:normal}
+.hero p.sub{font-size:1.15rem;opacity:.9;max-width:600px;margin:0 auto 36px}
+
+.fan{display:flex;justify-content:center;align-items:flex-end;gap:0;height:320px;margin-bottom:30px;perspective:800px}
+.fan img{width:180px;height:auto;filter:drop-shadow(0 8px 24px rgba(0,0,0,.4));transition:transform .3s;transform-origin:bottom center}
+.fan img:nth-child(1){transform:rotate(-12deg) translateX(30px)}
+.fan img:nth-child(2){transform:translateY(-15px);z-index:2}
+.fan img:nth-child(3){transform:rotate(12deg) translateX(-30px)}
+.fan img:hover{transform:scale(1.05) translateY(-10px)!important;z-index:3}
+
+.hero-cta{display:inline-block;background:var(--gold);color:#fff;padding:16px 40px;border-radius:6px;font-weight:700;font-size:1.1rem;transition:all .3s;border:2px solid var(--gold)}
+.hero-cta:hover{background:transparent;color:var(--gold)}
+
+/* TRUST BAR */
+.trust-bar{background:var(--navy);color:#fff;padding:18px 0;text-align:center}
+.trust-bar .container{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;font-size:.9rem;opacity:.9}
+.trust-bar span::before{content:'✓ ';color:var(--gold)}
+
+/* COUNTER BAND */
+.counter-band{background:linear-gradient(135deg,#1a2744,#2d4470);padding:50px 0;color:#fff}
+.counter-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px;text-align:center}
+.counter-item .num{font-size:2.8rem;font-weight:900;color:var(--gold);display:block}
+.counter-item .label{font-size:.9rem;opacity:.85;margin-top:4px}
+
+/* SECTION COMMON */
+section{padding:70px 0}
+.section-tag{display:inline-block;background:var(--gold-light);color:var(--gold);font-size:.75rem;font-weight:700;padding:4px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.section-title{font-size:clamp(1.6rem,3.5vw,2.2rem);font-weight:800;color:var(--navy);margin-bottom:10px}
+.section-desc{color:var(--muted);max-width:600px;margin:0 auto 40px;text-align:center}
+.text-center{text-align:center}
+
+/* BOOK CARDS */
+.books-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px}
+.card{background:var(--card-bg);border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.08);transition:transform .3s,box-shadow .3s}
+.card:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.card .cover-wrap{background:var(--cream);padding:30px;text-align:center}
+.card .mini{width:100%;max-width:240px;margin:0 auto;display:block}
+.card .info{padding:24px}
+.card h3{font-size:1.2rem;font-weight:700;color:var(--navy);margin-bottom:6px}
+.card .vol-tag{font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.card p{font-size:.9rem;color:var(--muted);margin-bottom:16px;line-height:1.5}
+.card .highlights{list-style:none;margin-bottom:18px}
+.card .highlights li{font-size:.85rem;padding:3px 0;color:var(--text)}
+.card .highlights li::before{content:'✦ ';color:var(--gold)}
+.btn{display:inline-block;background:var(--gold);color:#fff;padding:12px 28px;border-radius:6px;font-weight:700;font-size:.9rem;transition:all .3s;border:2px solid var(--gold);cursor:pointer}
+.btn:hover{background:transparent;color:var(--gold)}
+.btn-navy{background:var(--navy);border-color:var(--navy);color:#fff}
+.btn-navy:hover{background:transparent;color:var(--navy)}
+
+/* INSIDE THE SET */
+.inside{background:#fff}
+.inside-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px}
+.inside-item{text-align:center;padding:30px 20px;border:1px solid var(--border);border-radius:10px;transition:border-color .3s}
+.inside-item:hover{border-color:var(--gold)}
+.inside-item .mini2{width:120px;margin:0 auto 16px;display:block}
+.inside-item h4{color:var(--navy);margin-bottom:8px;font-weight:700}
+.inside-item p{font-size:.85rem;color:var(--muted)}
+
+/* REVIEWS */
+.reviews{background:var(--cream)}
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.review-card{background:#fff;padding:28px;border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.06);position:relative}
+.review-card .stars{color:var(--gold);font-size:1.1rem;margin-bottom:10px}
+.review-card blockquote{font-size:.95rem;color:var(--text);line-height:1.6;margin-bottom:14px;font-style:italic}
+.review-card .reviewer{font-weight:700;font-size:.85rem;color:var(--navy)}
+.review-card .reviewer span{font-weight:400;color:var(--muted)}
+.review-card .sample-badge{position:absolute;top:12px;right:12px;background:#fee;color:#c44;font-size:.65rem;font-weight:700;padding:3px 8px;border-radius:4px;text-transform:uppercase}
+
+/* BUNDLE CTA */
+.bundle-cta{background:linear-gradient(135deg,var(--navy),var(--navy-light));color:#fff;text-align:center;padding:70px 0}
+.bundle-cta h2{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;margin-bottom:12px}
+.bundle-cta p{opacity:.9;max-width:550px;margin:0 auto 30px;font-size:1.05rem}
+.bundle-price{font-size:2rem;font-weight:900;color:var(--gold);margin-bottom:24px}
+.bundle-price del{font-size:1.1rem;opacity:.5;font-weight:400;color:#fff}
+
+/* EMAIL CAPTURE */
+.email-capture{background:#fff;border-top:3px solid var(--gold)}
+.email-box{max-width:600px;margin:0 auto;text-align:center;padding:50px 20px}
+.email-box h2{font-size:1.6rem;font-weight:800;color:var(--navy);margin-bottom:8px}
+.email-box p{color:var(--muted);margin-bottom:24px;font-size:.95rem}
+.email-box .btn{font-size:1rem;padding:14px 36px}
+
+/* TICKER */
+.ticker-bar{position:fixed;bottom:0;left:0;right:0;background:var(--navy);color:#fff;padding:10px 20px;font-size:.85rem;text-align:center;z-index:200;transform:translateY(100%);transition:transform .4s}
+.ticker-bar.show{transform:translateY(0)}
+
+/* FOOTER */
+footer{background:var(--navy);color:#fff;padding:40px 0 20px;font-size:.85rem}
+footer .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px}
+footer a{color:var(--gold)}
+footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:center}
+
+/* PRIVACY MODAL */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.active{display:flex}
+.modal{background:#fff;border-radius:12px;max-width:700px;width:100%;max-height:80vh;overflow-y:auto;padding:36px;color:var(--text)}
+.modal h2{color:var(--navy);margin-bottom:16px;font-size:1.4rem}
+.modal h3{color:var(--navy);margin:20px 0 8px;font-size:1rem}
+.modal p,.modal li{font-size:.9rem;line-height:1.6;margin-bottom:8px}
+.modal ul{padding-left:20px}
+.modal .close-btn{position:sticky;top:0;float:right;background:var(--navy);color:#fff;border:none;padding:6px 14px;border-radius:4px;cursor:pointer;font-weight:700}
+
+/* COOKIE BANNER */
+.cookie-banner{position:fixed;bottom:0;left:0;right:0;background:var(--navy);color:#fff;padding:16px 20px;z-index:250;display:none;font-size:.85rem}
+.cookie-banner.show{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:14px}
+.cookie-banner p{margin:0;max-width:600px}
+.cookie-banner button{background:var(--gold);color:#fff;border:none;padding:8px 20px;border-radius:4px;font-weight:700;cursor:pointer;font-size:.85rem}
+.cookie-banner a{color:var(--gold)}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .6s,transform .6s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:700px){
+  .fan{height:220px}
+  .fan img{width:120px}
+  nav ul{gap:14px}
+  .counter-item .num{font-size:2rem}
+  .trust-bar .container{gap:16px;font-size:.8rem}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">📦 Free shipping on all digital downloads — instant PDF access</div>
+
+<!-- NAV -->
+<nav>
+  <div class="container">
+    <div class="logo">Tennessee<span>Bound</span></div>
+    <ul>
+      <li><a href="#books">The Books</a></li>
+      <li><a href="#inside">What's Inside</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#bundle">Get the Bundle</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="fan">
+      <img src="covers/vol1-3d.png" alt="Volume 1 — The Tax Ledger" loading="eager">
+      <img src="covers/vol2-3d.png" alt="Volume 2 — The Town Ledger" loading="eager">
+      <img src="covers/vol3-3d.png" alt="Volume 3 — The Landing Ledger" loading="eager">
+    </div>
+    <h1>Retire to Tennessee <em>Without the Regret</em></h1>
+    <p class="sub">The 3-volume playbook that walks you through taxes, towns, and landing logistics — so you move once and move right.</p>
+    <a href="#bundle" class="hero-cta">Get the Complete Set →</a>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="container">
+    <span>95 counties researched</span>
+    <span>No income tax state</span>
+    <span>Instant PDF download</span>
+    <span>100% satisfaction guarantee</span>
+  </div>
+</div>
+
+<!-- COUNTER BAND -->
+<section class="counter-band">
+  <div class="container">
+    <div class="counter-grid">
+      <div class="counter-item reveal">
+        <span class="num" data-target="95">0</span>
+        <span class="label">Counties Mapped</span>
+      </div>
+      <div class="counter-item reveal">
+        <span class="num" data-target="47" data-suffix="+">0</span>
+        <span class="label">Tax-Saving Strategies</span>
+      </div>
+      <div class="counter-item reveal">
+        <span class="num" data-target="200" data-suffix="+">0</span>
+        <span class="label">Pages of Research</span>
+      </div>
+      <div class="counter-item reveal">
+        <span class="num" data-target="3">0</span>
+        <span class="label">Volumes in the Set</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKS -->
+<section id="books">
+  <div class="container text-center">
+    <span class="section-tag">The Collection</span>
+    <h2 class="section-title">Three Books. One Complete Plan.</h2>
+    <p class="section-desc">Each volume tackles a different stage of your move — from tax strategy to town selection to your first 90 days on the ground.</p>
+
+    <div class="books-grid">
+      <!-- VOL 1 -->
+      <div class="card reveal">
+        <div class="cover-wrap">
+          <img class="mini" src="covers/vol1-tax-ledger-flat.png" alt="Volume 1 cover">
+        </div>
+        <div class="info">
+          <div class="vol-tag">Volume 1</div>
+          <h3>The Tax Ledger</h3>
+          <p>Master Tennessee's tax landscape — property rates by county, the Hall Tax phase-out, homestead exemptions, and 47+ strategies to keep more of your retirement income.</p>
+          <ul class="highlights">
+            <li>County-by-county property tax breakdown</li>
+            <li>Tax-freeze eligibility checklist</li>
+            <li>Social Security & pension tax guide</li>
+          </ul>
+          <a class="btn gumroad-button" href="" data-vol="vol1">Get Volume 1 — $19</a>
+        </div>
+      </div>
+
+      <!-- VOL 2 -->
+      <div class="card reveal">
+        <div class="cover-wrap">
+          <img class="mini" src="covers/vol2-town-ledger-flat.png" alt="Volume 2 cover">
+        </div>
+        <div class="info">
+          <div class="vol-tag">Volume 2</div>
+          <h3>The Town Ledger</h3>
+          <p>Find your perfect Tennessee town. Compare cost of living, healthcare access, walkability, culture, and climate across every region of the state.</p>
+          <ul class="highlights">
+            <li>Town comparison scorecards</li>
+            <li>Healthcare & hospital proximity maps</li>
+            <li>Climate & lifestyle match quiz</li>
+          </ul>
+          <a class="btn gumroad-button" href="" data-vol="vol2">Get Volume 2 — $19</a>
+        </div>
+      </div>
+
+      <!-- VOL 3 -->
+      <div class="card reveal">
+        <div class="cover-wrap">
+          <img class="mini" src="covers/vol3-landing-ledger-flat.png" alt="Volume 3 cover">
+        </div>
+        <div class="info">
+          <div class="vol-tag">Volume 3</div>
+          <h3>The Landing Ledger</h3>
+          <p>Your 90-day action plan for actually landing in Tennessee — driver's license swap, voter registration, utilities, movers, and the paperwork nobody warns you about.</p>
+          <ul class="highlights">
+            <li>90-day relocation checklist</li>
+            <li>DMV & voter registration guide</li>
+            <li>Moving cost calculator</li>
+          </ul>
+          <a class="btn gumroad-button" href="" data-vol="vol3">Get Volume 3 — $19</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSIDE THE SET -->
+<section id="inside" class="inside">
+  <div class="container text-center">
+    <span class="section-tag">What's Inside</span>
+    <h2 class="section-title">Built for Retirees, by Researchers</h2>
+    <p class="section-desc">Every page is designed to save you time, money, and headaches during your Tennessee move.</p>
+    <div class="inside-grid">
+      <div class="inside-item reveal">
+        <img class="mini2" src="covers/vol1-tax-ledger-flat.png" alt="Tax Ledger">
+        <h4>Tax Optimization</h4>
+        <p>Property tax rates, exemptions, and freeze programs for every county. Know exactly what you'll owe before you move.</p>
+      </div>
+      <div class="inside-item reveal">
+        <img class="mini2" src="covers/vol2-town-ledger-flat.png" alt="Town Ledger">
+        <h4>Town Matching</h4>
+        <p>Side-by-side comparisons of Tennessee's best retirement towns — healthcare, cost of living, culture, and climate.</p>
+      </div>
+      <div class="inside-item reveal">
+        <img class="mini2" src="covers/vol3-landing-ledger-flat.png" alt="Landing Ledger">
+        <h4>Landing Logistics</h4>
+        <p>The complete checklist for your first 90 days — every form, phone call, and appointment you need to handle.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews" class="reviews">
+  <div class="container text-center">
+    <span class="section-tag">Reader Reviews</span>
+    <h2 class="section-title">What Readers Are Saying</h2>
+    <p class="section-desc">Real feedback from retirees who used Tennessee Bound to plan their move.</p>
+    <div class="reviews-grid">
+      <div class="review-card reveal">
+        <div class="sample-badge">⚠ SAMPLE</div>
+        <div class="stars">★★★★★</div>
+        <blockquote>"The tax ledger alone saved us over $3,000 in our first year. We had no idea about the homestead exemption until we read Volume 1."</blockquote>
+        <div class="reviewer">Robert & Linda M. <span>— moved from Ohio</span></div>
+      </div>
+      <div class="review-card reveal">
+        <div class="sample-badge">⚠ SAMPLE</div>
+        <div class="stars">★★★★★</div>
+        <blockquote>"We were torn between Knoxville and Chattanooga. The Town Ledger's comparison scorecards made the decision easy — Chattanooga was perfect for us."</blockquote>
+        <div class="reviewer">Patricia D. <span>— moved from Michigan</span></div>
+      </div>
+      <div class="review-card reveal">
+        <div class="sample-badge">⚠ SAMPLE</div>
+        <div class="stars">★★★★★</div>
+        <blockquote>"The 90-day checklist in Volume 3 was a lifesaver. DMV, voter registration, utilities — everything was laid out step by step."</blockquote>
+        <div class="reviewer">James T. <span>— moved from Illinois</span></div>
+      </div>
+      <div class="review-card reveal">
+        <div class="sample-badge">⚠ SAMPLE</div>
+        <div class="stars">★★★★★</div>
+        <blockquote>"I bought the bundle and read all three volumes in a weekend. By Monday I had a shortlist of towns and a tax strategy. Worth every penny."</blockquote>
+        <div class="reviewer">Sandra K. <span>— moved from New York</span></div>
+      </div>
+      <div class="review-card reveal">
+        <div class="sample-badge">⚠ SAMPLE</div>
+        <div class="stars">★★★★★</div>
+        <blockquote>"Most retirement guides are too generic. This one is Tennessee-specific down to the county level. Exactly what we needed."</blockquote>
+        <div class="reviewer">William & Carol H. <span>— moved from California</span></div>
+      </div>
+      <div class="review-card reveal">
+        <div class="sample-badge">⚠ SAMPLE</div>
+        <div class="stars">★★★★★</div>
+        <blockquote>"The property tax freeze chapter alone paid for the entire set. Our county taxes are locked in for life now."</blockquote>
+        <div class="reviewer">Dorothy P. <span>— moved from New Jersey</span></div>
+      </div>
+    </div>
+    <p style="margin-top:20px;font-size:.8rem;color:#c44;font-weight:600">⚠ These are sample testimonials. Replace with real reader feedback before launch.</p>
+  </div>
+</section>
+
+<!-- BUNDLE CTA -->
+<section id="bundle" class="bundle-cta">
+  <div class="container">
+    <span class="section-tag" style="background:rgba(255,255,255,.15);color:var(--gold)">Best Value</span>
+    <h2>Get All Three Volumes</h2>
+    <p>Save when you buy the complete Tennessee Bound set. Everything you need to plan, choose, and execute your move — in one package.</p>
+    <div class="bundle-price"><del>$57</del> $39</div>
+    <a class="btn gumroad-button" href="" data-vol="bundle" style="background:#fff;color:var(--navy);border-color:#fff;padding:16px 44px;font-size:1.1rem">Get the Bundle — $39 →</a>
+  </div>
+</section>
+
+<!-- EMAIL CAPTURE -->
+<section class="email-capture">
+  <div class="email-box">
+    <h2>Free Sample: The Tax-Freeze Trap</h2>
+    <p>Download our free guide exposing the #1 mistake retirees make with Tennessee's property tax freeze — and how to avoid it.</p>
+    <a class="btn btn-navy gumroad-button" href="" data-vol="free">Download Free Sample →</a>
+    <p style="font-size:.75rem;color:var(--muted);margin-top:10px">No spam. Instant PDF download via Gumroad.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div>
+      <div class="logo" style="margin-bottom:10px">Tennessee<span>Bound</span></div>
+      <p>The complete relocation guide for retirees moving to Tennessee.</p>
+    </div>
+    <div>
+      <p><strong>Quick Links</strong></p>
+      <p><a href="#books">The Books</a></p>
+      <p><a href="#bundle">Get the Bundle</a></p>
+      <p><a href="#" onclick="openPrivacy();return false">Privacy Policy</a></p>
+    </div>
+    <div class="legal">
+      © 2026 Tennessee Bound. All rights reserved. | <a href="#" onclick="openPrivacy();return false">Privacy Policy</a> | <a href="#" onclick="openCookie();return false">Cookie Settings</a>
+    </div>
+  </div>
+</footer>
+
+<!-- PURCHASE TICKER -->
+<div class="ticker-bar" id="ticker"></div>
+
+<!-- COOKIE BANNER (GDPR / EUPD) -->
+<div class="cookie-banner" id="cookieBanner">
+  <p>We use essential cookies to process your purchase. No tracking cookies are used. <a href="#" onclick="openPrivacy();return false">Privacy Policy</a></p>
+  <button onclick="acceptCookies()">Got it</button>
+</div>
+
+<!-- PRIVACY POLICY MODAL (GDPR / EUPD COMPLIANT) -->
+<div class="modal-overlay" id="privacyModal">
+  <div class="modal">
+    <button class="close-btn" onclick="closePrivacy()">✕ Close</button>
+    <h2>Privacy Policy</h2>
+    <p><strong>Last updated:</strong> September 2026</p>
+    <p>Tennessee Bound ("we", "us") is committed to protecting your privacy in compliance with the EU General Data Protection Regulation (GDPR), ePrivacy Directive, and applicable data protection laws.</p>
+
+    <h3>1. Data Controller</h3>
+    <p>Tennessee Bound operates as the data controller for information collected through this website (tennesseebound.it.com).</p>
+
+    <h3>2. What Data We Collect</h3>
+    <ul>
+      <li><strong>Purchase data:</strong> When you buy a book, your name, email, and payment information are collected and processed by Gumroad (our payment processor). We do not store payment card details.</li>
+      <li><strong>Email (free sample):</strong> If you download our free sample, your email is collected by Gumroad to deliver the PDF.</li>
+      <li><strong>No tracking cookies:</strong> This website does not use analytics cookies, advertising cookies, or tracking pixels.</li>
+      <li><strong>Essential cookies only:</strong> Gumroad's checkout may set essential cookies required to process your payment.</li>
+    </ul>
+
+    <h3>3. Legal Basis for Processing (GDPR Art. 6)</h3>
+    <ul>
+      <li><strong>Contract performance:</strong> Processing purchase data is necessary to deliver your purchased e-books.</li>
+      <li><strong>Legitimate interest:</strong> We may send transactional emails related to your purchase.</li>
+      <li><strong>Consent:</strong> Marketing emails (if any) require your explicit opt-in consent.</li>
+    </ul>
+
+    <h3>4. Data Processors</h3>
+    <p>We use <strong>Gumroad Inc.</strong> (San Francisco, CA, USA) as our payment and delivery processor. Gumroad processes your data under their own <a href="https://gumroad.com/privacy" target="_blank" rel="noopener">Privacy Policy</a>. For EU customers, data transfers to the US are covered by Gumroad's data processing agreements and standard contractual clauses.</p>
+
+    <h3>5. Your Rights (GDPR Art. 15–22)</h3>
+    <p>If you are in the EU/EEA, you have the right to:</p>
+    <ul>
+      <li>Access your personal data</li>
+      <li>Rectify inaccurate data</li>
+      <li>Erase your data ("right to be forgotten")</li>
+      <li>Restrict or object to processing</li>
+      <li>Data portability</li>
+      <li>Withdraw consent at any time</li>
+      <li>Lodge a complaint with your local data protection authority</li>
+    </ul>
+    <p>To exercise any right, email us at: <strong>privacy@tennesseebound.it.com</strong></p>
+
+    <h3>6. Data Retention</h3>
+    <p>Purchase records are retained for the duration required by tax and accounting laws. You may request deletion of your email from Gumroad's mailing list at any time.</p>
+
+    <h3>7. Children's Privacy</h3>
+    <p>This website is not directed at individuals under 16. We do not knowingly collect data from children.</p>
+
+    <h3>8. Changes to This Policy</h3>
+    <p>We may update this policy periodically. The "last updated" date at the top reflects the most recent revision.</p>
+  </div>
+</div>
+
+<script>
+/* ── CONFIG ── */
+const OVERLAY = true;
+const GUMROAD_LINKS = {
+  vol1:   "",
+  vol2:   "",
+  vol3:   "",
+  bundle: "",
+  free:   ""
+};
+const LIVE_TICKER = false;
+
+/* ── GUMROAD BUTTONS ── */
+document.querySelectorAll('[data-vol]').forEach(btn => {
+  const key = btn.dataset.vol;
+  const link = GUMROAD_LINKS[key];
+  if (link) {
+    btn.href = link;
+    if (OVERLAY) btn.classList.add('gumroad-button');
+  } else {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      alert('Coming soon! Gumroad links will be added once products are live.');
+    });
+  }
+});
+
+/* ── SCROLL REVEAL ── */
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }});
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+/* ── COUNTER ANIMATION ── */
+let counterDone = false;
+const counterObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !counterDone) {
+      counterDone = true;
+      document.querySelectorAll('.num[data-target]').forEach(el => {
+        const target = +el.dataset.target;
+        const suffix = el.dataset.suffix || '';
+        let current = 0;
+        const step = Math.max(1, Math.floor(target / 40));
+        const timer = setInterval(() => {
+          current += step;
+          if (current >= target) { current = target; clearInterval(timer); }
+          el.textContent = current + suffix;
+        }, 30);
+      });
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.counter-band').forEach(el => counterObs.observe(el));
+
+/* ── PURCHASE TICKER ── */
+if (LIVE_TICKER) {
+  const names = ['Sarah M.','Robert K.','Linda T.','James W.','Patricia D.','Michael B.'];
+  const vols = ['Volume 1','Volume 2','the Complete Bundle'];
+  const ticker = document.getElementById('ticker');
+  setInterval(() => {
+    const name = names[Math.floor(Math.random()*names.length)];
+    const vol = vols[Math.floor(Math.random()*vols.length)];
+    const mins = Math.floor(Math.random()*15)+1;
+    ticker.textContent = `🎉 ${name} just purchased ${vol} — ${mins} min ago`;
+    ticker.classList.add('show');
+    setTimeout(() => ticker.classList.remove('show'), 4000);
+  }, 12000);
+}
+
+/* ── COOKIE BANNER ── */
+function acceptCookies() {
+  try { localStorage.setItem('tb_cookies','1'); } catch(e) {}
+  document.getElementById('cookieBanner').classList.remove('show');
+}
+function openCookie() {
+  try { localStorage.removeItem('tb_cookies'); } catch(e) {}
+  document.getElementById('cookieBanner').classList.add('show');
+}
+try {
+  if (!localStorage.getItem('tb_cookies')) document.getElementById('cookieBanner').classList.add('show');
+} catch(e) {
+  document.getElementById('cookieBanner').classList.add('show');
+}
+
+/* ── PRIVACY MODAL ── */
+function openPrivacy() { document.getElementById('privacyModal').classList.add('active'); }
+function closePrivacy() { document.getElementById('privacyModal').classList.remove('active'); }
+document.getElementById('privacyModal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closePrivacy();
+});
+</script>
+</body>
+</html>
