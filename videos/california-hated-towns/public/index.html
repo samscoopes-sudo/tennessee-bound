@@ -1,0 +1,735 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      @font-face {
+        font-family: "Inter";
+        src: url("fonts/Inter-400-latin.woff2") format("woff2");
+        font-weight: 400;
+        font-display: block;
+      }
+      @font-face {
+        font-family: "Inter";
+        src: url("fonts/Inter-700-latin.woff2") format("woff2");
+        font-weight: 700;
+        font-display: block;
+      }
+
+      :root {
+        --bg: #1a1a1a;
+        --text: #f1f1f1;
+        --accent-0: #4cc9f0;
+        --accent-1: #f72585;
+        --accent-2: #4ade80;
+        --accent-3: #fb923c;
+        --accent-4: #a78bfa;
+        --gold: #FFB900;
+        --font-family: "Inter", sans-serif;
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0; padding: 0;
+        width: 100%; height: 100%;
+        overflow: hidden;
+        background: #000;
+        font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+      }
+      #stage {
+        position: relative;
+        width: 100%; height: 100%;
+        overflow: hidden;
+      }
+      .video-wrapper {
+        position: absolute;
+        left: 0; top: 0;
+        width: 1920px; height: 1080px;
+        overflow: hidden;
+      }
+      .video-wrapper video {
+        width: 100%; height: 100%;
+        object-fit: cover;
+      }
+      .card-host {
+        position: absolute;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .card-host .card {
+        position: relative;
+        width: 100%; height: 100%;
+        overflow: hidden;
+      }
+      .card-host .char {
+        display: inline-block;
+        visibility: visible;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="stage"
+      data-composition-id="california-hated-towns"
+      data-start="0"
+      data-duration="1160"
+      data-fps="30"
+      data-width="1920"
+      data-height="1080"
+    >
+      <!-- Layer 1: source video (full-bleed overlay layout) -->
+      <div class="video-wrapper" id="video-wrap">
+        <video
+          id="bg-video"
+          src="input-video.mp4"
+          muted
+          playsinline
+          data-start="0"
+          data-duration="1160"
+          data-track-index="1"
+        ></video>
+      </div>
+      <audio
+        id="source-audio"
+        src="input-video.mp4"
+        data-start="0"
+        data-duration="1160"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- CTA: Subscribe #1 (34-37s) -->
+      <div class="card-host clip" data-card-id="card-subscribe-01" data-start="34.0000" data-duration="3.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-subscribe-01 -->
+      </div>
+
+      <!-- TOWN #1: BAKERSFIELD (43.5-47.5s) -->
+      <div class="card-host clip" data-card-id="card-town-01" data-start="43.5000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-town-01 -->
+      </div>
+
+      <!-- REGION #1 (44-47s) -->
+      <div class="card-host clip" data-card-id="card-region-01" data-start="44.0000" data-duration="3.0000" data-track-index="3" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-region-01 -->
+      </div>
+
+      <!-- STAT: 3rd Smoggiest (54-58s) -->
+      <div class="card-host clip" data-card-id="card-stat-01" data-start="54.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-01 -->
+      </div>
+
+      <!-- STAT: Forbes Miserable (79-83s) -->
+      <div class="card-host clip" data-card-id="card-stat-02" data-start="79.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-02 -->
+      </div>
+
+      <!-- STAT: Reddit quote (94-98s) -->
+      <div class="card-host clip" data-card-id="card-stat-03" data-start="94.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-03 -->
+      </div>
+
+      <!-- PHRASE: Not really a joke (114-117s) -->
+      <div class="card-host clip" data-card-id="card-phrase-01" data-start="114.0000" data-duration="3.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-phrase-01 -->
+      </div>
+
+      <!-- STAT: Median Home (126-130s) -->
+      <div class="card-host clip" data-card-id="card-stat-04" data-start="126.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-04 -->
+      </div>
+
+      <!-- PHRASE: The meme (158-161s) -->
+      <div class="card-host clip" data-card-id="card-phrase-02" data-start="158.0000" data-duration="3.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-phrase-02 -->
+      </div>
+
+      <!-- TOWN #2: STOCKTON (162-166s) -->
+      <div class="card-host clip" data-card-id="card-town-02" data-start="162.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-town-02 -->
+      </div>
+
+      <!-- REGION #2 (162-165s) on track 3 so it doesn't conflict with town card -->
+      <div class="card-host clip" data-card-id="card-region-02" data-start="162.0000" data-duration="3.0000" data-track-index="3" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-region-02 -->
+      </div>
+
+      <!-- STAT: Bankruptcy (172-176s) -->
+      <div class="card-host clip" data-card-id="card-stat-05" data-start="172.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-05 -->
+      </div>
+
+      <!-- STAT: Forbes #1 (179-183s) -->
+      <div class="card-host clip" data-card-id="card-stat-06" data-start="179.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-06 -->
+      </div>
+
+      <!-- STAT: Poverty 22% (186-190s) -->
+      <div class="card-host clip" data-card-id="card-stat-07" data-start="186.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-07 -->
+      </div>
+
+      <!-- PHRASE: Reputation sticks (249-252s) -->
+      <div class="card-host clip" data-card-id="card-phrase-03" data-start="249.0000" data-duration="3.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-phrase-03 -->
+      </div>
+
+      <!-- TOWN #3: FRESNO (275-279s) -->
+      <div class="card-host clip" data-card-id="card-town-03" data-start="275.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-town-03 -->
+      </div>
+
+      <!-- REGION #3 (275-278s) -->
+      <div class="card-host clip" data-card-id="card-region-03" data-start="275.0000" data-duration="3.0000" data-track-index="3" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-region-03 -->
+      </div>
+
+      <!-- STAT: Ranked 146th (281-285s) -->
+      <div class="card-host clip" data-card-id="card-stat-08" data-start="281.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-08 -->
+      </div>
+
+      <!-- STAT: 105F (306-310s) -->
+      <div class="card-host clip" data-card-id="card-stat-09" data-start="306.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-09 -->
+      </div>
+
+      <!-- STAT: Poverty 25% (309-313s) — upper-third to avoid overlap -->
+      <div class="card-host clip" data-card-id="card-stat-10" data-start="309.0000" data-duration="4.0000" data-track-index="3" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-10 -->
+      </div>
+
+      <!-- PHRASE: Bad things visible (384-387s) -->
+      <div class="card-host clip" data-card-id="card-phrase-04" data-start="384.0000" data-duration="3.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-phrase-04 -->
+      </div>
+
+      <!-- TOWN #4: COALINGA (393-397s) -->
+      <div class="card-host clip" data-card-id="card-town-04" data-start="393.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-town-04 -->
+      </div>
+
+      <!-- REGION #4 (393-396s) -->
+      <div class="card-host clip" data-card-id="card-region-04" data-start="393.0000" data-duration="3.0000" data-track-index="3" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-region-04 -->
+      </div>
+
+      <!-- STAT: Population 18k (414-418s) -->
+      <div class="card-host clip" data-card-id="card-stat-11" data-start="414.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-11 -->
+      </div>
+
+      <!-- STAT: Yelp Smell (430-434s) -->
+      <div class="card-host clip" data-card-id="card-stat-12" data-start="430.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-12 -->
+      </div>
+
+      <!-- STAT: Horned Toad (456-460s) -->
+      <div class="card-host clip" data-card-id="card-stat-13" data-start="456.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-13 -->
+      </div>
+
+      <!-- PHRASE: Entire brand (468-471s) -->
+      <div class="card-host clip" data-card-id="card-phrase-05" data-start="468.0000" data-duration="3.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-phrase-05 -->
+      </div>
+
+      <!-- STAT: $5M sunset (483-487s) -->
+      <div class="card-host clip" data-card-id="card-stat-14" data-start="483.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-14 -->
+      </div>
+
+      <!-- CTA: Subscribe #2 (492-496s) -->
+      <div class="card-host clip" data-card-id="card-subscribe-02" data-start="492.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-subscribe-02 -->
+      </div>
+
+      <!-- TOWN #5: PALMDALE (504-508s) -->
+      <div class="card-host clip" data-card-id="card-town-05" data-start="504.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-town-05 -->
+      </div>
+
+      <!-- REGION #5 (504-507s) -->
+      <div class="card-host clip" data-card-id="card-region-05" data-start="504.0000" data-duration="3.0000" data-track-index="3" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-region-05 -->
+      </div>
+
+      <!-- STAT: Commute 2hrs (527-531s) -->
+      <div class="card-host clip" data-card-id="card-stat-15" data-start="527.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-15 -->
+      </div>
+
+      <!-- STAT: 110F/Freezing (532-536s) -->
+      <div class="card-host clip" data-card-id="card-stat-16" data-start="532.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-16 -->
+      </div>
+
+      <!-- STAT: Herald Weekly (544-548s) -->
+      <div class="card-host clip" data-card-id="card-stat-17" data-start="544.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-17 -->
+      </div>
+
+      <!-- PHRASE: Slow Heavy Relentless (580-583s) -->
+      <div class="card-host clip" data-card-id="card-phrase-06" data-start="580.0000" data-duration="3.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-phrase-06 -->
+      </div>
+
+      <!-- STAT: High-Speed Rail (590-594s) -->
+      <div class="card-host clip" data-card-id="card-stat-18" data-start="590.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-18 -->
+      </div>
+
+      <!-- STAT: Edwards AFB (597-601s) -->
+      <div class="card-host clip" data-card-id="card-stat-19" data-start="597.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-19 -->
+      </div>
+
+      <!-- TOWN #6: HEMET (605-609s) -->
+      <div class="card-host clip" data-card-id="card-town-06" data-start="605.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-town-06 -->
+      </div>
+
+      <!-- REGION #6 (605-608s) -->
+      <div class="card-host clip" data-card-id="card-region-06" data-start="605.0000" data-duration="3.0000" data-track-index="3" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-region-06 -->
+      </div>
+
+      <!-- STAT: God's Waiting Room (613-617s) -->
+      <div class="card-host clip" data-card-id="card-stat-20" data-start="613.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-20 -->
+      </div>
+
+      <!-- STAT: Poverty 20%+ (638-642s) -->
+      <div class="card-host clip" data-card-id="card-stat-21" data-start="638.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-21 -->
+      </div>
+
+      <!-- TOWN #7: CALIFORNIA CITY (692-696s) -->
+      <div class="card-host clip" data-card-id="card-town-07" data-start="692.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-town-07 -->
+      </div>
+
+      <!-- REGION #7 (692-695s) -->
+      <div class="card-host clip" data-card-id="card-region-07" data-start="692.0000" data-duration="3.0000" data-track-index="3" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-region-07 -->
+      </div>
+
+      <!-- STAT: 3rd Largest (697-701s) -->
+      <div class="card-host clip" data-card-id="card-stat-22" data-start="697.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-22 -->
+      </div>
+
+      <!-- STAT: 400k planned (706-710s) -->
+      <div class="card-host clip" data-card-id="card-stat-23" data-start="706.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-23 -->
+      </div>
+
+      <!-- STAT: Population Drop (757-761s) -->
+      <div class="card-host clip" data-card-id="card-stat-24" data-start="757.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-24 -->
+      </div>
+
+      <!-- STAT: Median Income (760-764s) — track 3 avoids overlap with stat-24 -->
+      <div class="card-host clip" data-card-id="card-stat-25" data-start="760.0000" data-duration="4.0000" data-track-index="3" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-25 -->
+      </div>
+
+      <!-- PHRASE: 68 years dream (807-810s) -->
+      <div class="card-host clip" data-card-id="card-phrase-07" data-start="807.0000" data-duration="3.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-phrase-07 -->
+      </div>
+
+      <!-- TOWN #8: WASCO (811-815s) -->
+      <div class="card-host clip" data-card-id="card-town-08" data-start="811.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-town-08 -->
+      </div>
+
+      <!-- REGION #8 (811-814s) -->
+      <div class="card-host clip" data-card-id="card-region-08" data-start="811.0000" data-duration="3.0000" data-track-index="3" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-region-08 -->
+      </div>
+
+      <!-- STAT: WalletHub 3rd worst (815-819s) -->
+      <div class="card-host clip" data-card-id="card-stat-26" data-start="815.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-26 -->
+      </div>
+
+      <!-- PHRASE: Data becomes identity (895-898s) -->
+      <div class="card-host clip" data-card-id="card-phrase-08" data-start="895.0000" data-duration="3.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-phrase-08 -->
+      </div>
+
+      <!-- TOWN #9: NEEDLES (900-904s) -->
+      <div class="card-host clip" data-card-id="card-town-09" data-start="900.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-town-09 -->
+      </div>
+
+      <!-- REGION #9 (900-903s) -->
+      <div class="card-host clip" data-card-id="card-region-09" data-start="900.0000" data-duration="3.0000" data-track-index="3" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-region-09 -->
+      </div>
+
+      <!-- STAT: 120F (909-913s) -->
+      <div class="card-host clip" data-card-id="card-stat-27" data-start="909.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-27 -->
+      </div>
+
+      <!-- STAT: Under 5k (915-919s) -->
+      <div class="card-host clip" data-card-id="card-stat-28" data-start="915.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-28 -->
+      </div>
+
+      <!-- STAT: Vegas 100mi (919-923s) -->
+      <div class="card-host clip" data-card-id="card-stat-29" data-start="919.0000" data-duration="4.0000" data-track-index="3" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-stat-29 -->
+      </div>
+
+      <!-- PHRASE: Slowly evaporating (960-963s) -->
+      <div class="card-host clip" data-card-id="card-phrase-09" data-start="960.0000" data-duration="3.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-phrase-09 -->
+      </div>
+
+      <!-- TOWN #10: BARSTOW (991-995s) -->
+      <div class="card-host clip" data-card-id="card-town-10" data-start="991.0000" data-duration="4.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-town-10 -->
+      </div>
+
+      <!-- REGION #10 (991-994s) -->
+      <div class="card-host clip" data-card-id="card-region-10" data-start="991.0000" data-duration="3.0000" data-track-index="3" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-region-10 -->
+      </div>
+
+      <!-- PHRASE: Stop not stay (1042-1045s) -->
+      <div class="card-host clip" data-card-id="card-phrase-10" data-start="1042.0000" data-duration="3.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-phrase-10 -->
+      </div>
+
+      <!-- PHRASE: Between two better (1082-1085s) -->
+      <div class="card-host clip" data-card-id="card-phrase-11" data-start="1082.0000" data-duration="3.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-phrase-11 -->
+      </div>
+
+      <!-- PHRASE: Hated doesn't mean wrong (1116-1119s) -->
+      <div class="card-host clip" data-card-id="card-phrase-12" data-start="1116.0000" data-duration="3.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-phrase-12 -->
+      </div>
+
+      <!-- CTA: End comment (1141-1146s) -->
+      <div class="card-host clip" data-card-id="card-subscribe-03" data-start="1141.0000" data-duration="5.0000" data-track-index="2" style="left:0;top:0;width:1920px;height:1080px;visibility:hidden;opacity:0;">
+        <!-- CARD_INCLUDE: card-subscribe-03 -->
+      </div>
+
+      <script src="vendor/gsap.min.js"></script>
+      <script>
+        (function () {
+          window.__fmt = function (v, fmt) {
+            if (typeof fmt === "string" && /^\.[0-9]+f$/.test(fmt)) {
+              return Number(v).toFixed(Number(fmt.slice(1, -1)));
+            }
+            if (fmt === ",d") return Math.round(v).toLocaleString();
+            return String(Math.round(v));
+          };
+
+          const tl = window.gsap.timeline({ paused: true });
+
+          // Helper: fade a card-host in then out
+          function cardLife(id, startSec, endSec, fadeIn, fadeOut) {
+            fadeIn = fadeIn || 0.4;
+            fadeOut = fadeOut || 0.35;
+            var sel = '.card-host[data-card-id="' + id + '"]';
+            tl.set(sel, { visibility: "visible" }, startSec);
+            tl.fromTo(sel, { opacity: 0 }, { opacity: 1, duration: fadeIn, ease: "power2.out" }, startSec);
+            tl.to(sel, { opacity: 0, duration: fadeOut, ease: "power2.in" }, endSec - fadeOut);
+            tl.set(sel, { visibility: "hidden" }, endSec);
+          }
+
+          // Helper: scale-pop an element
+          function scalePop(sel, absTime, dur) {
+            tl.fromTo(sel, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: dur, ease: "back.out(1.6)" }, absTime);
+          }
+
+          // Helper: fade-in an element
+          function fadeIn(sel, absTime, dur) {
+            tl.fromTo(sel, { opacity: 0 }, { opacity: 1, duration: dur, ease: "power2.out" }, absTime);
+          }
+
+          // Helper: slide-in from left
+          function slideInLeft(sel, absTime, dur, dist) {
+            tl.fromTo(sel, { opacity: 0, x: -(dist || 60) }, { opacity: 1, x: 0, duration: dur, ease: "power2.out" }, absTime);
+          }
+
+          // Helper: slide-in from right
+          function slideInRight(sel, absTime, dur, dist) {
+            tl.fromTo(sel, { opacity: 0, x: (dist || 40) }, { opacity: 1, x: 0, duration: dur, ease: "power2.out" }, absTime);
+          }
+
+          // ═══════════════════════════════════════════
+          // CTA: Subscribe #1 (34-37s)
+          cardLife("card-subscribe-01", 34, 37, 0.35, 0.3);
+          slideInRight('.card[data-card-id="card-subscribe-01"] #card-subscribe-01-box', 34, 0.35, 40);
+
+          // TOWN #1: BAKERSFIELD (43.5-47.5s)
+          cardLife("card-town-01", 43.5, 47.5, 0.4, 0.4);
+          slideInLeft('.card[data-card-id="card-town-01"] #card-town-01-box', 43.5, 0.4, 60);
+
+          // REGION #1 (44-47s)
+          cardLife("card-region-01", 44, 47, 0.3, 0.3);
+          fadeIn('.card[data-card-id="card-region-01"] #card-region-01-label', 44, 0.3);
+
+          // STAT 01: 3rd Smoggiest (54-58s)
+          cardLife("card-stat-01", 54, 58, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-01"] #card-stat-01-pill', 54, 0.4);
+          fadeIn('.card[data-card-id="card-stat-01"] #card-stat-01-sub', 54.3, 0.3);
+
+          // STAT 02: Forbes Miserable (79-83s)
+          cardLife("card-stat-02", 79, 83, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-02"] #card-stat-02-pill', 79, 0.4);
+
+          // STAT 03: Reddit quote (94-98s)
+          cardLife("card-stat-03", 94, 98, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-03"] #card-stat-03-pill', 94, 0.4);
+
+          // PHRASE 01: Not really a joke (114-117s)
+          cardLife("card-phrase-01", 114, 117, 0.35, 0.3);
+          fadeIn('.card[data-card-id="card-phrase-01"] #card-phrase-01-text', 114, 0.35);
+
+          // STAT 04: Median Home (126-130s)
+          cardLife("card-stat-04", 126, 130, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-04"] #card-stat-04-pill', 126, 0.4);
+          fadeIn('.card[data-card-id="card-stat-04"] #card-stat-04-sub', 126.3, 0.3);
+
+          // PHRASE 02: The meme (158-161s)
+          cardLife("card-phrase-02", 158, 161, 0.35, 0.3);
+          fadeIn('.card[data-card-id="card-phrase-02"] #card-phrase-02-text', 158, 0.35);
+
+          // TOWN #2: STOCKTON (162-166s)
+          cardLife("card-town-02", 162, 166, 0.4, 0.4);
+          slideInLeft('.card[data-card-id="card-town-02"] #card-town-02-box', 162, 0.4, 60);
+
+          // REGION #2 (162-165s)
+          cardLife("card-region-02", 162, 165, 0.3, 0.3);
+          fadeIn('.card[data-card-id="card-region-02"] #card-region-02-label', 162, 0.3);
+
+          // STAT 05: Bankruptcy (172-176s)
+          cardLife("card-stat-05", 172, 176, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-05"] #card-stat-05-pill', 172, 0.4);
+
+          // STAT 06: Forbes #1 (179-183s)
+          cardLife("card-stat-06", 179, 183, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-06"] #card-stat-06-pill', 179, 0.4);
+
+          // STAT 07: Poverty 22% (186-190s)
+          cardLife("card-stat-07", 186, 190, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-07"] #card-stat-07-pill', 186, 0.4);
+
+          // PHRASE 03: Reputation sticks (249-252s)
+          cardLife("card-phrase-03", 249, 252, 0.35, 0.3);
+          fadeIn('.card[data-card-id="card-phrase-03"] #card-phrase-03-text', 249, 0.35);
+
+          // TOWN #3: FRESNO (275-279s)
+          cardLife("card-town-03", 275, 279, 0.4, 0.4);
+          slideInLeft('.card[data-card-id="card-town-03"] #card-town-03-box', 275, 0.4, 60);
+
+          // REGION #3 (275-278s)
+          cardLife("card-region-03", 275, 278, 0.3, 0.3);
+          fadeIn('.card[data-card-id="card-region-03"] #card-region-03-label', 275, 0.3);
+
+          // STAT 08: Ranked 146th (281-285s)
+          cardLife("card-stat-08", 281, 285, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-08"] #card-stat-08-pill', 281, 0.4);
+          fadeIn('.card[data-card-id="card-stat-08"] #card-stat-08-sub', 281.3, 0.3);
+
+          // STAT 09: 105F (306-310s)
+          cardLife("card-stat-09", 306, 310, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-09"] #card-stat-09-pill', 306, 0.4);
+
+          // STAT 10: Poverty 25% (309-313s) — on track 3, upper-third
+          cardLife("card-stat-10", 309, 313, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-10"] #card-stat-10-pill', 309, 0.4);
+
+          // PHRASE 04: Bad things visible (384-387s)
+          cardLife("card-phrase-04", 384, 387, 0.35, 0.3);
+          fadeIn('.card[data-card-id="card-phrase-04"] #card-phrase-04-text', 384, 0.35);
+
+          // TOWN #4: COALINGA (393-397s)
+          cardLife("card-town-04", 393, 397, 0.4, 0.4);
+          slideInLeft('.card[data-card-id="card-town-04"] #card-town-04-box', 393, 0.4, 60);
+
+          // REGION #4 (393-396s)
+          cardLife("card-region-04", 393, 396, 0.3, 0.3);
+          fadeIn('.card[data-card-id="card-region-04"] #card-region-04-label', 393, 0.3);
+
+          // STAT 11: Population 18k (414-418s)
+          cardLife("card-stat-11", 414, 418, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-11"] #card-stat-11-pill', 414, 0.4);
+
+          // STAT 12: Yelp Smell (430-434s)
+          cardLife("card-stat-12", 430, 434, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-12"] #card-stat-12-pill', 430, 0.4);
+
+          // STAT 13: Horned Toad (456-460s)
+          cardLife("card-stat-13", 456, 460, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-13"] #card-stat-13-pill', 456, 0.4);
+
+          // PHRASE 05: Entire brand (468-471s)
+          cardLife("card-phrase-05", 468, 471, 0.35, 0.3);
+          fadeIn('.card[data-card-id="card-phrase-05"] #card-phrase-05-text', 468, 0.35);
+
+          // STAT 14: $5M sunset (483-487s)
+          cardLife("card-stat-14", 483, 487, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-14"] #card-stat-14-pill', 483, 0.4);
+
+          // CTA: Subscribe #2 (492-496s)
+          cardLife("card-subscribe-02", 492, 496, 0.35, 0.3);
+          slideInRight('.card[data-card-id="card-subscribe-02"] #card-subscribe-02-box', 492, 0.35, 40);
+
+          // TOWN #5: PALMDALE (504-508s)
+          cardLife("card-town-05", 504, 508, 0.4, 0.4);
+          slideInLeft('.card[data-card-id="card-town-05"] #card-town-05-box', 504, 0.4, 60);
+
+          // REGION #5 (504-507s)
+          cardLife("card-region-05", 504, 507, 0.3, 0.3);
+          fadeIn('.card[data-card-id="card-region-05"] #card-region-05-label', 504, 0.3);
+
+          // STAT 15: Commute 2hrs (527-531s)
+          cardLife("card-stat-15", 527, 531, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-15"] #card-stat-15-pill', 527, 0.4);
+
+          // STAT 16: 110F/Freezing (532-536s)
+          cardLife("card-stat-16", 532, 536, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-16"] #card-stat-16-pill', 532, 0.4);
+
+          // STAT 17: Herald Weekly (544-548s)
+          cardLife("card-stat-17", 544, 548, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-17"] #card-stat-17-pill', 544, 0.4);
+
+          // PHRASE 06: Slow Heavy Relentless (580-583s)
+          cardLife("card-phrase-06", 580, 583, 0.35, 0.3);
+          fadeIn('.card[data-card-id="card-phrase-06"] #card-phrase-06-text', 580, 0.35);
+
+          // STAT 18: High-Speed Rail (590-594s)
+          cardLife("card-stat-18", 590, 594, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-18"] #card-stat-18-pill', 590, 0.4);
+
+          // STAT 19: Edwards AFB (597-601s)
+          cardLife("card-stat-19", 597, 601, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-19"] #card-stat-19-pill', 597, 0.4);
+
+          // TOWN #6: HEMET (605-609s)
+          cardLife("card-town-06", 605, 609, 0.4, 0.4);
+          slideInLeft('.card[data-card-id="card-town-06"] #card-town-06-box', 605, 0.4, 60);
+
+          // REGION #6 (605-608s)
+          cardLife("card-region-06", 605, 608, 0.3, 0.3);
+          fadeIn('.card[data-card-id="card-region-06"] #card-region-06-label', 605, 0.3);
+
+          // STAT 20: God's Waiting Room (613-617s)
+          cardLife("card-stat-20", 613, 617, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-20"] #card-stat-20-pill', 613, 0.4);
+
+          // STAT 21: Poverty 20%+ (638-642s)
+          cardLife("card-stat-21", 638, 642, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-21"] #card-stat-21-pill', 638, 0.4);
+
+          // TOWN #7: CALIFORNIA CITY (692-696s)
+          cardLife("card-town-07", 692, 696, 0.4, 0.4);
+          slideInLeft('.card[data-card-id="card-town-07"] #card-town-07-box', 692, 0.4, 60);
+
+          // REGION #7 (692-695s)
+          cardLife("card-region-07", 692, 695, 0.3, 0.3);
+          fadeIn('.card[data-card-id="card-region-07"] #card-region-07-label', 692, 0.3);
+
+          // STAT 22: 3rd Largest (697-701s)
+          cardLife("card-stat-22", 697, 701, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-22"] #card-stat-22-pill', 697, 0.4);
+          fadeIn('.card[data-card-id="card-stat-22"] #card-stat-22-sub', 697.3, 0.3);
+
+          // STAT 23: 400k planned (706-710s)
+          cardLife("card-stat-23", 706, 710, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-23"] #card-stat-23-pill', 706, 0.4);
+          fadeIn('.card[data-card-id="card-stat-23"] #card-stat-23-sub', 706.3, 0.3);
+
+          // STAT 24: Population Drop (757-761s)
+          cardLife("card-stat-24", 757, 761, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-24"] #card-stat-24-pill', 757, 0.4);
+
+          // STAT 25: Median Income (760-764s)
+          cardLife("card-stat-25", 760, 764, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-25"] #card-stat-25-pill', 760, 0.4);
+          fadeIn('.card[data-card-id="card-stat-25"] #card-stat-25-sub', 760.3, 0.3);
+
+          // PHRASE 07: 68 years dream (807-810s)
+          cardLife("card-phrase-07", 807, 810, 0.35, 0.3);
+          fadeIn('.card[data-card-id="card-phrase-07"] #card-phrase-07-text', 807, 0.35);
+
+          // TOWN #8: WASCO (811-815s)
+          cardLife("card-town-08", 811, 815, 0.4, 0.4);
+          slideInLeft('.card[data-card-id="card-town-08"] #card-town-08-box', 811, 0.4, 60);
+
+          // REGION #8 (811-814s)
+          cardLife("card-region-08", 811, 814, 0.3, 0.3);
+          fadeIn('.card[data-card-id="card-region-08"] #card-region-08-label', 811, 0.3);
+
+          // STAT 26: WalletHub 3rd worst (815-819s)
+          cardLife("card-stat-26", 815, 819, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-26"] #card-stat-26-pill', 815, 0.4);
+
+          // PHRASE 08: Data becomes identity (895-898s)
+          cardLife("card-phrase-08", 895, 898, 0.35, 0.3);
+          fadeIn('.card[data-card-id="card-phrase-08"] #card-phrase-08-text', 895, 0.35);
+
+          // TOWN #9: NEEDLES (900-904s)
+          cardLife("card-town-09", 900, 904, 0.4, 0.4);
+          slideInLeft('.card[data-card-id="card-town-09"] #card-town-09-box', 900, 0.4, 60);
+
+          // REGION #9 (900-903s)
+          cardLife("card-region-09", 900, 903, 0.3, 0.3);
+          fadeIn('.card[data-card-id="card-region-09"] #card-region-09-label', 900, 0.3);
+
+          // STAT 27: 120F (909-913s)
+          cardLife("card-stat-27", 909, 913, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-27"] #card-stat-27-pill', 909, 0.4);
+
+          // STAT 28: Under 5k (915-919s)
+          cardLife("card-stat-28", 915, 919, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-28"] #card-stat-28-pill', 915, 0.4);
+
+          // STAT 29: Vegas 100mi (919-923s) — track 3
+          cardLife("card-stat-29", 919, 923, 0.4, 0.35);
+          scalePop('.card[data-card-id="card-stat-29"] #card-stat-29-pill', 919, 0.4);
+          fadeIn('.card[data-card-id="card-stat-29"] #card-stat-29-sub', 919.3, 0.3);
+
+          // PHRASE 09: Slowly evaporating (960-963s)
+          cardLife("card-phrase-09", 960, 963, 0.35, 0.3);
+          fadeIn('.card[data-card-id="card-phrase-09"] #card-phrase-09-text', 960, 0.35);
+
+          // TOWN #10: BARSTOW (991-995s)
+          cardLife("card-town-10", 991, 995, 0.4, 0.4);
+          slideInLeft('.card[data-card-id="card-town-10"] #card-town-10-box', 991, 0.4, 60);
+
+          // REGION #10 (991-994s)
+          cardLife("card-region-10", 991, 994, 0.3, 0.3);
+          fadeIn('.card[data-card-id="card-region-10"] #card-region-10-label', 991, 0.3);
+
+          // PHRASE 10: Stop not stay (1042-1045s)
+          cardLife("card-phrase-10", 1042, 1045, 0.35, 0.3);
+          fadeIn('.card[data-card-id="card-phrase-10"] #card-phrase-10-text', 1042, 0.35);
+
+          // PHRASE 11: Between two better (1082-1085s)
+          cardLife("card-phrase-11", 1082, 1085, 0.35, 0.3);
+          fadeIn('.card[data-card-id="card-phrase-11"] #card-phrase-11-text', 1082, 0.35);
+
+          // PHRASE 12: Hated doesn't mean wrong (1116-1119s)
+          cardLife("card-phrase-12", 1116, 1119, 0.35, 0.3);
+          fadeIn('.card[data-card-id="card-phrase-12"] #card-phrase-12-text', 1116, 0.35);
+
+          // CTA: End comment (1141-1146s)
+          cardLife("card-subscribe-03", 1141, 1146, 0.35, 0.3);
+          slideInRight('.card[data-card-id="card-subscribe-03"] #card-subscribe-03-box', 1141, 0.35, 40);
+
+          window.__timelines = window.__timelines || {};
+          window.__timelines["california-hated-towns"] = tl;
+        })();
+      </script>
+    </div>
+  </body>
+</html>
