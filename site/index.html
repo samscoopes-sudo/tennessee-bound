@@ -93,11 +93,11 @@ section{padding:70px 0}
 /* INSIDE THE SET */
 .inside{background:var(--cream)}
 .inside-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px}
-.inside-item{text-align:center;padding:30px 20px;background:#fff;border:1px solid var(--border);border-radius:10px;transition:border-color .3s}
-.inside-item:hover{border-color:var(--gold)}
-.inside-item .mini2{width:120px;margin:0 auto 16px;display:block}
-.inside-item h4{color:var(--navy);margin-bottom:8px;font-weight:700}
-.inside-item p{font-size:.85rem;color:var(--muted)}
+.inside-item{text-align:center;padding:30px 20px;background:var(--navy);border:none;border-radius:10px;transition:transform .3s}
+.inside-item:hover{transform:translateY(-4px)}
+.inside-item .mini2{width:120px;margin:0 auto 16px;display:block;filter:drop-shadow(0 4px 10px rgba(0,0,0,.3))}
+.inside-item h4{color:var(--gold);margin-bottom:8px;font-weight:700}
+.inside-item p{font-size:.85rem;color:rgba(255,255,255,.75)}
 
 /* FAQ */
 .faq{background:#fff}
