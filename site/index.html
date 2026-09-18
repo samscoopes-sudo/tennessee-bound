@@ -64,42 +64,56 @@ section{padding:70px 0}
 .section-desc{color:var(--muted);max-width:600px;margin:0 auto 40px;text-align:center}
 .text-center{text-align:center}
 
-/* BOOK CARDS */
+/* BOOK CARDS — navy background */
 .books-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px}
-.card{background:var(--card-bg);border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.08);transition:transform .3s,box-shadow .3s}
-.card:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(0,0,0,.12)}
-.card .cover-wrap{background:var(--cream);padding:30px;text-align:center}
-.card .mini{width:100%;max-width:240px;margin:0 auto;display:block}
-.card .info{padding:24px}
-.card h3{font-size:1.2rem;font-weight:700;color:var(--navy);margin-bottom:6px}
+.card{background:var(--navy);border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.15);transition:transform .3s,box-shadow .3s}
+.card:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(0,0,0,.25)}
+.card .cover-wrap{padding:30px 30px 10px;text-align:center}
+.card .mini{width:100%;max-width:220px;margin:0 auto;display:block;filter:drop-shadow(0 6px 16px rgba(0,0,0,.4))}
+.card .info{padding:20px 24px 28px}
+.card h3{font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:6px}
 .card .vol-tag{font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-.card p{font-size:.9rem;color:var(--muted);margin-bottom:16px;line-height:1.5}
+.card p{font-size:.9rem;color:rgba(255,255,255,.75);margin-bottom:16px;line-height:1.5}
 .card .highlights{list-style:none;margin-bottom:18px}
-.card .highlights li{font-size:.85rem;padding:3px 0;color:var(--text)}
+.card .highlights li{font-size:.85rem;padding:3px 0;color:rgba(255,255,255,.85)}
 .card .highlights li::before{content:'✦ ';color:var(--gold)}
+.card .price-tag{font-size:1.4rem;font-weight:900;color:var(--gold);margin-bottom:14px;display:block}
 .btn{display:inline-block;background:var(--gold);color:#fff;padding:12px 28px;border-radius:6px;font-weight:700;font-size:.9rem;transition:all .3s;border:2px solid var(--gold);cursor:pointer}
 .btn:hover{background:transparent;color:var(--gold)}
 .btn-navy{background:var(--navy);border-color:var(--navy);color:#fff}
 .btn-navy:hover{background:transparent;color:var(--navy)}
 
+/* WHY THIS SET */
+.why-section{background:#fff}
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px}
+.why-item{padding:30px;border-left:4px solid var(--gold);background:var(--cream);border-radius:0 10px 10px 0}
+.why-item h4{color:var(--navy);font-weight:700;margin-bottom:8px;font-size:1.05rem}
+.why-item p{font-size:.9rem;color:var(--muted);line-height:1.6}
+
 /* INSIDE THE SET */
-.inside{background:#fff}
+.inside{background:var(--cream)}
 .inside-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px}
-.inside-item{text-align:center;padding:30px 20px;border:1px solid var(--border);border-radius:10px;transition:border-color .3s}
+.inside-item{text-align:center;padding:30px 20px;background:#fff;border:1px solid var(--border);border-radius:10px;transition:border-color .3s}
 .inside-item:hover{border-color:var(--gold)}
 .inside-item .mini2{width:120px;margin:0 auto 16px;display:block}
 .inside-item h4{color:var(--navy);margin-bottom:8px;font-weight:700}
 .inside-item p{font-size:.85rem;color:var(--muted)}
 
-/* REVIEWS */
-.reviews{background:var(--cream)}
-.reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
-.review-card{background:#fff;padding:28px;border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.06);position:relative}
-.review-card .stars{color:var(--gold);font-size:1.1rem;margin-bottom:10px}
-.review-card blockquote{font-size:.95rem;color:var(--text);line-height:1.6;margin-bottom:14px;font-style:italic}
-.review-card .reviewer{font-weight:700;font-size:.85rem;color:var(--navy)}
-.review-card .reviewer span{font-weight:400;color:var(--muted)}
-.review-card .sample-badge{position:absolute;top:12px;right:12px;background:#fee;color:#c44;font-size:.65rem;font-weight:700;padding:3px 8px;border-radius:4px;text-transform:uppercase}
+/* FAQ */
+.faq{background:#fff}
+.faq-list{max-width:750px;margin:0 auto}
+.faq-item{border-bottom:1px solid var(--border);padding:0}
+.faq-item summary{padding:20px 0;font-weight:700;font-size:1rem;color:var(--navy);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.faq-item summary::after{content:'+';font-size:1.4rem;color:var(--gold);font-weight:700;transition:transform .2s}
+.faq-item[open] summary::after{transform:rotate(45deg)}
+.faq-item p{padding:0 0 20px;font-size:.9rem;color:var(--muted);line-height:1.7}
+
+/* FINAL CTA */
+.final-cta{background:linear-gradient(135deg,var(--navy),var(--navy-light));color:#fff;text-align:center;padding:70px 0}
+.final-cta h2{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;margin-bottom:12px}
+.final-cta p{opacity:.9;max-width:550px;margin:0 auto 30px;font-size:1.05rem}
+.final-cta .btn{background:#fff;color:var(--navy);border-color:#fff;padding:16px 44px;font-size:1.1rem}
+.final-cta .btn:hover{background:transparent;color:#fff}
 
 /* FOOTER */
 footer{background:var(--navy);color:#fff;padding:40px 0 20px;font-size:.85rem}
@@ -134,6 +148,7 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
   nav ul{gap:14px}
   .counter-item .num{font-size:2rem}
   .trust-bar .container{gap:16px;font-size:.8rem}
+  .why-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -148,8 +163,9 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
     <div class="logo">Tennessee<span>Bound</span></div>
     <ul>
       <li><a href="#books">The Books</a></li>
+      <li><a href="#why">Why This Set</a></li>
       <li><a href="#inside">What's Inside</a></li>
-      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#faq">FAQ</a></li>
     </ul>
   </div>
 </nav>
@@ -224,7 +240,8 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
             <li>36 cities with their own freeze programs</li>
             <li>Verification worksheet & phone scripts</li>
           </ul>
-          <a class="btn gumroad-button" href="" data-vol="vol1">Get Volume 1 — $27</a>
+          <span class="price-tag">$27</span>
+          <a class="btn gumroad-button" href="" data-vol="vol1">Get Volume 1</a>
         </div>
       </div>
 
@@ -242,7 +259,8 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
             <li>4 example counties scored in detail</li>
             <li>Blank worksheet & phone scripts</li>
           </ul>
-          <a class="btn gumroad-button" href="" data-vol="vol2">Get Volume 2 — $47</a>
+          <span class="price-tag">$47</span>
+          <a class="btn gumroad-button" href="" data-vol="vol2">Get Volume 2</a>
         </div>
       </div>
 
@@ -260,8 +278,45 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
             <li>4-shock stress test on real numbers</li>
             <li>90-day landing sequence & pivot plan</li>
           </ul>
-          <a class="btn gumroad-button" href="" data-vol="vol3">Get Volume 3 — $97</a>
+          <span class="price-tag">$97</span>
+          <a class="btn gumroad-button" href="" data-vol="vol3">Get Volume 3</a>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY THIS SET -->
+<section id="why" class="why-section">
+  <div class="container text-center">
+    <span class="section-tag">Why Tennessee Bound</span>
+    <h2 class="section-title">What Makes This Different</h2>
+    <p class="section-desc">Most relocation guides give you state averages and generic advice. This one gives you county-level data and the tools to verify it yourself.</p>
+
+    <div class="why-grid">
+      <div class="why-item reveal">
+        <h4>No State Averages</h4>
+        <p>Tennessee property tax rates range from under $500 to over $2,500 a year on the same home value. A state average hides a $2,000 difference. Every number in these books is at the county level.</p>
+      </div>
+      <div class="why-item reveal">
+        <h4>You Verify Everything</h4>
+        <p>Every volume includes phone scripts and worksheets so you can call the County Trustee, the insurer, and the utility company yourself. A number you confirmed is worth more than a table we printed.</p>
+      </div>
+      <div class="why-item reveal">
+        <h4>Budgets That Break</h4>
+        <p>Volume 3 builds six real monthly budgets. Two of them fail. The stress test applies four shocks — insurance hike, reappraisal, medical event, car replacement — so you know where yours would break before you move.</p>
+      </div>
+      <div class="why-item reveal">
+        <h4>The Freeze Nobody Mentions</h4>
+        <p>Tennessee's property tax freeze can lock your bill for life. But only 27 of 95 counties have adopted it. Volume 1 maps every one, with income limits, application steps, and the mistakes that get people rejected.</p>
+      </div>
+      <div class="why-item reveal">
+        <h4>A Method, Not a List</h4>
+        <p>Volume 2 doesn't rank towns for you. It gives you six tests — using free public data — so you can score any county yourself in 90 minutes. The method works on any county, not just the ones we picked.</p>
+      </div>
+      <div class="why-item reveal">
+        <h4>Written for 55+</h4>
+        <p>Every chapter is built around retiree-specific concerns — Medicare premiums eating your COLA, aging-in-place infrastructure, nursing home quality flags, and what happens to your budget at 78 when Medigap premiums climb.</p>
       </div>
     </div>
   </div>
@@ -293,45 +348,65 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
   </div>
 </section>
 
-<!-- REVIEWS -->
-<section id="reviews" class="reviews">
-  <div class="container text-center">
-    <span class="section-tag">Reader Reviews</span>
-    <h2 class="section-title">What Readers Are Saying</h2>
-    <p class="section-desc">Real feedback from retirees who used Tennessee Bound to plan their move.</p>
-    <div class="reviews-grid">
-      <div class="review-card reveal">
-        <div class="sample-badge">⚠ SAMPLE</div>
-        <div class="stars">★★★★★</div>
-        <blockquote>"The tax ledger alone saved us over $3,000 in our first year. We had no idea about the property tax freeze until we read Volume 1."</blockquote>
-        <div class="reviewer">Robert & Linda M. <span>— moved from Ohio</span></div>
-      </div>
-      <div class="review-card reveal">
-        <div class="sample-badge">⚠ SAMPLE</div>
-        <div class="stars">★★★★★</div>
-        <blockquote>"The county scoring method in Volume 2 changed everything. We scored three counties in one afternoon and the winner was obvious."</blockquote>
-        <div class="reviewer">Patricia D. <span>— moved from Michigan</span></div>
-      </div>
-      <div class="review-card reveal">
-        <div class="sample-badge">⚠ SAMPLE</div>
-        <div class="stars">★★★★★</div>
-        <blockquote>"The stress test in Volume 3 showed us our budget would break in year two. We adjusted before we moved instead of after. Worth every penny."</blockquote>
-        <div class="reviewer">James T. <span>— moved from Illinois</span></div>
-      </div>
-      <div class="review-card reveal">
-        <div class="sample-badge">⚠ SAMPLE</div>
-        <div class="stars">★★★★★</div>
-        <blockquote>"Most retirement guides are too generic. This one is Tennessee-specific down to the county level. Exactly what we needed."</blockquote>
-        <div class="reviewer">William & Carol H. <span>— moved from California</span></div>
-      </div>
-      <div class="review-card reveal">
-        <div class="sample-badge">⚠ SAMPLE</div>
-        <div class="stars">★★★★★</div>
-        <blockquote>"The property tax freeze chapter alone paid for the entire set. Our county taxes are locked in for life now."</blockquote>
-        <div class="reviewer">Dorothy P. <span>— moved from New Jersey</span></div>
-      </div>
+<!-- FAQ -->
+<section id="faq" class="faq">
+  <div class="container">
+    <div class="text-center">
+      <span class="section-tag">FAQ</span>
+      <h2 class="section-title">Common Questions</h2>
+      <p class="section-desc">Everything you need to know before you buy.</p>
     </div>
-    <p style="margin-top:20px;font-size:.8rem;color:#c44;font-weight:600">⚠ These are sample testimonials. Replace with real reader feedback before launch.</p>
+
+    <div class="faq-list">
+      <details class="faq-item reveal">
+        <summary>What format are the books in?</summary>
+        <p>All volumes are delivered as PDF files. You can read them on your phone, tablet, laptop, or print them out. The worksheets and scorecards are specifically designed to be printed and filled in by hand.</p>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>How do I get my books after purchase?</summary>
+        <p>Instantly. After checkout, Gumroad delivers your PDF immediately — you'll get a download link on-screen and a confirmation email with the same link. No waiting, no shipping.</p>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>Do I need all three volumes?</summary>
+        <p>Each volume stands on its own. Volume 1 covers taxes and the property tax freeze. Volume 2 teaches you how to score and compare counties. Volume 3 builds your actual budget and walks you through the first 90 days. If you're early in the process, start with Volume 1. If you've already picked a county, Volume 3 is where the budget math lives.</p>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>Is the information up to date?</summary>
+        <p>This is the Field Edition 2026. All tax rates, income limits, Medicare premiums, and program details reflect 2026 figures. The books also include phone scripts so you can verify any number directly with your county before relying on it.</p>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>I'm not a retiree yet — is this still useful?</summary>
+        <p>Yes. If you're 5-10 years from retirement and considering Tennessee, the tax freeze eligibility rules, county scoring method, and budget framework all apply. The earlier you run the numbers, the more time you have to adjust your plan.</p>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>What if my county isn't one of the 27 with a property tax freeze?</summary>
+        <p>Volume 1 also covers the separate Property Tax Relief program, which is available in all 95 counties — plus the city loophole, where 36 Tennessee cities run their own freeze even in counties that don't have one. The veteran's exemption chapter has no county restriction at all.</p>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>Why do two of the six budgets in Volume 3 fail?</summary>
+        <p>Because some combinations of Social Security income and Tennessee costs don't work — and it's better to see that on paper than to discover it after you've moved. The stress test chapter then shows exactly where and why the budget breaks, so you can figure out whether your numbers are closer to the ones that work or the ones that don't.</p>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>Can I get a refund?</summary>
+        <p>Gumroad handles all payments and refund requests. If you're not satisfied, contact Gumroad support through your purchase receipt.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="container">
+    <h2>Ready to Do the Math?</h2>
+    <p>120+ pages of county-level research, 13 printable worksheets, and the phone scripts to verify every number yourself.</p>
+    <a href="#books" class="btn">See the Books →</a>
   </div>
 </section>
 
@@ -345,6 +420,7 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
     <div>
       <p><strong>Quick Links</strong></p>
       <p><a href="#books">The Books</a></p>
+      <p><a href="#faq">FAQ</a></p>
       <p><a href="#" onclick="openPrivacy();return false">Privacy Policy</a></p>
     </div>
     <div class="legal">
