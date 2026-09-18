@@ -101,24 +101,6 @@ section{padding:70px 0}
 .review-card .reviewer span{font-weight:400;color:var(--muted)}
 .review-card .sample-badge{position:absolute;top:12px;right:12px;background:#fee;color:#c44;font-size:.65rem;font-weight:700;padding:3px 8px;border-radius:4px;text-transform:uppercase}
 
-/* BUNDLE CTA */
-.bundle-cta{background:linear-gradient(135deg,var(--navy),var(--navy-light));color:#fff;text-align:center;padding:70px 0}
-.bundle-cta h2{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;margin-bottom:12px}
-.bundle-cta p{opacity:.9;max-width:550px;margin:0 auto 30px;font-size:1.05rem}
-.bundle-price{font-size:2rem;font-weight:900;color:var(--gold);margin-bottom:24px}
-.bundle-price del{font-size:1.1rem;opacity:.5;font-weight:400;color:#fff}
-
-/* EMAIL CAPTURE */
-.email-capture{background:#fff;border-top:3px solid var(--gold)}
-.email-box{max-width:600px;margin:0 auto;text-align:center;padding:50px 20px}
-.email-box h2{font-size:1.6rem;font-weight:800;color:var(--navy);margin-bottom:8px}
-.email-box p{color:var(--muted);margin-bottom:24px;font-size:.95rem}
-.email-box .btn{font-size:1rem;padding:14px 36px}
-
-/* TICKER */
-.ticker-bar{position:fixed;bottom:0;left:0;right:0;background:var(--navy);color:#fff;padding:10px 20px;font-size:.85rem;text-align:center;z-index:200;transform:translateY(100%);transition:transform .4s}
-.ticker-bar.show{transform:translateY(0)}
-
 /* FOOTER */
 footer{background:var(--navy);color:#fff;padding:40px 0 20px;font-size:.85rem}
 footer .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px}
@@ -158,7 +140,7 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
 <body>
 
 <!-- TOP BAR -->
-<div class="topbar">📦 Free shipping on all digital downloads — instant PDF access</div>
+<div class="topbar">Instant PDF access — download and read on any device</div>
 
 <!-- NAV -->
 <nav>
@@ -168,7 +150,6 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
       <li><a href="#books">The Books</a></li>
       <li><a href="#inside">What's Inside</a></li>
       <li><a href="#reviews">Reviews</a></li>
-      <li><a href="#bundle">Get the Bundle</a></li>
     </ul>
   </div>
 </nav>
@@ -183,7 +164,7 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
     </div>
     <h1>Retire to Tennessee <em>Without the Regret</em></h1>
     <p class="sub">The 3-volume playbook that walks you through taxes, towns, and landing logistics — so you move once and move right.</p>
-    <a href="#bundle" class="hero-cta">Get the Complete Set →</a>
+    <a href="#books" class="hero-cta">See the Books →</a>
   </div>
 </section>
 
@@ -193,7 +174,7 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
     <span>95 counties researched</span>
     <span>No income tax state</span>
     <span>Instant PDF download</span>
-    <span>100% satisfaction guarantee</span>
+    <span>Field Edition 2026</span>
   </div>
 </div>
 
@@ -203,19 +184,19 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
     <div class="counter-grid">
       <div class="counter-item reveal">
         <span class="num" data-target="95">0</span>
-        <span class="label">Counties Mapped</span>
+        <span class="label">Counties Researched</span>
       </div>
       <div class="counter-item reveal">
-        <span class="num" data-target="47" data-suffix="+">0</span>
-        <span class="label">Tax-Saving Strategies</span>
+        <span class="num" data-target="6">0</span>
+        <span class="label">Public-Data Tests</span>
       </div>
       <div class="counter-item reveal">
-        <span class="num" data-target="200" data-suffix="+">0</span>
+        <span class="num" data-target="120" data-suffix="+">0</span>
         <span class="label">Pages of Research</span>
       </div>
       <div class="counter-item reveal">
-        <span class="num" data-target="3">0</span>
-        <span class="label">Volumes in the Set</span>
+        <span class="num" data-target="13">0</span>
+        <span class="label">Printable Worksheets</span>
       </div>
     </div>
   </div>
@@ -226,7 +207,7 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
   <div class="container text-center">
     <span class="section-tag">The Collection</span>
     <h2 class="section-title">Three Books. One Complete Plan.</h2>
-    <p class="section-desc">Each volume tackles a different stage of your move — from tax strategy to town selection to your first 90 days on the ground.</p>
+    <p class="section-desc">Each volume tackles a different stage of your move — from tax strategy to county scoring to your first 90 days on the ground.</p>
 
     <div class="books-grid">
       <!-- VOL 1 -->
@@ -235,15 +216,15 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
           <img class="mini" src="covers/vol1-tax-ledger-flat.png" alt="Volume 1 cover">
         </div>
         <div class="info">
-          <div class="vol-tag">Volume 1</div>
+          <div class="vol-tag">Volume 1 — 31 Pages</div>
           <h3>The Tax Ledger</h3>
-          <p>Master Tennessee's tax landscape — property rates by county, the Hall Tax phase-out, homestead exemptions, and 47+ strategies to keep more of your retirement income.</p>
+          <p>Which 27 of 95 counties have a property tax freeze, how to apply, how to lose it, the city loophole, veteran exemptions, and a verification worksheet to confirm your county's rules.</p>
           <ul class="highlights">
-            <li>County-by-county property tax breakdown</li>
-            <li>Tax-freeze eligibility checklist</li>
-            <li>Social Security & pension tax guide</li>
+            <li>27 freeze counties mapped with income limits</li>
+            <li>36 cities with their own freeze programs</li>
+            <li>Verification worksheet & phone scripts</li>
           </ul>
-          <a class="btn gumroad-button" href="" data-vol="vol1">Get Volume 1 — $19</a>
+          <a class="btn gumroad-button" href="" data-vol="vol1">Get Volume 1 — $27</a>
         </div>
       </div>
 
@@ -253,15 +234,15 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
           <img class="mini" src="covers/vol2-town-ledger-flat.png" alt="Volume 2 cover">
         </div>
         <div class="info">
-          <div class="vol-tag">Volume 2</div>
+          <div class="vol-tag">Volume 2 — 47 Pages</div>
           <h3>The Town Ledger</h3>
-          <p>Find your perfect Tennessee town. Compare cost of living, healthcare access, walkability, culture, and climate across every region of the state.</p>
+          <p>Score any Tennessee county yourself using 6 public-data tests — population growth, employer concentration, hospital quality, aging-in-place infrastructure, hazards, and tax overlay.</p>
           <ul class="highlights">
-            <li>Town comparison scorecards</li>
-            <li>Healthcare & hospital proximity maps</li>
-            <li>Climate & lifestyle match quiz</li>
+            <li>24-point scorecard with 6 tests</li>
+            <li>4 example counties scored in detail</li>
+            <li>Blank worksheet & phone scripts</li>
           </ul>
-          <a class="btn gumroad-button" href="" data-vol="vol2">Get Volume 2 — $19</a>
+          <a class="btn gumroad-button" href="" data-vol="vol2">Get Volume 2 — $47</a>
         </div>
       </div>
 
@@ -271,15 +252,15 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
           <img class="mini" src="covers/vol3-landing-ledger-flat.png" alt="Volume 3 cover">
         </div>
         <div class="info">
-          <div class="vol-tag">Volume 3</div>
+          <div class="vol-tag">Volume 3 — 42 Pages</div>
           <h3>The Landing Ledger</h3>
-          <p>Your 90-day action plan for actually landing in Tennessee — driver's license swap, voter registration, utilities, movers, and the paperwork nobody warns you about.</p>
+          <p>Six worked budgets, a stress test that breaks two of them, an aging-in-place audit, a 90-day landing sequence, and a pivot plan — with 13 printable worksheets.</p>
           <ul class="highlights">
-            <li>90-day relocation checklist</li>
-            <li>DMV & voter registration guide</li>
-            <li>Moving cost calculator</li>
+            <li>6 worked budgets — 2 fail on paper</li>
+            <li>4-shock stress test on real numbers</li>
+            <li>90-day landing sequence & pivot plan</li>
           </ul>
-          <a class="btn gumroad-button" href="" data-vol="vol3">Get Volume 3 — $19</a>
+          <a class="btn gumroad-button" href="" data-vol="vol3">Get Volume 3 — $97</a>
         </div>
       </div>
     </div>
@@ -290,23 +271,23 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
 <section id="inside" class="inside">
   <div class="container text-center">
     <span class="section-tag">What's Inside</span>
-    <h2 class="section-title">Built for Retirees, by Researchers</h2>
-    <p class="section-desc">Every page is designed to save you time, money, and headaches during your Tennessee move.</p>
+    <h2 class="section-title">Ground Truth Only. No Hype. No Realtor Spin.</h2>
+    <p class="section-desc">Every number is sourced. Every worksheet is designed to be filled in with your own data.</p>
     <div class="inside-grid">
       <div class="inside-item reveal">
         <img class="mini2" src="covers/vol1-tax-ledger-flat.png" alt="Tax Ledger">
-        <h4>Tax Optimization</h4>
-        <p>Property tax rates, exemptions, and freeze programs for every county. Know exactly what you'll owe before you move.</p>
+        <h4>Property Tax Freeze</h4>
+        <p>Only 27 of 95 counties have adopted the freeze. Know which ones, how to apply, and how to avoid the mistakes that get applications rejected.</p>
       </div>
       <div class="inside-item reveal">
         <img class="mini2" src="covers/vol2-town-ledger-flat.png" alt="Town Ledger">
-        <h4>Town Matching</h4>
-        <p>Side-by-side comparisons of Tennessee's best retirement towns — healthcare, cost of living, culture, and climate.</p>
+        <h4>County Scoring Method</h4>
+        <p>Six tests using free public data. Score any county in 90 minutes — population, employers, hospitals, aging-in-place, hazards, and taxes.</p>
       </div>
       <div class="inside-item reveal">
         <img class="mini2" src="covers/vol3-landing-ledger-flat.png" alt="Landing Ledger">
-        <h4>Landing Logistics</h4>
-        <p>The complete checklist for your first 90 days — every form, phone call, and appointment you need to handle.</p>
+        <h4>Budget Stress Test</h4>
+        <p>Six real budgets built line by line. Two of them fail. The stress test applies four shocks so you know if your numbers hold before you move.</p>
       </div>
     </div>
   </div>
@@ -322,26 +303,20 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
       <div class="review-card reveal">
         <div class="sample-badge">⚠ SAMPLE</div>
         <div class="stars">★★★★★</div>
-        <blockquote>"The tax ledger alone saved us over $3,000 in our first year. We had no idea about the homestead exemption until we read Volume 1."</blockquote>
+        <blockquote>"The tax ledger alone saved us over $3,000 in our first year. We had no idea about the property tax freeze until we read Volume 1."</blockquote>
         <div class="reviewer">Robert & Linda M. <span>— moved from Ohio</span></div>
       </div>
       <div class="review-card reveal">
         <div class="sample-badge">⚠ SAMPLE</div>
         <div class="stars">★★★★★</div>
-        <blockquote>"We were torn between Knoxville and Chattanooga. The Town Ledger's comparison scorecards made the decision easy — Chattanooga was perfect for us."</blockquote>
+        <blockquote>"The county scoring method in Volume 2 changed everything. We scored three counties in one afternoon and the winner was obvious."</blockquote>
         <div class="reviewer">Patricia D. <span>— moved from Michigan</span></div>
       </div>
       <div class="review-card reveal">
         <div class="sample-badge">⚠ SAMPLE</div>
         <div class="stars">★★★★★</div>
-        <blockquote>"The 90-day checklist in Volume 3 was a lifesaver. DMV, voter registration, utilities — everything was laid out step by step."</blockquote>
+        <blockquote>"The stress test in Volume 3 showed us our budget would break in year two. We adjusted before we moved instead of after. Worth every penny."</blockquote>
         <div class="reviewer">James T. <span>— moved from Illinois</span></div>
-      </div>
-      <div class="review-card reveal">
-        <div class="sample-badge">⚠ SAMPLE</div>
-        <div class="stars">★★★★★</div>
-        <blockquote>"I bought the bundle and read all three volumes in a weekend. By Monday I had a shortlist of towns and a tax strategy. Worth every penny."</blockquote>
-        <div class="reviewer">Sandra K. <span>— moved from New York</span></div>
       </div>
       <div class="review-card reveal">
         <div class="sample-badge">⚠ SAMPLE</div>
@@ -360,27 +335,6 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
   </div>
 </section>
 
-<!-- BUNDLE CTA -->
-<section id="bundle" class="bundle-cta">
-  <div class="container">
-    <span class="section-tag" style="background:rgba(255,255,255,.15);color:var(--gold)">Best Value</span>
-    <h2>Get All Three Volumes</h2>
-    <p>Save when you buy the complete Tennessee Bound set. Everything you need to plan, choose, and execute your move — in one package.</p>
-    <div class="bundle-price"><del>$57</del> $39</div>
-    <a class="btn gumroad-button" href="" data-vol="bundle" style="background:#fff;color:var(--navy);border-color:#fff;padding:16px 44px;font-size:1.1rem">Get the Bundle — $39 →</a>
-  </div>
-</section>
-
-<!-- EMAIL CAPTURE -->
-<section class="email-capture">
-  <div class="email-box">
-    <h2>Free Sample: The Tax-Freeze Trap</h2>
-    <p>Download our free guide exposing the #1 mistake retirees make with Tennessee's property tax freeze — and how to avoid it.</p>
-    <a class="btn btn-navy gumroad-button" href="" data-vol="free">Download Free Sample →</a>
-    <p style="font-size:.75rem;color:var(--muted);margin-top:10px">No spam. Instant PDF download via Gumroad.</p>
-  </div>
-</section>
-
 <!-- FOOTER -->
 <footer>
   <div class="container">
@@ -391,7 +345,6 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
     <div>
       <p><strong>Quick Links</strong></p>
       <p><a href="#books">The Books</a></p>
-      <p><a href="#bundle">Get the Bundle</a></p>
       <p><a href="#" onclick="openPrivacy();return false">Privacy Policy</a></p>
     </div>
     <div class="legal">
@@ -399,9 +352,6 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
     </div>
   </div>
 </footer>
-
-<!-- PURCHASE TICKER -->
-<div class="ticker-bar" id="ticker"></div>
 
 <!-- COOKIE BANNER (GDPR / EUPD) -->
 <div class="cookie-banner" id="cookieBanner">
@@ -423,7 +373,6 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
     <h3>2. What Data We Collect</h3>
     <ul>
       <li><strong>Purchase data:</strong> When you buy a book, your name, email, and payment information are collected and processed by Gumroad (our payment processor). We do not store payment card details.</li>
-      <li><strong>Email (free sample):</strong> If you download our free sample, your email is collected by Gumroad to deliver the PDF.</li>
       <li><strong>No tracking cookies:</strong> This website does not use analytics cookies, advertising cookies, or tracking pixels.</li>
       <li><strong>Essential cookies only:</strong> Gumroad's checkout may set essential cookies required to process your payment.</li>
     </ul>
@@ -432,7 +381,6 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
     <ul>
       <li><strong>Contract performance:</strong> Processing purchase data is necessary to deliver your purchased e-books.</li>
       <li><strong>Legitimate interest:</strong> We may send transactional emails related to your purchase.</li>
-      <li><strong>Consent:</strong> Marketing emails (if any) require your explicit opt-in consent.</li>
     </ul>
 
     <h3>4. Data Processors</h3>
@@ -452,7 +400,7 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
     <p>To exercise any right, email us at: <strong>privacy@tennesseebound.it.com</strong></p>
 
     <h3>6. Data Retention</h3>
-    <p>Purchase records are retained for the duration required by tax and accounting laws. You may request deletion of your email from Gumroad's mailing list at any time.</p>
+    <p>Purchase records are retained for the duration required by tax and accounting laws.</p>
 
     <h3>7. Children's Privacy</h3>
     <p>This website is not directed at individuals under 16. We do not knowingly collect data from children.</p>
@@ -466,13 +414,10 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
 /* ── CONFIG ── */
 const OVERLAY = true;
 const GUMROAD_LINKS = {
-  vol1:   "",
-  vol2:   "",
-  vol3:   "",
-  bundle: "",
-  free:   ""
+  vol1:   "https://tennesseebound.gumroad.com/l/hvdlww",
+  vol2:   "https://tennesseebound.gumroad.com/l/urtaqn",
+  vol3:   "https://tennesseebound.gumroad.com/l/eflfzi"
 };
-const LIVE_TICKER = false;
 
 /* ── GUMROAD BUTTONS ── */
 document.querySelectorAll('[data-vol]').forEach(btn => {
@@ -484,7 +429,7 @@ document.querySelectorAll('[data-vol]').forEach(btn => {
   } else {
     btn.addEventListener('click', e => {
       e.preventDefault();
-      alert('Coming soon! Gumroad links will be added once products are live.');
+      alert('Coming soon!');
     });
   }
 });
@@ -516,21 +461,6 @@ const counterObs = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.3 });
 document.querySelectorAll('.counter-band').forEach(el => counterObs.observe(el));
-
-/* ── PURCHASE TICKER ── */
-if (LIVE_TICKER) {
-  const names = ['Sarah M.','Robert K.','Linda T.','James W.','Patricia D.','Michael B.'];
-  const vols = ['Volume 1','Volume 2','the Complete Bundle'];
-  const ticker = document.getElementById('ticker');
-  setInterval(() => {
-    const name = names[Math.floor(Math.random()*names.length)];
-    const vol = vols[Math.floor(Math.random()*vols.length)];
-    const mins = Math.floor(Math.random()*15)+1;
-    ticker.textContent = `🎉 ${name} just purchased ${vol} — ${mins} min ago`;
-    ticker.classList.add('show');
-    setTimeout(() => ticker.classList.remove('show'), 4000);
-  }, 12000);
-}
 
 /* ── COOKIE BANNER ── */
 function acceptCookies() {
