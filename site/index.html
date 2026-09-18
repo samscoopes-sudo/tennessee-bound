@@ -36,12 +36,15 @@ nav a:hover{color:var(--gold)}
 .hero h1 em{color:var(--gold);font-style:normal}
 .hero p.sub{font-size:1.15rem;opacity:.9;max-width:600px;margin:0 auto 36px}
 
-.fan{display:flex;justify-content:center;align-items:flex-end;gap:0;height:420px;margin-bottom:30px;perspective:1000px}
-.fan img{width:240px;height:auto;filter:drop-shadow(0 12px 32px rgba(0,0,0,.5));transition:transform .3s;transform-origin:bottom center}
-.fan img:nth-child(1){transform:rotate(-12deg) translateX(40px)}
-.fan img:nth-child(2){transform:translateY(-20px) scale(1.05);z-index:2}
-.fan img:nth-child(3){transform:rotate(12deg) translateX(-40px)}
-.fan img:hover{transform:scale(1.12) translateY(-14px)!important;z-index:3}
+@keyframes float1{0%,100%{transform:rotateY(15deg) rotate(-10deg) translateX(50px) translateY(0)}50%{transform:rotateY(15deg) rotate(-10deg) translateX(50px) translateY(-18px)}}
+@keyframes float2{0%,100%{transform:rotateY(0deg) translateY(-20px) scale(1.08)}50%{transform:rotateY(0deg) translateY(-38px) scale(1.08)}}
+@keyframes float3{0%,100%{transform:rotateY(-15deg) rotate(10deg) translateX(-50px) translateY(0)}50%{transform:rotateY(-15deg) rotate(10deg) translateX(-50px) translateY(-18px)}}
+.fan{display:flex;justify-content:center;align-items:flex-end;gap:0;height:460px;margin-bottom:30px;perspective:1200px;transform-style:preserve-3d}
+.fan img{width:260px;height:auto;filter:drop-shadow(0 20px 40px rgba(0,0,0,.6)) drop-shadow(0 4px 12px rgba(0,0,0,.3));transition:transform .4s ease,filter .4s ease;transform-origin:bottom center;cursor:pointer}
+.fan img:nth-child(1){animation:float1 4s ease-in-out infinite;z-index:1}
+.fan img:nth-child(2){animation:float2 4s ease-in-out infinite .5s;z-index:2}
+.fan img:nth-child(3){animation:float3 4s ease-in-out infinite 1s;z-index:1}
+.fan img:hover{animation-play-state:paused;transform:rotateY(0deg) rotate(0deg) scale(1.18) translateY(-30px)!important;filter:drop-shadow(0 30px 50px rgba(0,0,0,.7)) drop-shadow(0 8px 20px rgba(218,165,32,.3));z-index:3}
 
 .hero-cta{display:inline-block;background:var(--gold);color:#fff;padding:16px 40px;border-radius:6px;font-weight:700;font-size:1.1rem;transition:all .3s;border:2px solid var(--gold)}
 .hero-cta:hover{background:transparent;color:var(--gold)}
@@ -143,8 +146,8 @@ footer .legal{opacity:.6;font-size:.75rem;margin-top:20px;width:100%;text-align:
 .reveal.visible{opacity:1;transform:translateY(0)}
 
 @media(max-width:700px){
-  .fan{height:280px}
-  .fan img{width:150px}
+  .fan{height:320px}
+  .fan img{width:160px}
   nav ul{gap:14px}
   .counter-item .num{font-size:2rem}
   .trust-bar .container{gap:16px;font-size:.8rem}
